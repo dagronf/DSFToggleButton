@@ -37,6 +37,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
 		// Insert code here to initialize your application
+
+		self.yellowButton.stateChangeDelegate = { (button) in
+			Swift.print("Yellow changed: \(button.state)")
+		}
+
 	}
 
 	func applicationWillTerminate(_ aNotification: Notification) {
@@ -46,3 +51,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 }
 
+extension NSControl.StateValue: CustomStringConvertible {
+	public var description: String {
+		switch self {
+			case .on: return NSLocalizedString("On", comment: "State for when a control is 'on'")
+			case .mixed: return NSLocalizedString("Mixed", comment: "State for when a control is neither on of off")
+			case .off: return NSLocalizedString("Off", comment: "State for when a control is 'off'")
+			default: fatalError("unimplemented state")
+		}
+	}
+}
