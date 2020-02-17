@@ -28,36 +28,62 @@
 import Cocoa
 
 @objc public class DSFAccessibility: NSObject {
-	@objc class Display: NSObject {}
-
-	/// Internal change handling
-	private static let DidChange = Notification.Name("DSFAccessibilityDidChange")
 
 	/// Returns the shared DSFAccessibility instance using the default notification center
-	public static var shared = DSFAccessibility()
+	@objc public static var shared = DSFAccessibility()
+
+	/// Accessibility display settings and notifications
+	@objc public let display: Display
 
 	/// The notification center for the accessibility object.
 	///
 	/// By default, DSFAccessibility creates its own notification center in order improve performance
-	public let accessibilityNotificationCenter: NotificationCenter
+	@objc public let accessibilityNotificationCenter: NotificationCenter
 
 	/// - Parameter notificationCenter: The notification center to receive change notifications through
 	init(notificationCenter: NotificationCenter = NotificationCenter.default) {
 		self.accessibilityNotificationCenter = notificationCenter
+		self.display = Display(notificationCenter: notificationCenter)
 		super.init()
-		self.setupObserver()
 	}
 
 	deinit {
-		NSWorkspace.shared.notificationCenter.removeObserver(self)
+		self.accessibilityNotificationCenter.removeObserver(self)
 	}
 }
 
-extension DSFAccessibility {
+public extension DSFAccessibility {
+	@objc class Display: NSObject {
+		private let accessibilityNotificationCenter: NotificationCenter
+
+		/// Internal change handling
+		private static let DidChange = Notification.Name("DSFAccessibilityDisplaySettingsDidChange")
+
+		init(notificationCenter: NotificationCenter) {
+			self.accessibilityNotificationCenter = notificationCenter
+			super.init()
+
+			self.setup()
+		}
+
+		private func setup() {
+			NSWorkspace.shared.notificationCenter.addObserver(
+				self, selector: #selector(accessibilityDidChange(_:)),
+				name: NSWorkspace.accessibilityDisplayOptionsDidChangeNotification, object: nil
+			)
+		}
+
+		@objc private func accessibilityDidChange(_: Notification) {
+			self.accessibilityNotificationCenter.post(name: DSFAccessibility.Display.DidChange, object: self)
+		}
+	}
+}
+
+extension DSFAccessibility.Display {
 	@objc func listen(queue: OperationQueue? = nil, using block: @escaping (Notification) -> Void) -> NSObjectProtocol {
 		return self.accessibilityNotificationCenter.addObserver(
-			forName: DSFAccessibility.DidChange,
-			object: DSFAccessibility.shared,
+			forName: DSFAccessibility.Display.DidChange,
+			object: DSFAccessibility.shared.display,
 			queue: queue,
 			using: block
 		)
@@ -68,20 +94,7 @@ extension DSFAccessibility {
 	}
 }
 
-private extension DSFAccessibility {
-	func setupObserver() {
-		NSWorkspace.shared.notificationCenter.addObserver(
-			self, selector: #selector(accessibilityDidChange(_:)),
-			name: NSWorkspace.accessibilityDisplayOptionsDidChangeNotification, object: nil
-		)
-	}
-
-	@objc func accessibilityDidChange(_: Notification) {
-		self.accessibilityNotificationCenter.post(name: DSFAccessibility.DidChange, object: self)
-	}
-}
-
-extension DSFAccessibility {
+extension DSFAccessibility.Display {
 	/// Get the current accessibility display option for high-contrast UI.  If this is true, UI should be presented with high contrast such as utilizing a less subtle color palette or bolder lines.
 	///
 	/// You may listen for `DSFAccessibility.DidChange` to be notified when this changes.

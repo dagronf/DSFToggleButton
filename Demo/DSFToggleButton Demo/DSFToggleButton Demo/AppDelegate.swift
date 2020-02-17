@@ -38,7 +38,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
 		// Insert code here to initialize your application
 
-		self.yellowButton.stateChangeDelegate = { (button) in
+		self.yellowButton.stateChangeBlock = { (button) in
 			Swift.print("Yellow changed: \(button.state)")
 		}
 

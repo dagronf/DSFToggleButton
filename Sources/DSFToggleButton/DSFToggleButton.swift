@@ -31,7 +31,7 @@ public class DSFToggleButton: NSButton {
 	// MARK: Public vars
 
 	/// Called regardless of whether the state change comes from the user (via the UI) or by code
-	public var stateChangeDelegate: ((DSFToggleButton) -> Void)?
+	@objc public var stateChangeBlock: ((DSFToggleButton) -> Void)?
 
 	/// Show labels (0 and 1) on the button to increase visual distinction between states
 	@IBInspectable dynamic var showLabels: Bool = false {
@@ -91,11 +91,11 @@ public class DSFToggleButton: NSButton {
 	}
 
 	deinit {
-		self.stateChangeDelegate = nil
+		self.stateChangeBlock = nil
 		self.accessibilityListener = nil
 		self.cell?.unbind(.value)
 
-		DSFAccessibility.shared.unlisten(self)
+		DSFAccessibility.shared.display.unlisten(self)
 	}
 
 	@objc public func toggle() {
@@ -123,7 +123,7 @@ public class DSFToggleButton: NSButton {
 			self.lastButtonState = self.internalButtonState
 
 			// Notify the state change delegate of the change
-			self.stateChangeDelegate?(self)
+			self.stateChangeBlock?(self)
 		}
 	}
 
@@ -163,7 +163,7 @@ private extension DSFToggleButton {
 		self.setContentCompressionResistancePriority(.required, for: .horizontal)
 		self.setContentCompressionResistancePriority(.required, for: .vertical)
 
-		self.accessibilityListener = DSFAccessibility.shared.listen(queue: OperationQueue.main) { [weak self] _ in
+		self.accessibilityListener = DSFAccessibility.shared.display.listen(queue: OperationQueue.main) { [weak self] _ in
 			// Notifications should come in on the main queue for UI updates
 			self?.needsDisplay = true
 		}
@@ -174,7 +174,7 @@ private extension DSFToggleButton {
 	func animate(on: Bool) {
 		let startEndPos = DSFToggleButtonCell.toggleStartEndPos(for: self.frame)
 
-		if DSFAccessibility.shared.reduceMotion || self.initialLoad {
+		if DSFAccessibility.shared.display.reduceMotion || self.initialLoad {
 			self.customCell?.xanimPos = on ? startEndPos.right : startEndPos.left
 			return
 		}
@@ -244,7 +244,7 @@ private class DSFToggleButtonCell: NSButtonCell {
 		//// General Declarations
 		let context = NSGraphicsContext.current!.cgContext
 
-		let accessibility = DSFAccessibility.shared
+		let accessibility = DSFAccessibility.shared.display
 
 		let highContrast = accessibility.shouldIncreaseContrast
 		let differentiateWithoutColor = accessibility.differentiateWithoutColor

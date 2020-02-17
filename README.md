@@ -2,7 +2,7 @@
 
 ![](https://github.com/dagronf/dagronf.github.io/raw/master/art/projects/DSFToggleButton/primary.png)
 
-A macOS toggle button that mimics the toggle button of iOS. Inherits from `NSButton`.  Configurable via code and Interface Builder.
+A macOS toggle button for Swift and Objective-C that mimics the toggle button of iOS. Inherits from `NSButton`. Configurable via code and Interface Builder.
 
 ![](https://img.shields.io/github/v/tag/dagronf/DSFToggleButton) ![](https://img.shields.io/badge/macOS-10.11+-red) ![](https://img.shields.io/badge/Swift-5.0-orange.svg)
 ![](https://img.shields.io/badge/License-MIT-lightgrey) [![](https://img.shields.io/badge/pod-compatible-informational)](https://cocoapods.org) [![](https://img.shields.io/badge/spm-compatible-brightgreen.svg?style=flat)](https://swift.org/package-manager)
@@ -48,6 +48,9 @@ to your podfile.
 
 ![](https://github.com/dagronf/dagronf.github.io/raw/master/art/projects/DSFToggleButton/gray_toggle_high_contrast.gif)
 
+### Interface Builder
+
+![](https://github.com/dagronf/dagronf.github.io/raw/master/art/projects/DSFToggleButton/interface_builder.png)
 
 # License
 

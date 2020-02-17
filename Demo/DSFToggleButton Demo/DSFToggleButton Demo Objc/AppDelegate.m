@@ -24,7 +24,9 @@
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-	// Insert code here to initialize your application
+	[_red setStateChangeBlock:^(DSFToggleButton * _Nonnull button) {
+		NSLog(@"Red did change to state %ld", [button state]);
+	}];
 }
 
 
