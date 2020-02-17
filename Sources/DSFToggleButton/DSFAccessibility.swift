@@ -4,43 +4,46 @@
 //  Created by Darren Ford on 17/2/20.
 //  Copyright © 2020 Darren Ford. All rights reserved.
 //
-//	MIT License
+//  MIT License
 //
-//	Permission is hereby granted, free of charge, to any person obtaining a copy
-//	of this software and associated documentation files (the "Software"), to deal
-//	in the Software without restriction, including without limitation the rights
-//	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-//	copies of the Software, and to permit persons to whom the Software is
-//	furnished to do so, subject to the following conditions:
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
 //
-//	The above copyright notice and this permission notice shall be included in all
-//	copies or substantial portions of the Software.
+//  The above copyright notice and this permission notice shall be included in all
+//  copies or substantial portions of the Software.
 //
-//	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-//	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-//	SOFTWARE.
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+//  SOFTWARE.
+//
 
 import Cocoa
 
-@objc class DSFAccessibility: NSObject {
+@objc public class DSFAccessibility: NSObject {
+	@objc class Display: NSObject {}
+
+	/// Internal change handling
+	private static let DidChange = Notification.Name("DSFAccessibilityDidChange")
 
 	/// Returns the shared DSFAccessibility instance using the default notification center
 	public static var shared = DSFAccessibility()
 
-	/// Listen to changes in display accessibility
+	/// The notification center for the accessibility object.
 	///
-	/// You may listen for `DSFAccessibilityDidChange` to be notified when the user's accessibility display options change
-	@objc(DSFAccessibilityDidChange) static let DidChange = Notification.Name("DSFAccessibilityDidChange")
-
-	private let notificationCenter: NotificationCenter
+	/// By default, DSFAccessibility creates its own notification center in order improve performance
+	public let accessibilityNotificationCenter: NotificationCenter
 
 	/// - Parameter notificationCenter: The notification center to receive change notifications through
 	init(notificationCenter: NotificationCenter = NotificationCenter.default) {
-		self.notificationCenter = notificationCenter
+		self.accessibilityNotificationCenter = notificationCenter
 		super.init()
 		self.setupObserver()
 	}
@@ -50,30 +53,44 @@ import Cocoa
 	}
 }
 
+extension DSFAccessibility {
+	@objc func listen(queue: OperationQueue? = nil, using block: @escaping (Notification) -> Void) -> NSObjectProtocol {
+		return self.accessibilityNotificationCenter.addObserver(
+			forName: DSFAccessibility.DidChange,
+			object: DSFAccessibility.shared,
+			queue: queue,
+			using: block
+		)
+	}
+
+	@objc func unlisten(_ obj: Any) {
+		self.accessibilityNotificationCenter.removeObserver(obj)
+	}
+}
+
 private extension DSFAccessibility {
 	func setupObserver() {
 		NSWorkspace.shared.notificationCenter.addObserver(
 			self, selector: #selector(accessibilityDidChange(_:)),
-			name: NSWorkspace.accessibilityDisplayOptionsDidChangeNotification, object: nil)
+			name: NSWorkspace.accessibilityDisplayOptionsDidChangeNotification, object: nil
+		)
 	}
 
-	@objc func accessibilityDidChange(_ notification: Notification) {
-		self.notificationCenter.post(name: DSFAccessibility.DidChange, object: self)
+	@objc func accessibilityDidChange(_: Notification) {
+		self.accessibilityNotificationCenter.post(name: DSFAccessibility.DidChange, object: self)
 	}
 }
 
 extension DSFAccessibility {
-
 	/// Get the current accessibility display option for high-contrast UI.  If this is true, UI should be presented with high contrast such as utilizing a less subtle color palette or bolder lines.
 	///
 	/// You may listen for `DSFAccessibility.DidChange` to be notified when this changes.
 	///
 	/// See: `NSWorkspace.shared.accessibilityDisplayShouldIncreaseContrast`.
-	var shouldIncreaseContrast: Bool {
+	@objc var shouldIncreaseContrast: Bool {
 		if #available(OSX 10.10, *) {
 			return NSWorkspace.shared.accessibilityDisplayShouldIncreaseContrast
-		}
-		else {
+		} else {
 			return false
 		}
 	}
@@ -83,11 +100,10 @@ extension DSFAccessibility {
 	/// You may listen for `DSFAccessibility.DidChange` to be notified when this changes.
 	///
 	/// See: `NSWorkspace.shared.accessibilityDisplayShouldDifferentiateWithoutColor`.
-	var differentiateWithoutColor: Bool {
+	@objc var differentiateWithoutColor: Bool {
 		if #available(OSX 10.10, *) {
 			return NSWorkspace.shared.accessibilityDisplayShouldDifferentiateWithoutColor
-		}
-		else {
+		} else {
 			return false
 		}
 	}
@@ -97,7 +113,7 @@ extension DSFAccessibility {
 	/// You may listen for `DSFAccessibility.DidChange` to be notified when this changes.
 	///
 	/// See: `NSWorkspace.shared.accessibilityDisplayShouldReduceMotion`.
-	var reduceMotion: Bool {
+	@objc var reduceMotion: Bool {
 		if #available(OSX 10.12, *) {
 			return NSWorkspace.shared.accessibilityDisplayShouldReduceMotion
 		} else {
@@ -111,26 +127,23 @@ extension DSFAccessibility {
 	/// You may listen for `DSFAccessibility.DidChange` to be notified when this changes.
 	///
 	/// See: `NSWorkspace.shared.accessibilityDisplayShouldReduceTransparency`
-	var reduceTransparency: Bool {
+	@objc var reduceTransparency: Bool {
 		if #available(OSX 10.10, *) {
 			return NSWorkspace.shared.accessibilityDisplayShouldReduceTransparency
-		}
-		else {
+		} else {
 			return false
 		}
 	}
-
 
 	/// Get the current accessibility display option for invert colors. If this property's value is true then the display will be inverted. In these cases it may be needed for UI drawing to be adjusted to in order to display optimally when inverted.
 	///
 	/// You may listen for `DSFAccessibility.DidChange` to be notified when this changes.
 	///
 	/// See: `NSWorkspace.shared.accessibilityDisplayShouldInvertColors`
-	var shouldInvertColors: Bool {
+	@objc var shouldInvertColors: Bool {
 		if #available(OSX 10.12, *) {
 			return NSWorkspace.shared.accessibilityDisplayShouldInvertColors
-		}
-		else {
+		} else {
 			return false
 		}
 	}

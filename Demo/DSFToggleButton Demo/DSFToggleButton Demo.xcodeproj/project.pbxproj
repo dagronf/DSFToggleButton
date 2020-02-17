@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2314759D23FB3E7C0083CC8E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2314759C23FB3E7C0083CC8E /* AppDelegate.m */; };
+		2314759F23FB3E7C0083CC8E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2314759E23FB3E7C0083CC8E /* Assets.xcassets */; };
+		231475A223FB3E7C0083CC8E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 231475A023FB3E7C0083CC8E /* MainMenu.xib */; };
+		231475A523FB3E7C0083CC8E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 231475A423FB3E7C0083CC8E /* main.m */; };
+		231475AA23FB3E840083CC8E /* DSFToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23BC8FD323F9EECA00885D3B /* DSFToggleButton.swift */; };
+		231475AD23FB3F060083CC8E /* DSFAccessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B9930D23FA6CB30075DBD7 /* DSFAccessibility.swift */; };
 		23B9930E23FA6CB30075DBD7 /* DSFAccessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B9930D23FA6CB30075DBD7 /* DSFAccessibility.swift */; };
 		23BC8FC623F9EE6C00885D3B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23BC8FC523F9EE6C00885D3B /* AppDelegate.swift */; };
 		23BC8FC823F9EE6D00885D3B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 23BC8FC723F9EE6D00885D3B /* Assets.xcassets */; };
@@ -15,6 +21,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2314759923FB3E7C0083CC8E /* DSFToggleButton Demo Objc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DSFToggleButton Demo Objc.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2314759B23FB3E7C0083CC8E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		2314759C23FB3E7C0083CC8E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		2314759E23FB3E7C0083CC8E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		231475A123FB3E7C0083CC8E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		231475A323FB3E7C0083CC8E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		231475A423FB3E7C0083CC8E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		231475A623FB3E7C0083CC8E /* DSFToggleButton_Demo_Objc.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DSFToggleButton_Demo_Objc.entitlements; sourceTree = "<group>"; };
 		23B9930D23FA6CB30075DBD7 /* DSFAccessibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DSFAccessibility.swift; path = ../../../Sources/DSFToggleButton/DSFAccessibility.swift; sourceTree = "<group>"; };
 		23BC8FC223F9EE6C00885D3B /* DSFToggleButton Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DSFToggleButton Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		23BC8FC523F9EE6C00885D3B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -26,6 +40,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		2314759623FB3E7C0083CC8E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		23BC8FBF23F9EE6C00885D3B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -36,10 +57,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2314759A23FB3E7C0083CC8E /* DSFToggleButton Demo Objc */ = {
+			isa = PBXGroup;
+			children = (
+				2314759B23FB3E7C0083CC8E /* AppDelegate.h */,
+				2314759C23FB3E7C0083CC8E /* AppDelegate.m */,
+				2314759E23FB3E7C0083CC8E /* Assets.xcassets */,
+				231475A023FB3E7C0083CC8E /* MainMenu.xib */,
+				231475A323FB3E7C0083CC8E /* Info.plist */,
+				231475A423FB3E7C0083CC8E /* main.m */,
+				231475A623FB3E7C0083CC8E /* DSFToggleButton_Demo_Objc.entitlements */,
+			);
+			path = "DSFToggleButton Demo Objc";
+			sourceTree = "<group>";
+		};
 		23BC8FB923F9EE6C00885D3B = {
 			isa = PBXGroup;
 			children = (
 				23BC8FC423F9EE6C00885D3B /* DSFToggleButton Demo */,
+				2314759A23FB3E7C0083CC8E /* DSFToggleButton Demo Objc */,
 				23BC8FC323F9EE6C00885D3B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -48,6 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				23BC8FC223F9EE6C00885D3B /* DSFToggleButton Demo.app */,
+				2314759923FB3E7C0083CC8E /* DSFToggleButton Demo Objc.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -69,6 +106,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		2314759823FB3E7C0083CC8E /* DSFToggleButton Demo Objc */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 231475A923FB3E7C0083CC8E /* Build configuration list for PBXNativeTarget "DSFToggleButton Demo Objc" */;
+			buildPhases = (
+				2314759523FB3E7C0083CC8E /* Sources */,
+				2314759623FB3E7C0083CC8E /* Frameworks */,
+				2314759723FB3E7C0083CC8E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "DSFToggleButton Demo Objc";
+			productName = "DSFToggleButton Demo Objc";
+			productReference = 2314759923FB3E7C0083CC8E /* DSFToggleButton Demo Objc.app */;
+			productType = "com.apple.product-type.application";
+		};
 		23BC8FC123F9EE6C00885D3B /* DSFToggleButton Demo */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 23BC8FD023F9EE6D00885D3B /* Build configuration list for PBXNativeTarget "DSFToggleButton Demo" */;
@@ -96,6 +150,9 @@
 				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = "Darren Ford";
 				TargetAttributes = {
+					2314759823FB3E7C0083CC8E = {
+						CreatedOnToolsVersion = 11.3.1;
+					};
 					23BC8FC123F9EE6C00885D3B = {
 						CreatedOnToolsVersion = 11.3.1;
 					};
@@ -115,11 +172,21 @@
 			projectRoot = "";
 			targets = (
 				23BC8FC123F9EE6C00885D3B /* DSFToggleButton Demo */,
+				2314759823FB3E7C0083CC8E /* DSFToggleButton Demo Objc */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		2314759723FB3E7C0083CC8E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2314759F23FB3E7C0083CC8E /* Assets.xcassets in Resources */,
+				231475A223FB3E7C0083CC8E /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		23BC8FC023F9EE6C00885D3B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -132,6 +199,17 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		2314759523FB3E7C0083CC8E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				231475AA23FB3E840083CC8E /* DSFToggleButton.swift in Sources */,
+				231475A523FB3E7C0083CC8E /* main.m in Sources */,
+				231475AD23FB3F060083CC8E /* DSFAccessibility.swift in Sources */,
+				2314759D23FB3E7C0083CC8E /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		23BC8FBE23F9EE6C00885D3B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -145,6 +223,14 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		231475A023FB3E7C0083CC8E /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				231475A123FB3E7C0083CC8E /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
 		23BC8FC923F9EE6D00885D3B /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -156,6 +242,46 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		231475A723FB3E7C0083CC8E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "DSFToggleButton Demo Objc/DSFToggleButton_Demo_Objc.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 3L6RK3LGGW;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = "DSFToggleButton Demo Objc/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.darrenford.DSFToggleButton-Demo-Objc";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		231475A823FB3E7C0083CC8E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "DSFToggleButton Demo Objc/DSFToggleButton_Demo_Objc.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 3L6RK3LGGW;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = "DSFToggleButton Demo Objc/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.darrenford.DSFToggleButton-Demo-Objc";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		23BC8FCE23F9EE6D00885D3B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -316,6 +442,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		231475A923FB3E7C0083CC8E /* Build configuration list for PBXNativeTarget "DSFToggleButton Demo Objc" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				231475A723FB3E7C0083CC8E /* Debug */,
+				231475A823FB3E7C0083CC8E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		23BC8FBD23F9EE6C00885D3B /* Build configuration list for PBXProject "DSFToggleButton Demo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

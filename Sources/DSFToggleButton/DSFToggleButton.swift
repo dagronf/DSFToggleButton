@@ -28,7 +28,6 @@ import AppKit
 
 @IBDesignable
 public class DSFToggleButton: NSButton {
-
 	// MARK: Public vars
 
 	/// Called regardless of whether the state change comes from the user (via the UI) or by code
@@ -62,6 +61,7 @@ public class DSFToggleButton: NSButton {
 	private var initialLoad = true
 	private let defaultColor: NSColor = .underPageBackgroundColor
 	private var animLayer: ArbitraryAnimationLayer?
+	private var accessibilityListener: NSObjectProtocol?
 
 	// MARK: Init and setup
 
@@ -81,7 +81,7 @@ public class DSFToggleButton: NSButton {
 		self.setup()
 	}
 
-	override public var intrinsicContentSize: NSSize {
+	public override var intrinsicContentSize: NSSize {
 		return self.frame.size
 	}
 
@@ -92,17 +92,19 @@ public class DSFToggleButton: NSButton {
 
 	deinit {
 		self.stateChangeDelegate = nil
-		NotificationCenter.default.removeObserver(self)
+		self.accessibilityListener = nil
 		self.cell?.unbind(.value)
+
+		DSFAccessibility.shared.unlisten(self)
 	}
 
-	func toggle() {
+	@objc public func toggle() {
 		self.state = (self.state == .on) ? .off : .on
 	}
 
 	// MARK: State capture/handling
 
-	@objc override public var state: NSControl.StateValue {
+	@objc public override var state: NSControl.StateValue {
 		didSet {
 			self.willChangeValue(for: \.internalButtonState)
 			self.internalButtonState = self.state
@@ -131,14 +133,14 @@ public class DSFToggleButton: NSButton {
 		return self.cell as? DSFToggleButtonCell
 	}
 
-	override public func prepareForInterfaceBuilder() {
+	public override func prepareForInterfaceBuilder() {
 		self.setup()
 
 		self.customCell?.showLabels = self.showLabels
 		self.customCell?.color = self.color
 	}
 
-	override public func draw(_ dirtyRect: NSRect) {
+	public override func draw(_ dirtyRect: NSRect) {
 		super.draw(dirtyRect)
 
 		// Drawing code here.
@@ -151,8 +153,9 @@ private extension DSFToggleButton {
 
 		let cell = DSFToggleButtonCell()
 		cell.color = self.color
+		cell.setButtonType(.toggle)
+		cell.bind(.value, to: self, withKeyPath: "internalButtonState", options: nil)
 		self.cell = cell
-		self.setButtonType(.toggle)
 
 		self.setContentHuggingPriority(.required, for: .horizontal)
 		self.setContentHuggingPriority(.required, for: .vertical)
@@ -160,20 +163,15 @@ private extension DSFToggleButton {
 		self.setContentCompressionResistancePriority(.required, for: .horizontal)
 		self.setContentCompressionResistancePriority(.required, for: .vertical)
 
-		// Listen to bindings changes (via the UI)
-		cell.bind(.value, to: self, withKeyPath: "internalButtonState", options: nil)
-
-		NotificationCenter.default.addObserver(
-			forName: DSFAccessibility.DidChange,
-			object: DSFAccessibility.shared, queue: nil) { [weak self] _ in
-				self?.needsDisplay = true
+		self.accessibilityListener = DSFAccessibility.shared.listen(queue: OperationQueue.main) { [weak self] _ in
+			// Notifications should come in on the main queue for UI updates
+			self?.needsDisplay = true
 		}
 	}
 }
 
 private extension DSFToggleButton {
 	func animate(on: Bool) {
-
 		let startEndPos = DSFToggleButtonCell.toggleStartEndPos(for: self.frame)
 
 		if DSFAccessibility.shared.reduceMotion || self.initialLoad {
@@ -208,7 +206,27 @@ private class DSFToggleButtonCell: NSButtonCell {
 	fileprivate var color: NSColor = .green
 	fileprivate var xanimPos: CGFloat?
 
-	override func drawFocusRingMask(withFrame cellFrame: NSRect, in controlView: NSView) {
+	static func buttonDrawFrame(for cellFrame: NSRect) -> NSRect {
+		let newFrame: NSRect!
+		let tHeight = cellFrame.width * (26.0 / 42.0)
+		if tHeight > cellFrame.height {
+			let ratioSmaller = cellFrame.height / tHeight
+			let newWidth = cellFrame.width * ratioSmaller
+			newFrame = NSRect(x: (cellFrame.width - newWidth) / 2.0, y: 0, width: newWidth, height: cellFrame.height - 1)
+		} else {
+			newFrame = NSRect(x: 0, y: (cellFrame.height - tHeight) / 2.0, width: cellFrame.width, height: tHeight - 1)
+		}
+		return newFrame
+	}
+
+	static func toggleStartEndPos(for cellFrame: NSRect) -> (left: CGFloat, right: CGFloat) {
+		let newFrame = DSFToggleButtonCell.buttonDrawFrame(for: cellFrame)
+		return (newFrame.origin.x + 3.0, newFrame.origin.x + newFrame.width - newFrame.height + 2)
+	}
+
+	// MARK: Drawing methods
+
+	override func drawFocusRingMask(withFrame cellFrame: NSRect, in _: NSView) {
 		var newFrame = DSFToggleButtonCell.buttonDrawFrame(for: cellFrame)
 		NSColor.black.setFill()
 		newFrame.size.width -= 1
@@ -222,31 +240,14 @@ private class DSFToggleButtonCell: NSButtonCell {
 		// Override to ignore the default drawing
 	}
 
-	static func buttonDrawFrame(for cellFrame: NSRect) -> NSRect {
-		let newFrame: NSRect!
-		let tHeight = cellFrame.width * (26.0 / 42.0)
-		if tHeight > cellFrame.height {
-			let ratioSmaller = cellFrame.height / tHeight
-			let newWidth = cellFrame.width * ratioSmaller
-			newFrame = NSRect(x: (cellFrame.width - newWidth) / 2.0, y: 0, width: newWidth, height: cellFrame.height - 1)
-		}
-		else {
-			newFrame = NSRect(x: 0, y: (cellFrame.height - tHeight) / 2.0, width: cellFrame.width, height: tHeight - 1)
-		}
-		return newFrame
-	}
-
-	static func toggleStartEndPos(for cellFrame: NSRect) -> (left: CGFloat, right: CGFloat) {
-		let newFrame = DSFToggleButtonCell.buttonDrawFrame(for: cellFrame)
-		return (newFrame.origin.x + 3.0, newFrame.origin.x + newFrame.width - newFrame.height + 2)
-	}
-
 	override func drawInterior(withFrame cellFrame: NSRect, in _: NSView) {
 		//// General Declarations
 		let context = NSGraphicsContext.current!.cgContext
 
-		let highContrast = DSFAccessibility.shared.shouldIncreaseContrast
-		let differentiateWithoutColor = DSFAccessibility.shared.differentiateWithoutColor
+		let accessibility = DSFAccessibility.shared
+
+		let highContrast = accessibility.shouldIncreaseContrast
+		let differentiateWithoutColor = accessibility.differentiateWithoutColor
 
 		// Work out how we best fit
 
@@ -262,9 +263,9 @@ private class DSFToggleButtonCell: NSButtonCell {
 		if differentiateWithoutColor {
 			// If differentiateWithoutColor is on, just ignore the color
 			backColor = .underPageBackgroundColor
-		}
-		else {
-			backColor = (self.state == .on) ? self.color : .underPageBackgroundColor
+		} else {
+			let bgcolor = accessibility.shouldInvertColors ? self.color.inverted() : self.color
+			backColor = (self.state == .on) ? bgcolor : .underPageBackgroundColor
 		}
 
 		let borderColor = highContrast ? NSColor.textColor : NSColor.controlColor
@@ -337,7 +338,6 @@ private class DSFToggleButtonCell: NSButtonCell {
 			let ovalPath = NSBezierPath(ovalIn: NSRect(x: xc2 - 3, y: yc2 - sz2 + 1, width: sz2 * 2, height: sz2 * 2))
 			ovalPath.lineWidth = height < 20 ? 1.0 : 1.5
 			ovalPath.stroke()
-
 		}
 
 		let startEnd = DSFToggleButtonCell.toggleStartEndPos(for: cellFrame)
@@ -392,6 +392,22 @@ private extension NSColor {
 		// Counting the perceptive luminance - human eye favors green color...
 		let avgGray: CGFloat = 1 - (0.299 * rgbColor.r + 0.587 * rgbColor.g + 0.114 * rgbColor.b)
 		return avgGray > 0.5 ? .white : .black
+	}
+
+	/// Returns an inverted version this color, optionally preserving the colorspace from the original color if possible
+	func inverted(preserveColorSpace: Bool = false) -> NSColor {
+		guard let c1 = self.usingColorSpace(.deviceRGB) else {
+			return self
+		}
+		let rgbColor = c1.components()
+		let inverted = NSColor(calibratedRed: 1.0 - rgbColor.r,
+							   green: 1.0 - rgbColor.g,
+							   blue: 1.0 - rgbColor.b,
+							   alpha: c1.alphaComponent)
+		if preserveColorSpace, let c2 = inverted.usingColorSpace(self.colorSpace) {
+			return c2
+		}
+		return inverted
 	}
 }
 
