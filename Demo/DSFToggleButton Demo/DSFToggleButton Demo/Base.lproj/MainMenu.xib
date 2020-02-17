@@ -17,6 +17,7 @@
             <connections>
                 <outlet property="allButton" destination="bnf-4i-Vlh" id="OwR-Ov-n59"/>
                 <outlet property="blueButton" destination="AFQ-A4-i27" id="cn9-5x-3hC"/>
+                <outlet property="enableButton" destination="4Wj-SP-cYs" id="fz8-3S-QcK"/>
                 <outlet property="greenButton" destination="jhA-AZ-XDV" id="Abo-YC-bjN"/>
                 <outlet property="redButton" destination="FKL-3A-Nh3" id="8QI-sP-YwU"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
@@ -879,9 +880,20 @@
                                 <color key="value" name="systemBlueColor" catalog="System" colorSpace="catalog"/>
                             </userDefinedRuntimeAttribute>
                             <userDefinedRuntimeAttribute type="boolean" keyPath="isOn" value="YES"/>
-                            <userDefinedRuntimeAttribute type="boolean" keyPath="showLabels" value="YES"/>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="showLabels" value="NO"/>
                         </userDefinedRuntimeAttributes>
                     </customView>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1dd-Zn-mAk">
+                        <rect key="frame" x="259" y="21" width="81" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Button" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="JF7-oW-mBr">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="toggleEnabled:" target="Voe-Tx-rLC" id="NSi-qM-zxk"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="height" constant="287" id="aEb-kO-vyo"/>

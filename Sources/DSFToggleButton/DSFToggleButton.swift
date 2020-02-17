@@ -309,7 +309,7 @@ private class DSFToggleButtonCell: NSButtonCell {
 		rectanglePath.lineWidth = 1
 		rectanglePath.stroke()
 
-		if showLabels || differentiateWithoutColor {
+		if self.isEnabled && (showLabels || differentiateWithoutColor) {
 			/// Accessibility
 
 			var c = backColor.contrastingTextColor()
@@ -345,19 +345,31 @@ private class DSFToggleButtonCell: NSButtonCell {
 		let xpos: CGFloat = xanimPos ?? ((self.state == .on) ? startEnd.right : startEnd.left)
 
 		//// Oval Drawing
-		let ovalPath = NSBezierPath(ovalIn: NSRect(x: xpos - 0.5, y: newFrame.minY + 2.5, width: height - 4, height: height - 4))
-		NSGraphicsContext.saveGraphicsState()
-		if !highContrast {
-			shadow.set()
-		}
-		NSColor.white.setFill()
-		ovalPath.fill()
 
-		if highContrast {
-			NSColor.labelColor.setStroke()
+		let ovalPath = NSBezierPath(ovalIn: NSRect(x: xpos - 0.5, y: newFrame.minY + 2.5, width: height - 4, height: height - 4))
+
+		if self.isEnabled {
+
+			NSGraphicsContext.saveGraphicsState()
+			if !highContrast {
+				shadow.set()
+			}
+			NSColor.white.setFill()
+			ovalPath.fill()
+
+			if highContrast {
+				NSColor.labelColor.setStroke()
+				ovalPath.stroke()
+			}
+		}
+		else {
+
+			NSColor.white.withAlphaComponent(highContrast ? 0.5 : 0.2).setFill()
+			ovalPath.fill()
+
+			NSColor.white.withAlphaComponent(highContrast ? 0.6 : 0.3).setStroke()
 			ovalPath.stroke()
 		}
-
 		NSGraphicsContext.restoreGraphicsState()
 	}
 }

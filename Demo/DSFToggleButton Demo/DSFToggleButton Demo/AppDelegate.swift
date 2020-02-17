@@ -20,6 +20,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	@IBOutlet weak var blueButton: DSFToggleButton!
 	@IBOutlet weak var yellowButton: DSFToggleButton!
 
+	@IBOutlet weak var enableButton: DSFToggleButton!
+
 	@IBAction func toggle(_ sender: DSFToggleButton) {
 		self.redButton.toggle()
 		self.greenButton.toggle()
@@ -37,7 +39,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
 		// Insert code here to initialize your application
-
 		self.yellowButton.stateChangeBlock = { (button) in
 			Swift.print("Yellow changed: \(button.state)")
 		}
@@ -48,6 +49,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		// Insert code here to tear down your application
 	}
 
+	@IBAction func toggleEnabled(_ sender: Any) {
+		self.enableButton.isEnabled.toggle()
+	}
 
 }
 
