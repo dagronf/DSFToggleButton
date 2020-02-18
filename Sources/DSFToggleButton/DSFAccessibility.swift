@@ -67,10 +67,12 @@ public extension DSFAccessibility {
 		}
 
 		private func setup() {
+			if #available(OSX 10.10, *) {
 			NSWorkspace.shared.notificationCenter.addObserver(
 				self, selector: #selector(accessibilityDidChange(_:)),
 				name: NSWorkspace.accessibilityDisplayOptionsDidChangeNotification, object: nil
 			)
+			}
 		}
 
 		@objc private func accessibilityDidChange(_: Notification) {

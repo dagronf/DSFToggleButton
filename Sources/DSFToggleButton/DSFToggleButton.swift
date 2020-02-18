@@ -59,14 +59,119 @@ public class DSFToggleButton: NSButton {
 	private var initialLoad = true
 	private let defaultColor: NSColor = .underPageBackgroundColor
 	private var accessibilityListener: NSObjectProtocol?
+	private var previousState: NSControl.StateValue = .off
 
-	var borderLayer: CAShapeLayer?
-	var borderShadowLayer: CAShapeLayer?
-	var borderBorderLayer: CAShapeLayer?
-	var toggleCircle: CAShapeLayer?
-	var onLayer: CAShapeLayer?
-	var offLayer: CAShapeLayer?
+	private var borderLayer: CAShapeLayer?
+	private var borderShadowLayer: CAShapeLayer?
+	private var borderBorderLayer: CAShapeLayer?
+	private var toggleCircle: CAShapeLayer?
+	private var onLayer: CAShapeLayer?
+	private var offLayer: CAShapeLayer?
 
+	private var lastButtonState: NSButton.StateValue = .off
+	@objc private var internalButtonState: NSButton.StateValue = .off {
+		didSet {
+			self.lastButtonState = self.internalButtonState
+
+			// Notify the state change delegate of the change
+			self.stateChangeBlock?(self)
+		}
+	}
+
+	// MARK: Init and setup
+
+	override init(frame frameRect: NSRect) {
+		self.color = self.defaultColor
+		self.isOn = false
+
+		super.init(frame: frameRect)
+		self.setup()
+	}
+
+	required init?(coder: NSCoder) {
+		self.color = self.defaultColor
+		self.isOn = false
+
+		super.init(coder: coder)
+		self.setup()
+	}
+
+	deinit {
+		self.stateChangeBlock = nil
+		self.accessibilityListener = nil
+		self.cell?.unbind(.value)
+
+		DSFAccessibility.shared.display.unlisten(self)
+	}
+
+	// MARK: State capture/handling
+
+	@objc public func toggle() {
+		self.state = (self.state == .on) ? .off : .on
+	}
+
+	@objc public override var state: NSControl.StateValue {
+		didSet {
+			self.willChangeValue(for: \.internalButtonState)
+			self.internalButtonState = self.state
+			self.didChangeValue(for: \.internalButtonState)
+		}
+	}
+}
+
+extension DSFToggleButton {
+	public override var intrinsicContentSize: NSSize {
+		return self.frame.size
+	}
+
+	private func setup() {
+		self.wantsLayer = true
+
+		let cell = DSFToggleButtonCell()
+		cell.setButtonType(.toggle)
+		cell.bind(.value, to: self, withKeyPath: "internalButtonState", options: nil)
+		self.cell = cell
+
+		self.setContentHuggingPriority(.required, for: .horizontal)
+		self.setContentHuggingPriority(.required, for: .vertical)
+
+		self.setContentCompressionResistancePriority(.required, for: .horizontal)
+		self.setContentCompressionResistancePriority(.required, for: .vertical)
+
+		self.accessibilityListener = DSFAccessibility.shared.display.listen(queue: OperationQueue.main) { [weak self] _ in
+			// Notifications should come in on the main queue for UI updates
+			// self?.needsDisplay = true
+			self?.configureForCurrentState()
+		}
+
+		self.postsFrameChangedNotifications = true
+		NotificationCenter.default.addObserver(forName: NSView.frameDidChangeNotification, object: nil, queue: nil) { [weak self] _ in
+			self?.rebuildLayers()
+			self?.needsDisplay = true
+		}
+	}
+}
+
+extension DSFToggleButton {
+	// Interface builder and draw
+
+	private var customCell: DSFToggleButtonCell? {
+		return self.cell as? DSFToggleButtonCell
+	}
+
+	public override func prepareForInterfaceBuilder() {
+		self.setup()
+	}
+
+	public override func draw(_ dirtyRect: NSRect) {
+		super.draw(dirtyRect)
+
+		configureForCurrentState()
+		// Drawing code here.
+	}
+}
+
+extension DSFToggleButton {
 	private func buttonOuterFrame(for cellFrame: NSRect) -> NSRect {
 		let newFrame: NSRect!
 		let tHeight = cellFrame.width * (26.0 / 42.0)
@@ -81,16 +186,26 @@ public class DSFToggleButton: NSButton {
 	}
 
 	#if TARGET_INTERFACE_BUILDER
-	// Hack to show the layout within IB
-	public override func layout() {
-		super.layout()
-		self.rebuildLayers()
-	}
+		// Hack to show the layout within IB
+		public override func layout() {
+			super.layout()
+			self.rebuildLayers()
+		}
 	#endif
 
-	func rebuildLayers() {
+	private func rebuildLayers() {
+		// LAYERS:
+		//  Lowest
+		//    Rounded rect color
+		//    Rounded rect inner shadow
+		//    Rounded Rect border
+		//    0 label
+		//    1 label
+		//    Toggle button
+		//  Highest
+
 		self.borderLayer?.removeFromSuperlayer()
-		//self.borderBorderLayer?.removeFromSuperlayer()
+		self.borderBorderLayer?.removeFromSuperlayer()
 		self.borderShadowLayer?.removeFromSuperlayer()
 		self.toggleCircle?.removeFromSuperlayer()
 		self.onLayer?.removeFromSuperlayer()
@@ -121,10 +236,10 @@ public class DSFToggleButton: NSButton {
 		sh.shadowOpacity = 0.8
 		sh.shadowColor = .black
 		sh.shadowOffset = CGSize(width: 0.5, height: 0.5)
-		sh.shadowRadius =  rect.height > 10 ? 2.0 : 1.0
+		sh.shadowRadius = rect.height > 10 ? 2.0 : 1.0
 		sh.path = pth
 		sh.strokeColor = nil
-		sh.zPosition = 4
+		sh.zPosition = 10
 
 		let shm = CAShapeLayer()
 		shm.path = CGPath(roundedRect: rect, cornerWidth: radius, cornerHeight: radius, transform: nil)
@@ -137,11 +252,10 @@ public class DSFToggleButton: NSButton {
 
 		let border = CAShapeLayer()
 		border.path = CGPath(roundedRect: rect, cornerWidth: radius, cornerHeight: radius, transform: nil)
-		border.zPosition = 100
+		border.zPosition = 20
 		border.fillColor = nil
 		self.borderBorderLayer = border
 		self.layer?.addSublayer(border)
-
 
 		let r: CGFloat = radius / 1.7
 
@@ -157,18 +271,18 @@ public class DSFToggleButton: NSButton {
 		onItem.path = CGPath(rect: ooo1, transform: nil)
 		onItem.strokeColor = nil
 		onItem.fillColor = self.color.contrastingTextColor().cgColor
-		onItem.zPosition = 10
+		onItem.zPosition = 30
 		self.onLayer = onItem
 		self.layer?.addSublayer(onItem)
 
 		// The 0 label
 
 		let offItem = CAShapeLayer()
-		let ooo = NSRect(x: rightpos - (r/2), y: rect.origin.y + (rect.height / 2.0) - (r / 2.0), width: r, height: r)
+		let ooo = NSRect(x: rightpos - (r / 2), y: rect.origin.y + (rect.height / 2.0) - (r / 2.0), width: r, height: r)
 		offItem.path = CGPath(ellipseIn: ooo, transform: nil)
 		offItem.fillColor = .clear
 		offItem.lineWidth = radius > 12 ? 1.25 : 0.75
-		offItem.zPosition = 10
+		offItem.zPosition = 30
 		offItem.strokeColor = self.color.contrastingTextColor().cgColor
 		self.offLayer = offItem
 		self.layer?.addSublayer(offItem)
@@ -181,7 +295,7 @@ public class DSFToggleButton: NSButton {
 		toggleCircle.path = CGPath(ellipseIn: circle.insetBy(dx: 2.5, dy: 2.5), transform: nil)
 		toggleCircle.position.x = self.state == .on ? rect.width - rect.height : 0
 		self.toggleCircle = toggleCircle
-		toggleCircle.zPosition = 20
+		toggleCircle.zPosition = 50
 		self.layer?.addSublayer(toggleCircle)
 
 		toggleCircle.shadowOpacity = 0.8
@@ -189,11 +303,8 @@ public class DSFToggleButton: NSButton {
 		toggleCircle.shadowOffset = NSSize(width: 0.5, height: 0.5)
 		toggleCircle.shadowRadius = 1.0
 
-		//configureForCurrentState()
-
 		self.initialLoad = false
 	}
-
 
 	public override func drawFocusRingMask() {
 		let rect = self.buttonOuterFrame(for: self.frame)
@@ -203,19 +314,13 @@ public class DSFToggleButton: NSButton {
 		rectanglePath.fill()
 	}
 
-
-	var previousState: NSControl.StateValue = .off
-
 	func configureForCurrentState() {
-
 		if DSFAccessibility.shared.display.reduceMotion || self.initialLoad {
 			CATransaction.setDisableActions(true)
-		}
-		else {
+		} else {
 			CATransaction.setAnimationDuration(0.15)
 			CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: .easeOut))
 		}
-
 
 		let accessibility = DSFAccessibility.shared.display
 		let highContrast = accessibility.shouldIncreaseContrast
@@ -240,8 +345,7 @@ public class DSFToggleButton: NSButton {
 		let toggleFront: CGColor!
 		if self.isEnabled {
 			toggleFront = .white
-		}
-		else {
+		} else {
 			toggleFront = NSColor.white.withAlphaComponent(highContrast ? 0.6 : 0.4).cgColor
 		}
 		self.toggleCircle?.fillColor = toggleFront
@@ -250,125 +354,17 @@ public class DSFToggleButton: NSButton {
 			let rect = self.buttonOuterFrame(for: self.frame)
 			if self.state == .on {
 				self.toggleCircle?.frame.origin = CGPoint(x: rect.width - rect.height, y: 0)
-			}
-			else {
+			} else {
 				self.toggleCircle?.frame.origin = CGPoint(x: 0, y: 0)
 			}
 		}
 		self.previousState = self.state
 	}
-
-
-
-
-	// MARK: Init and setup
-
-	override init(frame frameRect: NSRect) {
-		self.color = self.defaultColor
-		self.isOn = false
-
-		super.init(frame: frameRect)
-		self.setup()
-	}
-
-	required init?(coder: NSCoder) {
-		self.color = self.defaultColor
-		self.isOn = false
-
-		super.init(coder: coder)
-		self.setup()
-	}
-
-	public override var intrinsicContentSize: NSSize {
-		return self.frame.size
-	}
-
-	public override func awakeFromNib() {
-		super.awakeFromNib()
-	}
-
-	deinit {
-		self.stateChangeBlock = nil
-		self.accessibilityListener = nil
-		self.cell?.unbind(.value)
-
-		DSFAccessibility.shared.display.unlisten(self)
-	}
-
-	private func setup() {
-		self.wantsLayer = true
-
-		let cell = DSFToggleButtonCell()
-		cell.setButtonType(.toggle)
-		cell.bind(.value, to: self, withKeyPath: "internalButtonState", options: nil)
-		self.cell = cell
-
-		self.setContentHuggingPriority(.required, for: .horizontal)
-		self.setContentHuggingPriority(.required, for: .vertical)
-
-		self.setContentCompressionResistancePriority(.required, for: .horizontal)
-		self.setContentCompressionResistancePriority(.required, for: .vertical)
-
-		self.accessibilityListener = DSFAccessibility.shared.display.listen(queue: OperationQueue.main) { [weak self] _ in
-			// Notifications should come in on the main queue for UI updates
-			//self?.needsDisplay = true
-			self?.configureForCurrentState()
-		}
-
-		self.postsFrameChangedNotifications = true
-		NotificationCenter.default.addObserver(forName: NSView.frameDidChangeNotification, object: nil, queue: nil) { [weak self] _ in
-			self?.rebuildLayers()
-			self?.needsDisplay = true
-		}
-	}
-
-	// MARK: State capture/handling
-
-	@objc public func toggle() {
-		self.state = (self.state == .on) ? .off : .on
-	}
-
-	@objc public override var state: NSControl.StateValue {
-		didSet {
-			self.willChangeValue(for: \.internalButtonState)
-			self.internalButtonState = self.state
-			self.didChangeValue(for: \.internalButtonState)
-		}
-	}
-
-	private var lastButtonState: NSButton.StateValue = .off
-	@objc private var internalButtonState: NSButton.StateValue = .off {
-		didSet {
-			self.lastButtonState = self.internalButtonState
-
-			// Notify the state change delegate of the change
-			self.stateChangeBlock?(self)
-		}
-	}
-
-	// Interface builder and draw
-
-	private var customCell: DSFToggleButtonCell? {
-		return self.cell as? DSFToggleButtonCell
-	}
-
-	public override func prepareForInterfaceBuilder() {
-		self.setup()
-	}
-
-	public override func draw(_ dirtyRect: NSRect) {
-		super.draw(dirtyRect)
-
-		configureForCurrentState()
-		// Drawing code here.
-	}
 }
-
 
 // MARK: - DSFToggleButton custom cell
 
 private class DSFToggleButtonCell: NSButtonCell {
-
 	// MARK: Drawing methods
 
 	override func drawBezel(withFrame _: NSRect, in _: NSView) {
@@ -428,25 +424,3 @@ private extension NSColor {
 		return inverted
 	}
 }
-
-//extension NSBezierPath {
-//
-//	/// Create a CGPath from this object
-//	public var cgPath: CGPath {
-//		let path = CGMutablePath()
-//		var points = [CGPoint](repeating: .zero, count: 3)
-//		for i in 0 ..< self.elementCount {
-//			let type = self.element(at: i, associatedPoints: &points)
-//			switch type {
-//			case .moveTo: path.move(to: points[0])
-//			case .lineTo: path.addLine(to: points[0])
-//			case .curveTo: path.addCurve(to: points[2], control1: points[0], control2: points[1])
-//			case .closePath: path.closeSubpath()
-//			default:
-//				// Ignore
-//				print("Unexpected path type?")
-//			}
-//		}
-//		return path
-//	}
-//}
