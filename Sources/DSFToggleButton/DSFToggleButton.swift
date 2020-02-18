@@ -235,7 +235,7 @@ extension DSFToggleButton {
 
 		sh.shadowOpacity = 0.8
 		sh.shadowColor = .black
-		sh.shadowOffset = CGSize(width: 0.5, height: 0.5)
+		sh.shadowOffset = CGSize(width: 1, height: 1)
 		sh.shadowRadius = rect.height > 10 ? 2.0 : 1.0
 		sh.path = pth
 		sh.strokeColor = nil
@@ -300,8 +300,8 @@ extension DSFToggleButton {
 
 		toggleCircle.shadowOpacity = 0.8
 		toggleCircle.shadowColor = .black
-		toggleCircle.shadowOffset = NSSize(width: 0.5, height: 0.5)
-		toggleCircle.shadowRadius = 1.0
+		toggleCircle.shadowOffset = NSSize(width: 1, height:1)
+		toggleCircle.shadowRadius = 2
 
 		self.initialLoad = false
 	}
