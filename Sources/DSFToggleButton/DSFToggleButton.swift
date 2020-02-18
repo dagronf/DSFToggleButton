@@ -36,7 +36,6 @@ public class DSFToggleButton: NSButton {
 	/// Show labels (0 and 1) on the button to increase visual distinction between states
 	@IBInspectable dynamic var showLabels: Bool = false {
 		didSet {
-			self.customCell?.showLabels = self.showLabels
 			self.needsDisplay = true
 		}
 	}
@@ -44,7 +43,6 @@ public class DSFToggleButton: NSButton {
 	/// The color of the button when the state is on
 	@IBInspectable dynamic var color: NSColor {
 		didSet {
-			self.customCell?.color = self.color
 			self.needsDisplay = true
 		}
 	}
@@ -60,8 +58,208 @@ public class DSFToggleButton: NSButton {
 
 	private var initialLoad = true
 	private let defaultColor: NSColor = .underPageBackgroundColor
-	private var animLayer: ArbitraryAnimationLayer?
 	private var accessibilityListener: NSObjectProtocol?
+
+	var borderLayer: CAShapeLayer?
+	var borderShadowLayer: CAShapeLayer?
+	var borderBorderLayer: CAShapeLayer?
+	var toggleCircle: CAShapeLayer?
+	var onLayer: CAShapeLayer?
+	var offLayer: CAShapeLayer?
+
+	private func buttonOuterFrame(for cellFrame: NSRect) -> NSRect {
+		let newFrame: NSRect!
+		let tHeight = cellFrame.width * (26.0 / 42.0)
+		if tHeight > cellFrame.height {
+			let ratioSmaller = cellFrame.height / tHeight
+			let newWidth = cellFrame.width * ratioSmaller
+			newFrame = NSRect(x: (cellFrame.width - newWidth) / 2.0, y: 0, width: newWidth, height: cellFrame.height - 1)
+		} else {
+			newFrame = NSRect(x: 0, y: (cellFrame.height - tHeight) / 2.0, width: cellFrame.width, height: tHeight - 1)
+		}
+		return newFrame.insetBy(dx: 1, dy: 1)
+	}
+
+	#if TARGET_INTERFACE_BUILDER
+	// Hack to show the layout within IB
+	public override func layout() {
+		super.layout()
+		self.rebuildLayers()
+	}
+	#endif
+
+	func rebuildLayers() {
+		self.borderLayer?.removeFromSuperlayer()
+		//self.borderBorderLayer?.removeFromSuperlayer()
+		self.borderShadowLayer?.removeFromSuperlayer()
+		self.toggleCircle?.removeFromSuperlayer()
+		self.onLayer?.removeFromSuperlayer()
+		self.offLayer?.removeFromSuperlayer()
+
+		let rect = self.buttonOuterFrame(for: self.frame)
+		let radius = rect.height / 2.0
+
+		// Lowest color rounded rect
+
+		let outer = CAShapeLayer()
+		outer.path = CGPath(roundedRect: rect, cornerWidth: radius, cornerHeight: radius, transform: nil)
+		self.borderLayer = outer
+		outer.zPosition = 0
+		self.layer?.addSublayer(outer)
+
+		// The inner shadow for the lowest rounded rect
+
+		let pth = CGMutablePath()
+		pth.addRect(rect.insetBy(dx: -10, dy: -10))
+		pth.addRoundedRect(in: rect, cornerWidth: radius, cornerHeight: radius)
+		pth.closeSubpath()
+
+		let sh = CAShapeLayer()
+		sh.fillRule = .evenOdd
+		sh.fillColor = .black
+
+		sh.shadowOpacity = 0.8
+		sh.shadowColor = .black
+		sh.shadowOffset = CGSize(width: 0.5, height: 0.5)
+		sh.shadowRadius =  rect.height > 10 ? 2.0 : 1.0
+		sh.path = pth
+		sh.strokeColor = nil
+		sh.zPosition = 4
+
+		let shm = CAShapeLayer()
+		shm.path = CGPath(roundedRect: rect, cornerWidth: radius, cornerHeight: radius, transform: nil)
+		sh.mask = shm
+
+		self.borderShadowLayer = sh
+		self.layer?.addSublayer(sh)
+
+		// Top level border for the rounded rect
+
+		let border = CAShapeLayer()
+		border.path = CGPath(roundedRect: rect, cornerWidth: radius, cornerHeight: radius, transform: nil)
+		border.zPosition = 100
+		border.fillColor = nil
+		self.borderBorderLayer = border
+		self.layer?.addSublayer(border)
+
+
+		let r: CGFloat = radius / 1.7
+
+		// The 1 label
+
+		let onItem = CAShapeLayer()
+
+		let leftpos: CGFloat = (rect.maxX - rect.minX) / 4.0 + 1.5
+		let rightpos: CGFloat = (rect.maxX - rect.minX) * (3.0 / 4.0) + 1.5
+
+		let w: CGFloat = radius > 12 ? 2 : 1
+		let ooo1 = NSRect(x: leftpos - (w / 2.0), y: rect.origin.y + (rect.height / 2.0) - (r / 2.0), width: w, height: r)
+		onItem.path = CGPath(rect: ooo1, transform: nil)
+		onItem.strokeColor = nil
+		onItem.fillColor = self.color.contrastingTextColor().cgColor
+		onItem.zPosition = 10
+		self.onLayer = onItem
+		self.layer?.addSublayer(onItem)
+
+		// The 0 label
+
+		let offItem = CAShapeLayer()
+		let ooo = NSRect(x: rightpos - (r/2), y: rect.origin.y + (rect.height / 2.0) - (r / 2.0), width: r, height: r)
+		offItem.path = CGPath(ellipseIn: ooo, transform: nil)
+		offItem.fillColor = .clear
+		offItem.lineWidth = radius > 12 ? 1.25 : 0.75
+		offItem.zPosition = 10
+		offItem.strokeColor = self.color.contrastingTextColor().cgColor
+		self.offLayer = offItem
+		self.layer?.addSublayer(offItem)
+
+		// The toggle
+
+		let toggleCircle = CAShapeLayer()
+		var circle = rect
+		circle.size.width = rect.height
+		toggleCircle.path = CGPath(ellipseIn: circle.insetBy(dx: 2.5, dy: 2.5), transform: nil)
+		toggleCircle.position.x = self.state == .on ? rect.width - rect.height : 0
+		self.toggleCircle = toggleCircle
+		toggleCircle.zPosition = 20
+		self.layer?.addSublayer(toggleCircle)
+
+		toggleCircle.shadowOpacity = 0.8
+		toggleCircle.shadowColor = .black
+		toggleCircle.shadowOffset = NSSize(width: 0.5, height: 0.5)
+		toggleCircle.shadowRadius = 1.0
+
+		//configureForCurrentState()
+
+		self.initialLoad = false
+	}
+
+
+	public override func drawFocusRingMask() {
+		let rect = self.buttonOuterFrame(for: self.frame)
+		let radius = rect.height / 2.0
+		NSColor.black.setFill()
+		let rectanglePath = NSBezierPath(roundedRect: rect, xRadius: radius, yRadius: radius)
+		rectanglePath.fill()
+	}
+
+
+	var previousState: NSControl.StateValue = .off
+
+	func configureForCurrentState() {
+
+		if DSFAccessibility.shared.display.reduceMotion || self.initialLoad {
+			CATransaction.setDisableActions(true)
+		}
+		else {
+			CATransaction.setAnimationDuration(0.15)
+			CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: .easeOut))
+		}
+
+
+		let accessibility = DSFAccessibility.shared.display
+		let highContrast = accessibility.shouldIncreaseContrast
+		let showLabels = ((self.showLabels || accessibility.differentiateWithoutColor) && self.isEnabled)
+
+		let bgcolor = (self.state == .off || accessibility.differentiateWithoutColor) ? self.defaultColor : self.color
+		let fgcolor = bgcolor.contrastingTextColor()
+
+		self.onLayer?.isHidden = !showLabels
+		self.offLayer?.isHidden = !showLabels
+
+		self.onLayer?.fillColor = fgcolor.cgColor
+		self.offLayer?.strokeColor = fgcolor.cgColor
+
+		self.borderLayer?.fillColor = bgcolor.cgColor
+		let borderColor = highContrast ? NSColor.textColor : NSColor.controlColor
+		self.borderBorderLayer?.strokeColor = borderColor.cgColor // borderColor.withAlphaComponent(1).cgColor
+		self.borderBorderLayer?.lineWidth = 1.0
+		self.borderBorderLayer?.opacity = 1.0
+
+		// Toggle color
+		let toggleFront: CGColor!
+		if self.isEnabled {
+			toggleFront = .white
+		}
+		else {
+			toggleFront = NSColor.white.withAlphaComponent(highContrast ? 0.6 : 0.4).cgColor
+		}
+		self.toggleCircle?.fillColor = toggleFront
+
+		if self.previousState != self.state {
+			let rect = self.buttonOuterFrame(for: self.frame)
+			if self.state == .on {
+				self.toggleCircle?.frame.origin = CGPoint(x: rect.width - rect.height, y: 0)
+			}
+			else {
+				self.toggleCircle?.frame.origin = CGPoint(x: 0, y: 0)
+			}
+		}
+		self.previousState = self.state
+	}
+
+
+
 
 	// MARK: Init and setup
 
@@ -87,7 +285,6 @@ public class DSFToggleButton: NSButton {
 
 	public override func awakeFromNib() {
 		super.awakeFromNib()
-		self.initialLoad = false
 	}
 
 	deinit {
@@ -98,11 +295,38 @@ public class DSFToggleButton: NSButton {
 		DSFAccessibility.shared.display.unlisten(self)
 	}
 
-	@objc public func toggle() {
-		self.state = (self.state == .on) ? .off : .on
+	private func setup() {
+		self.wantsLayer = true
+
+		let cell = DSFToggleButtonCell()
+		cell.setButtonType(.toggle)
+		cell.bind(.value, to: self, withKeyPath: "internalButtonState", options: nil)
+		self.cell = cell
+
+		self.setContentHuggingPriority(.required, for: .horizontal)
+		self.setContentHuggingPriority(.required, for: .vertical)
+
+		self.setContentCompressionResistancePriority(.required, for: .horizontal)
+		self.setContentCompressionResistancePriority(.required, for: .vertical)
+
+		self.accessibilityListener = DSFAccessibility.shared.display.listen(queue: OperationQueue.main) { [weak self] _ in
+			// Notifications should come in on the main queue for UI updates
+			//self?.needsDisplay = true
+			self?.configureForCurrentState()
+		}
+
+		self.postsFrameChangedNotifications = true
+		NotificationCenter.default.addObserver(forName: NSView.frameDidChangeNotification, object: nil, queue: nil) { [weak self] _ in
+			self?.rebuildLayers()
+			self?.needsDisplay = true
+		}
 	}
 
 	// MARK: State capture/handling
+
+	@objc public func toggle() {
+		self.state = (self.state == .on) ? .off : .on
+	}
 
 	@objc public override var state: NSControl.StateValue {
 		didSet {
@@ -115,11 +339,6 @@ public class DSFToggleButton: NSButton {
 	private var lastButtonState: NSButton.StateValue = .off
 	@objc private var internalButtonState: NSButton.StateValue = .off {
 		didSet {
-			if self.lastButtonState == .off, self.internalButtonState != .off {
-				self.animate(on: true)
-			} else if self.lastButtonState != .off, self.internalButtonState == .off {
-				self.animate(on: false)
-			}
 			self.lastButtonState = self.internalButtonState
 
 			// Notify the state change delegate of the change
@@ -135,242 +354,29 @@ public class DSFToggleButton: NSButton {
 
 	public override func prepareForInterfaceBuilder() {
 		self.setup()
-
-		self.customCell?.showLabels = self.showLabels
-		self.customCell?.color = self.color
 	}
 
 	public override func draw(_ dirtyRect: NSRect) {
 		super.draw(dirtyRect)
 
+		configureForCurrentState()
 		// Drawing code here.
 	}
 }
 
-private extension DSFToggleButton {
-	func setup() {
-		self.wantsLayer = true
-
-		let cell = DSFToggleButtonCell()
-		cell.color = self.color
-		cell.setButtonType(.toggle)
-		cell.bind(.value, to: self, withKeyPath: "internalButtonState", options: nil)
-		self.cell = cell
-
-		self.setContentHuggingPriority(.required, for: .horizontal)
-		self.setContentHuggingPriority(.required, for: .vertical)
-
-		self.setContentCompressionResistancePriority(.required, for: .horizontal)
-		self.setContentCompressionResistancePriority(.required, for: .vertical)
-
-		self.accessibilityListener = DSFAccessibility.shared.display.listen(queue: OperationQueue.main) { [weak self] _ in
-			// Notifications should come in on the main queue for UI updates
-			self?.needsDisplay = true
-		}
-	}
-}
-
-private extension DSFToggleButton {
-	func animate(on: Bool) {
-		let startEndPos = DSFToggleButtonCell.toggleStartEndPos(for: self.frame)
-
-		if DSFAccessibility.shared.display.reduceMotion || self.initialLoad {
-			self.customCell?.xanimPos = on ? startEndPos.right : startEndPos.left
-			return
-		}
-
-		let alayer = ArbitraryAnimationLayer()
-		alayer.frame = CGRect(x: 0, y: 0, width: 1, height: 1)
-		self.animLayer = alayer
-		self.layer?.addSublayer(alayer)
-		let anim = CABasicAnimation(keyPath: ArbitraryAnimationLayer.KeyPath)
-		anim.fromValue = on ? startEndPos.left : startEndPos.right
-		anim.toValue = on ? startEndPos.right : startEndPos.left
-		anim.duration = 0.1
-		anim.fillMode = CAMediaTimingFillMode.forwards
-		anim.timingFunction = CAMediaTimingFunction(name: .easeOut)
-		anim.isRemovedOnCompletion = true
-
-		alayer.progressCallback = { [weak self] progress in
-			self?.customCell?.xanimPos = progress
-			self?.needsDisplay = true
-		}
-		alayer.add(anim, forKey: "change")
-	}
-}
 
 // MARK: - DSFToggleButton custom cell
 
 private class DSFToggleButtonCell: NSButtonCell {
-	fileprivate var showLabels: Bool = false
-	fileprivate var color: NSColor = .green
-	fileprivate var xanimPos: CGFloat?
-
-	static func buttonDrawFrame(for cellFrame: NSRect) -> NSRect {
-		let newFrame: NSRect!
-		let tHeight = cellFrame.width * (26.0 / 42.0)
-		if tHeight > cellFrame.height {
-			let ratioSmaller = cellFrame.height / tHeight
-			let newWidth = cellFrame.width * ratioSmaller
-			newFrame = NSRect(x: (cellFrame.width - newWidth) / 2.0, y: 0, width: newWidth, height: cellFrame.height - 1)
-		} else {
-			newFrame = NSRect(x: 0, y: (cellFrame.height - tHeight) / 2.0, width: cellFrame.width, height: tHeight - 1)
-		}
-		return newFrame
-	}
-
-	static func toggleStartEndPos(for cellFrame: NSRect) -> (left: CGFloat, right: CGFloat) {
-		let newFrame = DSFToggleButtonCell.buttonDrawFrame(for: cellFrame)
-		return (newFrame.origin.x + 3.0, newFrame.origin.x + newFrame.width - newFrame.height + 2)
-	}
 
 	// MARK: Drawing methods
-
-	override func drawFocusRingMask(withFrame cellFrame: NSRect, in _: NSView) {
-		var newFrame = DSFToggleButtonCell.buttonDrawFrame(for: cellFrame)
-		NSColor.black.setFill()
-		newFrame.size.width -= 1
-		newFrame = newFrame.insetBy(dx: -0.5, dy: -0.5)
-		let radius = newFrame.height / 2.0
-		let rectanglePath = NSBezierPath(roundedRect: newFrame, xRadius: radius, yRadius: radius)
-		rectanglePath.fill()
-	}
 
 	override func drawBezel(withFrame _: NSRect, in _: NSView) {
 		// Override to ignore the default drawing
 	}
 
 	override func drawInterior(withFrame cellFrame: NSRect, in _: NSView) {
-		//// General Declarations
-		let context = NSGraphicsContext.current!.cgContext
-
-		let accessibility = DSFAccessibility.shared.display
-
-		let highContrast = accessibility.shouldIncreaseContrast
-		let differentiateWithoutColor = accessibility.differentiateWithoutColor
-
-		// Work out how we best fit
-
-		let newFrame = DSFToggleButtonCell.buttonDrawFrame(for: cellFrame)
-
-		//// Shadow Declarations
-		let shadow = NSShadow()
-		shadow.shadowColor = NSColor.black.withAlphaComponent(0.5)
-		shadow.shadowOffset = NSSize(width: 1, height: -1)
-		shadow.shadowBlurRadius = 4
-
-		let backColor: NSColor!
-		if differentiateWithoutColor {
-			// If differentiateWithoutColor is on, just ignore the color
-			backColor = .underPageBackgroundColor
-		} else {
-			let bgcolor = accessibility.shouldInvertColors ? self.color.inverted() : self.color
-			backColor = (self.state == .on) ? bgcolor : .underPageBackgroundColor
-		}
-
-		let borderColor = highContrast ? NSColor.textColor : NSColor.controlColor
-
-		let width = newFrame.width - 2
-		let height = newFrame.height - 1
-		let radius = height / 2.0
-
-		//// Rectangle Drawing
-		let rectanglePath = NSBezierPath(roundedRect: NSRect(x: newFrame.minX + 0.5, y: newFrame.minY + 0.5, width: width, height: height), xRadius: radius, yRadius: radius)
-		backColor.setFill()
-		rectanglePath.fill()
-
-		////// Rectangle Inner Shadow
-
-		if !highContrast {
-			NSGraphicsContext.saveGraphicsState()
-			rectanglePath.bounds.clip()
-			context.setShadow(offset: NSSize.zero, blur: 0, color: nil)
-
-			context.setAlpha(shadow.shadowColor!.alphaComponent)
-			context.beginTransparencyLayer(auxiliaryInfo: nil)
-			let rectangleOpaqueShadow = NSShadow()
-			rectangleOpaqueShadow.shadowColor = shadow.shadowColor!.withAlphaComponent(1)
-			rectangleOpaqueShadow.shadowOffset = shadow.shadowOffset
-			rectangleOpaqueShadow.shadowBlurRadius = shadow.shadowBlurRadius
-			rectangleOpaqueShadow.set()
-
-			context.setBlendMode(.sourceOut)
-			context.beginTransparencyLayer(auxiliaryInfo: nil)
-
-			rectangleOpaqueShadow.shadowColor!.setFill()
-			rectanglePath.fill()
-
-			context.endTransparencyLayer()
-			context.endTransparencyLayer()
-			NSGraphicsContext.restoreGraphicsState()
-		}
-
-		borderColor.setStroke()
-		rectanglePath.lineWidth = 1
-		rectanglePath.stroke()
-
-		if self.isEnabled && (showLabels || differentiateWithoutColor) {
-			/// Accessibility
-
-			var c = backColor.contrastingTextColor()
-			if !highContrast {
-				c = c.withAlphaComponent(0.7)
-			}
-			c.setStroke()
-			c.setFill()
-
-			/// Draw the '1' label
-
-			let xc = newFrame.origin.x + (newFrame.width / 5.0) + 1
-			let yc = height / 2.0 + newFrame.minY - 1
-			let sz = height / 7
-
-			let linepath = NSBezierPath(rect: NSRect(x: xc + 1, y: yc - sz + 1, width: 1.5, height: sz * 2 + 1))
-			linepath.fill()
-
-			/// Draw the '0' label
-
-			let xc2 = newFrame.origin.x + (newFrame.width / 4.0 * 3)
-			let yc2 = height / 2.0 + newFrame.minY - 0.5
-
-			let sz2 = height / 8
-
-			let ovalPath = NSBezierPath(ovalIn: NSRect(x: xc2 - 3, y: yc2 - sz2 + 1, width: sz2 * 2, height: sz2 * 2))
-			ovalPath.lineWidth = height < 20 ? 1.0 : 1.5
-			ovalPath.stroke()
-		}
-
-		let startEnd = DSFToggleButtonCell.toggleStartEndPos(for: cellFrame)
-
-		let xpos: CGFloat = xanimPos ?? ((self.state == .on) ? startEnd.right : startEnd.left)
-
-		//// Oval Drawing
-
-		let ovalPath = NSBezierPath(ovalIn: NSRect(x: xpos - 0.5, y: newFrame.minY + 2.5, width: height - 4, height: height - 4))
-
-		if self.isEnabled {
-
-			NSGraphicsContext.saveGraphicsState()
-			if !highContrast {
-				shadow.set()
-			}
-			NSColor.white.setFill()
-			ovalPath.fill()
-
-			if highContrast {
-				NSColor.labelColor.setStroke()
-				ovalPath.stroke()
-			}
-		}
-		else {
-
-			NSColor.white.withAlphaComponent(highContrast ? 0.5 : 0.2).setFill()
-			ovalPath.fill()
-
-			NSColor.white.withAlphaComponent(highContrast ? 0.6 : 0.3).setStroke()
-			ovalPath.stroke()
-		}
-		NSGraphicsContext.restoreGraphicsState()
+		// Override to ignore the default drawing
 	}
 }
 
@@ -423,40 +429,24 @@ private extension NSColor {
 	}
 }
 
-// MARK: - Arbitrary animation layer
-
-public class ArbitraryAnimationLayer: CALayer {
-	static let KeyPath: String = "progress"
-
-	override init() {
-		super.init()
-	}
-
-	var progressCallback: ((CGFloat) -> Void)?
-
-	override init(layer: Any) {
-		super.init(layer: layer)
-		guard let newL = layer as? ArbitraryAnimationLayer else {
-			fatalError()
-		}
-		self.progress = newL.progress
-		self.progressCallback = newL.progressCallback
-	}
-
-	required init?(coder _: NSCoder) {
-		fatalError("init(coder:) has not been implemented")
-	}
-
-	@objc dynamic var progress: CGFloat = 0 {
-		didSet {
-			progressCallback?(progress)
-		}
-	}
-
-	public override static func needsDisplay(forKey key: String) -> Bool {
-		if key == ArbitraryAnimationLayer.KeyPath {
-			return true
-		}
-		return super.needsDisplay(forKey: key)
-	}
-}
+//extension NSBezierPath {
+//
+//	/// Create a CGPath from this object
+//	public var cgPath: CGPath {
+//		let path = CGMutablePath()
+//		var points = [CGPoint](repeating: .zero, count: 3)
+//		for i in 0 ..< self.elementCount {
+//			let type = self.element(at: i, associatedPoints: &points)
+//			switch type {
+//			case .moveTo: path.move(to: points[0])
+//			case .lineTo: path.addLine(to: points[0])
+//			case .curveTo: path.addCurve(to: points[2], control1: points[0], control2: points[1])
+//			case .closePath: path.closeSubpath()
+//			default:
+//				// Ignore
+//				print("Unexpected path type?")
+//			}
+//		}
+//		return path
+//	}
+//}

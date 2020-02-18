@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15705"/>
+        <capability name="System colors introduced in macOS 10.14" minToolsVersion="10.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -701,7 +702,7 @@
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="boolean" keyPath="isOn" value="YES"/>
                             <userDefinedRuntimeAttribute type="color" keyPath="color">
-                                <color key="value" red="0.47684186699999997" green="0.50480759139999998" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="value" name="controlAccentColor" catalog="System" colorSpace="catalog"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </customView>
@@ -733,6 +734,7 @@
                             <userDefinedRuntimeAttribute type="color" keyPath="color">
                                 <color key="value" name="linkColor" catalog="System" colorSpace="catalog"/>
                             </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isOn" value="YES"/>
                         </userDefinedRuntimeAttributes>
                     </customView>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZOV-Wd-t4S" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo" customModuleProvider="target">
@@ -763,7 +765,6 @@
                             <userDefinedRuntimeAttribute type="color" keyPath="color">
                                 <color key="value" red="1" green="0.52120530610000004" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="boolean" keyPath="isOn" value="YES"/>
                         </userDefinedRuntimeAttributes>
                     </customView>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FKL-3A-Nh3" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo" customModuleProvider="target">
@@ -880,7 +881,7 @@
                                 <color key="value" name="systemBlueColor" catalog="System" colorSpace="catalog"/>
                             </userDefinedRuntimeAttribute>
                             <userDefinedRuntimeAttribute type="boolean" keyPath="isOn" value="YES"/>
-                            <userDefinedRuntimeAttribute type="boolean" keyPath="showLabels" value="NO"/>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="showLabels" value="YES"/>
                         </userDefinedRuntimeAttributes>
                     </customView>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1dd-Zn-mAk">
