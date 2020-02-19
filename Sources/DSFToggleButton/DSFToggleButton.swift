@@ -267,7 +267,8 @@ extension DSFToggleButton {
 		let rightpos: CGFloat = (rect.maxX - rect.minX) * (3.0 / 4.0) + 1.5
 
 		let w: CGFloat = radius > 12 ? 2 : 1
-		let ooo1 = NSRect(x: leftpos - (w / 2.0), y: rect.origin.y + (rect.height / 2.0) - (r / 2.0), width: w, height: r)
+		let ooo1 = NSRect(x: leftpos - (w / 2.0), y: rect.origin.y + (rect.height / 2.0) - (r / 2.0) - 0.5,
+						  width: w, height: r + 1).toNP5()
 		onItem.path = CGPath(rect: ooo1, transform: nil)
 		onItem.strokeColor = nil
 		onItem.fillColor = self.color.contrastingTextColor().cgColor
@@ -278,10 +279,10 @@ extension DSFToggleButton {
 		// The 0 label
 
 		let offItem = CAShapeLayer()
-		let ooo = NSRect(x: rightpos - (r / 2), y: rect.origin.y + (rect.height / 2.0) - (r / 2.0), width: r, height: r)
+		let ooo = NSRect(x: rightpos - (r / 2), y: rect.origin.y + (rect.height / 2.0) - (r / 2.0), width: r, height: r).toNP5()
 		offItem.path = CGPath(ellipseIn: ooo, transform: nil)
 		offItem.fillColor = .clear
-		offItem.lineWidth = radius > 12 ? 1.25 : 0.75
+		offItem.lineWidth = radius > 12 ? 1.5 : 0.75
 		offItem.zPosition = 30
 		offItem.strokeColor = self.color.contrastingTextColor().cgColor
 		self.offLayer = offItem
@@ -359,6 +360,27 @@ extension DSFToggleButton {
 			}
 		}
 		self.previousState = self.state
+	}
+}
+
+private extension BinaryFloatingPoint {
+	func toNP5() -> Self {
+		var result = self.rounded(.towardZero)
+		let diff = self - result
+		if diff > 0.5 {
+			result += self > 0 ? 0.5 : -0.5
+		}
+		return result
+	}
+}
+
+private extension NSRect {
+	/// Return a tweaked rect where all edges sit on a multiple of 0.5
+	func toNP5() -> CGRect {
+		return CGRect(x: self.origin.x.toNP5(),
+					  y: self.origin.y.toNP5(),
+					  width: self.size.width.toNP5(),
+					  height: self.size.height.toNP5())
 	}
 }
 
