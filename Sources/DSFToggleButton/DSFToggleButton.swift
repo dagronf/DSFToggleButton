@@ -54,6 +54,9 @@ public class DSFToggleButton: NSButton {
 		}
 	}
 
+	/// Is the transition on/off animated?
+	@IBInspectable var animated: Bool = true
+
 	// MARK: Private vars
 
 	private var initialLoad = true
@@ -67,6 +70,8 @@ public class DSFToggleButton: NSButton {
 	private var toggleCircle: CAShapeLayer?
 	private var onLayer: CAShapeLayer?
 	private var offLayer: CAShapeLayer?
+
+	// MARK: Bindings to help make the toggle more accurate
 
 	private var lastButtonState: NSButton.StateValue = .off
 	@objc private var internalButtonState: NSButton.StateValue = .off {
@@ -146,8 +151,13 @@ extension DSFToggleButton {
 
 		self.postsFrameChangedNotifications = true
 		NotificationCenter.default.addObserver(forName: NSView.frameDidChangeNotification, object: nil, queue: nil) { [weak self] _ in
-			self?.rebuildLayers()
-			self?.needsDisplay = true
+			guard let `self` = self else {
+				return
+			}
+
+			self.rebuildLayers()
+			self.configureForCurrentState()
+			self.needsDisplay = true
 		}
 	}
 }
@@ -236,7 +246,7 @@ extension DSFToggleButton {
 		sh.shadowOpacity = 0.8
 		sh.shadowColor = .black
 		sh.shadowOffset = CGSize(width: 1, height: 1)
-		sh.shadowRadius = rect.height > 10 ? 2.0 : 1.0
+		sh.shadowRadius = radius > 12 ? 1.5 : 0.5
 		sh.path = pth
 		sh.strokeColor = nil
 		sh.zPosition = 10
@@ -271,7 +281,6 @@ extension DSFToggleButton {
 						  width: w, height: r + 1).toNP5()
 		onItem.path = CGPath(rect: ooo1, transform: nil)
 		onItem.strokeColor = nil
-		onItem.fillColor = self.color.contrastingTextColor().cgColor
 		onItem.zPosition = 30
 		self.onLayer = onItem
 		self.layer?.addSublayer(onItem)
@@ -284,7 +293,6 @@ extension DSFToggleButton {
 		offItem.fillColor = .clear
 		offItem.lineWidth = radius > 12 ? 1.5 : 0.75
 		offItem.zPosition = 30
-		offItem.strokeColor = self.color.contrastingTextColor().cgColor
 		self.offLayer = offItem
 		self.layer?.addSublayer(offItem)
 
@@ -302,7 +310,7 @@ extension DSFToggleButton {
 		toggleCircle.shadowOpacity = 0.8
 		toggleCircle.shadowColor = .black
 		toggleCircle.shadowOffset = NSSize(width: 1, height:1)
-		toggleCircle.shadowRadius = 2
+		toggleCircle.shadowRadius = radius > 12 ? 1.5 : 0.5
 
 		self.initialLoad = false
 	}
@@ -316,22 +324,32 @@ extension DSFToggleButton {
 	}
 
 	func configureForCurrentState() {
-		if DSFAccessibility.shared.display.reduceMotion || self.initialLoad {
+
+		let rect = self.buttonOuterFrame(for: self.frame)
+		let radius = rect.height / 2.0
+
+		let accessibility = DSFAccessibility.shared.display
+		let highContrast = accessibility.shouldIncreaseContrast
+
+		if accessibility.reduceMotion || self.initialLoad || !self.animated {
 			CATransaction.setDisableActions(true)
 		} else {
 			CATransaction.setAnimationDuration(0.15)
 			CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: .easeOut))
 		}
 
-		let accessibility = DSFAccessibility.shared.display
-		let highContrast = accessibility.shouldIncreaseContrast
 		let showLabels = ((self.showLabels || accessibility.differentiateWithoutColor) && self.isEnabled)
 
 		let bgcolor = (self.state == .off || accessibility.differentiateWithoutColor) ? self.defaultColor : self.color
 		let fgcolor = bgcolor.contrastingTextColor()
 
+		self.borderShadowLayer?.isHidden = highContrast
+		self.borderShadowLayer?.shadowRadius = radius > 12 ? 1.5 : 1
+
 		self.onLayer?.isHidden = !showLabels
+		self.onLayer?.fillColor = self.color.contrastingTextColor().cgColor
 		self.offLayer?.isHidden = !showLabels
+		self.offLayer?.strokeColor = self.color.contrastingTextColor().cgColor
 
 		self.onLayer?.fillColor = fgcolor.cgColor
 		self.offLayer?.strokeColor = fgcolor.cgColor
@@ -350,6 +368,10 @@ extension DSFToggleButton {
 			toggleFront = NSColor.white.withAlphaComponent(highContrast ? 0.6 : 0.4).cgColor
 		}
 		self.toggleCircle?.fillColor = toggleFront
+		self.toggleCircle?.strokeColor = highContrast ? .black : nil
+		self.toggleCircle?.lineWidth = 1
+		self.toggleCircle?.shadowOpacity = highContrast ? 0.0 : 0.8
+		self.toggleCircle?.shadowRadius = radius > 12 ? 1.5 : 1
 
 		if self.previousState != self.state {
 			let rect = self.buttonOuterFrame(for: self.frame)
