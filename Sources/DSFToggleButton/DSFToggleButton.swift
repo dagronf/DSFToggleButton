@@ -361,15 +361,12 @@ extension DSFToggleButton {
 		self.borderBorderLayer?.opacity = 1.0
 
 		// Toggle color
-		let toggleFront: CGColor!
-		if self.isEnabled {
-			toggleFront = .white
-		} else {
-			toggleFront = NSColor.white.withAlphaComponent(highContrast ? 0.6 : 0.4).cgColor
-		}
+		let toggleFront: CGColor = .white
+		self.alphaValue = self.isEnabled ? 1.0 : 0.4
+
 		self.toggleCircle?.fillColor = toggleFront
-		self.toggleCircle?.strokeColor = highContrast ? .black : nil
-		self.toggleCircle?.lineWidth = 1
+		self.toggleCircle?.strokeColor = highContrast ? .black : CGColor(gray: 0.8, alpha: 1.0)
+		self.toggleCircle?.lineWidth = 0.5
 		self.toggleCircle?.shadowOpacity = highContrast ? 0.0 : 0.8
 		self.toggleCircle?.shadowRadius = radius > 12 ? 1.5 : 1
 
