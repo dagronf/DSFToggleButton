@@ -62,6 +62,7 @@ public class DSFToggleButton: NSButton {
 	private var initialLoad = true
 	private let defaultColor: NSColor = .underPageBackgroundColor
 	private var accessibilityListener: NSObjectProtocol?
+	private var frameChangeListener: NSObjectProtocol?
 	private var previousState: NSControl.StateValue = .off
 
 	private var borderLayer: CAShapeLayer?
@@ -145,12 +146,12 @@ extension DSFToggleButton {
 
 		self.accessibilityListener = DSFAccessibility.shared.display.listen(queue: OperationQueue.main) { [weak self] _ in
 			// Notifications should come in on the main queue for UI updates
-			// self?.needsDisplay = true
 			self?.configureForCurrentState()
 		}
 
+		// Listen for frame changes so we can reconfigure ourselves
 		self.postsFrameChangedNotifications = true
-		NotificationCenter.default.addObserver(forName: NSView.frameDidChangeNotification, object: nil, queue: nil) { [weak self] _ in
+		self.frameChangeListener = NotificationCenter.default.addObserver(forName: NSView.frameDidChangeNotification, object: nil, queue: nil) { [weak self] _ in
 			guard let `self` = self else {
 				return
 			}
@@ -356,7 +357,7 @@ extension DSFToggleButton {
 
 		self.borderLayer?.fillColor = bgcolor.cgColor
 		let borderColor = highContrast ? NSColor.textColor : NSColor.controlColor
-		self.borderBorderLayer?.strokeColor = borderColor.cgColor // borderColor.withAlphaComponent(1).cgColor
+		self.borderBorderLayer?.strokeColor = borderColor.cgColor
 		self.borderBorderLayer?.lineWidth = 1.0
 		self.borderBorderLayer?.opacity = 1.0
 
@@ -371,7 +372,6 @@ extension DSFToggleButton {
 		self.toggleCircle?.shadowRadius = radius > 12 ? 1.5 : 1
 
 		if self.previousState != self.state {
-			let rect = self.buttonOuterFrame(for: self.frame)
 			if self.state == .on {
 				self.toggleCircle?.frame.origin = CGPoint(x: rect.width - rect.height, y: 0)
 			} else {
