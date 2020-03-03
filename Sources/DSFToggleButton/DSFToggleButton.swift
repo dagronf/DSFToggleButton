@@ -30,11 +30,6 @@ import AppKit
 public class DSFToggleButton: NSButton {
 	// MARK: Public vars
 
-	/// A callback block for when the button changes state
-	///
-	/// Called regardless of whether the state change comes from the user (via the UI) or by code
-	@objc public var stateChangeBlock: ((DSFToggleButton) -> Void)?
-
 	/// Show labels (0 and 1) on the button to increase visual distinction between states
 	@IBInspectable dynamic var showLabels: Bool = false {
 		didSet {
@@ -56,6 +51,7 @@ public class DSFToggleButton: NSButton {
 		}
 	}
 
+	/// Force high-contrast drawing
 	@IBInspectable dynamic var highContrast: Bool = false {
 		didSet {
 			self.needsDisplay = true
@@ -65,15 +61,23 @@ public class DSFToggleButton: NSButton {
 	/// Is the transition on/off animated?
 	@IBInspectable var animated: Bool = true
 
+	/// A callback block for when the button changes state
+	///
+	/// Called regardless of whether the state change comes from the user (via the UI) or by code
+	@objc public var stateChangeBlock: ((DSFToggleButton) -> Void)?
+
 	// MARK: Private vars
 
 	// Are we in the process of setting ourselves up?
 	private var initialLoad = true
 
 	// Default color for the control
-	private let defaultColor: NSColor = .underPageBackgroundColor
-	
-	private var accessibilityListener: NSObjectProtocol?
+	private static let defaultColor: NSColor = .underPageBackgroundColor
+
+	// Listen to accessibility changes
+	private var accessibilityListener: DSFAccessibilityListener?
+
+	// Listen to frame changes
 	private var frameChangeListener: NSObjectProtocol?
 	private var previousState: NSControl.StateValue = .off
 
@@ -111,7 +115,7 @@ public class DSFToggleButton: NSButton {
 	// MARK: Init and setup
 
 	override init(frame frameRect: NSRect) {
-		self.color = self.defaultColor
+		self.color = DSFToggleButton.defaultColor
 		self.isOn = false
 
 		super.init(frame: frameRect)
@@ -119,7 +123,7 @@ public class DSFToggleButton: NSButton {
 	}
 
 	required init?(coder: NSCoder) {
-		self.color = self.defaultColor
+		self.color = DSFToggleButton.defaultColor
 		self.isOn = false
 
 		super.init(coder: coder)
@@ -344,7 +348,7 @@ extension DSFToggleButton {
 
 		let showLabels = (self.showLabels || accessibility.differentiateWithoutColor)
 
-		let bgcolor = (self.state == .off || accessibility.differentiateWithoutColor) ? self.defaultColor : self.color
+		let bgcolor = (self.state == .off || accessibility.differentiateWithoutColor) ? DSFToggleButton.defaultColor : self.color
 		let fgcolor = bgcolor.contrastingTextColor()
 
 		self.borderShadowLayer?.isHidden = highContrast

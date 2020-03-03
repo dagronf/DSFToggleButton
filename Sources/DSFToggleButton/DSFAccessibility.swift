@@ -27,6 +27,8 @@
 
 import Cocoa
 
+typealias DSFAccessibilityListener = NSObjectProtocol
+
 @objc public class DSFAccessibility: NSObject {
 
 	/// Returns the shared DSFAccessibility instance using the default notification center
@@ -82,7 +84,7 @@ public extension DSFAccessibility {
 }
 
 extension DSFAccessibility.Display {
-	@objc func listen(queue: OperationQueue? = nil, using block: @escaping (Notification) -> Void) -> NSObjectProtocol {
+	@objc func listen(queue: OperationQueue? = nil, using block: @escaping (Notification) -> Void) -> DSFAccessibilityListener {
 		return self.accessibilityNotificationCenter.addObserver(
 			forName: DSFAccessibility.Display.DidChange,
 			object: DSFAccessibility.shared.display,
