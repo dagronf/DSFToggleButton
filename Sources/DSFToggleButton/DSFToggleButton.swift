@@ -30,6 +30,8 @@ import AppKit
 public class DSFToggleButton: NSButton {
 	// MARK: Public vars
 
+	/// A callback block for when the button changes state
+	///
 	/// Called regardless of whether the state change comes from the user (via the UI) or by code
 	@objc public var stateChangeBlock: ((DSFToggleButton) -> Void)?
 
@@ -54,6 +56,12 @@ public class DSFToggleButton: NSButton {
 		}
 	}
 
+	@IBInspectable dynamic var highContrast: Bool = false {
+		didSet {
+			self.needsDisplay = true
+		}
+	}
+
 	/// Is the transition on/off animated?
 	@IBInspectable var animated: Bool = true
 
@@ -74,7 +82,7 @@ public class DSFToggleButton: NSButton {
 
 	// MARK: Bindings to help make the toggle more accurate
 
-	private var lastButtonState: NSButton.StateValue = .off
+	private var lastButtonState: NSControl.StateValue = .off
 	@objc private var internalButtonState: NSButton.StateValue = .off {
 		didSet {
 			self.lastButtonState = self.internalButtonState
@@ -82,6 +90,20 @@ public class DSFToggleButton: NSButton {
 			// Notify the state change delegate of the change
 			self.stateChangeBlock?(self)
 		}
+	}
+
+	// `didSet` is called when the user programatically changes the state
+	@objc public override var state: NSControl.StateValue {
+		didSet {
+			self.willChangeValue(for: \.internalButtonState)
+			self.internalButtonState = self.state
+			self.didChangeValue(for: \.internalButtonState)
+		}
+	}
+
+	// All our drawing is going to be layer based
+	public override var wantsUpdateLayer: Bool {
+		return true
 	}
 
 	// MARK: Init and setup
@@ -115,34 +137,20 @@ public class DSFToggleButton: NSButton {
 	@objc public func toggle() {
 		self.state = (self.state == .on) ? .off : .on
 	}
-
-	@objc public override var state: NSControl.StateValue {
-		didSet {
-			self.willChangeValue(for: \.internalButtonState)
-			self.internalButtonState = self.state
-			self.didChangeValue(for: \.internalButtonState)
-		}
-	}
 }
 
 extension DSFToggleButton {
-	public override var intrinsicContentSize: NSSize {
-		return self.frame.size
-	}
+//	public override var intrinsicContentSize: NSSize {
+//		return self.frame.size
+//	}
 
 	private func setup() {
 		self.wantsLayer = true
 
-		let cell = DSFToggleButtonCell()
-		cell.setButtonType(.toggle)
+		let cell = NSButtonCell()
+		cell.setButtonType(.toggle) // type must be set on the button cell or else '.value' is not a valid binding
 		cell.bind(.value, to: self, withKeyPath: "internalButtonState", options: nil)
 		self.cell = cell
-
-		self.setContentHuggingPriority(.required, for: .horizontal)
-		self.setContentHuggingPriority(.required, for: .vertical)
-
-		self.setContentCompressionResistancePriority(.required, for: .horizontal)
-		self.setContentCompressionResistancePriority(.required, for: .vertical)
 
 		self.accessibilityListener = DSFAccessibility.shared.display.listen(queue: OperationQueue.main) { [weak self] _ in
 			// Notifications should come in on the main queue for UI updates
@@ -163,22 +171,17 @@ extension DSFToggleButton {
 	}
 }
 
+// MARK: -  Interface builder and draw
+
 extension DSFToggleButton {
-	// Interface builder and draw
-
-	private var customCell: DSFToggleButtonCell? {
-		return self.cell as? DSFToggleButtonCell
-	}
-
 	public override func prepareForInterfaceBuilder() {
+		// super.prepareForInterfaceBuilder()
 		self.setup()
 	}
 
-	public override func draw(_ dirtyRect: NSRect) {
-		super.draw(dirtyRect)
-
-		configureForCurrentState()
-		// Drawing code here.
+	public override func updateLayer() {
+		super.updateLayer()
+		self.configureForCurrentState()
 	}
 }
 
@@ -201,6 +204,7 @@ extension DSFToggleButton {
 		public override func layout() {
 			super.layout()
 			self.rebuildLayers()
+			self.updateLayer()
 		}
 	#endif
 
@@ -274,11 +278,11 @@ extension DSFToggleButton {
 
 		let onItem = CAShapeLayer()
 
-		let leftpos: CGFloat = (rect.maxX - rect.minX) / 4.0 + 1.5
-		let rightpos: CGFloat = (rect.maxX - rect.minX) * (3.0 / 4.0) + 1.5
+		let ll = rect.width * 0.23
+		let leftpos: CGFloat = rect.minX + ll + ((radius < 30) ? 1.0 : 0.0)
 
 		let w: CGFloat = radius > 12 ? 2 : 1
-		let ooo1 = NSRect(x: leftpos - (w / 2.0), y: rect.origin.y + (rect.height / 2.0) - (r / 2.0) - 0.5,
+		let ooo1 = NSRect(x: leftpos, y: rect.origin.y + (rect.height / 2.0) - (r / 2.0) - 0.5,
 						  width: w, height: r + 1).toNP5()
 		onItem.path = CGPath(rect: ooo1, transform: nil)
 		onItem.strokeColor = nil
@@ -287,9 +291,11 @@ extension DSFToggleButton {
 		self.layer?.addSublayer(onItem)
 
 		// The 0 label
+		let rr = rect.width * 0.69
+		let rightpos: CGFloat = rect.minX + rr
 
 		let offItem = CAShapeLayer()
-		let ooo = NSRect(x: rightpos - (r / 2), y: rect.origin.y + (rect.height / 2.0) - (r / 2.0), width: r, height: r).toNP5()
+		let ooo = NSRect(x: rightpos, y: rect.origin.y + (rect.height / 2.0) - (r / 2.0), width: r, height: r).toNP5()
 		offItem.path = CGPath(ellipseIn: ooo, transform: nil)
 		offItem.fillColor = .clear
 		offItem.lineWidth = radius > 12 ? 1.5 : 0.75
@@ -310,7 +316,7 @@ extension DSFToggleButton {
 
 		toggleCircle.shadowOpacity = 0.8
 		toggleCircle.shadowColor = .black
-		toggleCircle.shadowOffset = NSSize(width: 1, height:1)
+		toggleCircle.shadowOffset = NSSize(width: 1, height: 1)
 		toggleCircle.shadowRadius = radius > 12 ? 1.5 : 0.5
 
 		self.initialLoad = false
@@ -325,12 +331,11 @@ extension DSFToggleButton {
 	}
 
 	func configureForCurrentState() {
-
 		let rect = self.buttonOuterFrame(for: self.frame)
 		let radius = rect.height / 2.0
 
 		let accessibility = DSFAccessibility.shared.display
-		let highContrast = accessibility.shouldIncreaseContrast
+		let highContrast = accessibility.shouldIncreaseContrast || self.highContrast
 
 		if accessibility.reduceMotion || self.initialLoad || !self.animated {
 			CATransaction.setDisableActions(true)
@@ -339,7 +344,7 @@ extension DSFToggleButton {
 			CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: .easeOut))
 		}
 
-		let showLabels = ((self.showLabels || accessibility.differentiateWithoutColor) && self.isEnabled)
+		let showLabels = (self.showLabels || accessibility.differentiateWithoutColor)
 
 		let bgcolor = (self.state == .off || accessibility.differentiateWithoutColor) ? self.defaultColor : self.color
 		let fgcolor = bgcolor.contrastingTextColor()
@@ -367,7 +372,7 @@ extension DSFToggleButton {
 
 		self.toggleCircle?.fillColor = toggleFront
 		self.toggleCircle?.strokeColor = highContrast ? .black : CGColor(gray: 0.8, alpha: 1.0)
-		self.toggleCircle?.lineWidth = 0.5
+		self.toggleCircle?.lineWidth = radius > 12 ? 1 : 0.5
 		self.toggleCircle?.shadowOpacity = highContrast ? 0.0 : 0.8
 		self.toggleCircle?.shadowRadius = radius > 12 ? 1.5 : 1
 
@@ -400,20 +405,6 @@ private extension NSRect {
 					  y: self.origin.y.toNP5(),
 					  width: self.size.width.toNP5(),
 					  height: self.size.height.toNP5())
-	}
-}
-
-// MARK: - DSFToggleButton custom cell
-
-private class DSFToggleButtonCell: NSButtonCell {
-	// MARK: Drawing methods
-
-	override func drawBezel(withFrame _: NSRect, in _: NSView) {
-		// Override to ignore the default drawing
-	}
-
-	override func drawInterior(withFrame cellFrame: NSRect, in _: NSView) {
-		// Override to ignore the default drawing
 	}
 }
 
