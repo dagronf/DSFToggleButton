@@ -67,8 +67,12 @@ public class DSFToggleButton: NSButton {
 
 	// MARK: Private vars
 
+	// Are we in the process of setting ourselves up?
 	private var initialLoad = true
+
+	// Default color for the control
 	private let defaultColor: NSColor = .underPageBackgroundColor
+	
 	private var accessibilityListener: NSObjectProtocol?
 	private var frameChangeListener: NSObjectProtocol?
 	private var previousState: NSControl.StateValue = .off
@@ -95,9 +99,7 @@ public class DSFToggleButton: NSButton {
 	// `didSet` is called when the user programatically changes the state
 	@objc public override var state: NSControl.StateValue {
 		didSet {
-			self.willChangeValue(for: \.internalButtonState)
 			self.internalButtonState = self.state
-			self.didChangeValue(for: \.internalButtonState)
 		}
 	}
 
@@ -140,10 +142,6 @@ public class DSFToggleButton: NSButton {
 }
 
 extension DSFToggleButton {
-//	public override var intrinsicContentSize: NSSize {
-//		return self.frame.size
-//	}
-
 	private func setup() {
 		self.wantsLayer = true
 
