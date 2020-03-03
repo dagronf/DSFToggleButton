@@ -7,9 +7,15 @@ A macOS toggle button for Swift and Objective-C that mimics the toggle button of
 ![](https://img.shields.io/github/v/tag/dagronf/DSFToggleButton) ![](https://img.shields.io/badge/macOS-10.9+-red) ![](https://img.shields.io/badge/Swift-5.0-orange.svg)
 ![](https://img.shields.io/badge/License-MIT-lightgrey) [![](https://img.shields.io/badge/pod-compatible-informational)](https://cocoapods.org) [![](https://img.shields.io/badge/spm-compatible-brightgreen.svg?style=flat)](https://swift.org/package-manager)
 
+# Why
+
+Because sometimes all you want is a nice, big, very visible checkbox.
+
 # Usage
 
-Since `DSFToggleButton` inherits from `NSButton`, its behaviour is the same as for a regular checkbox. You can programatically set the state as you would for an `NSButton` for example.
+Since `DSFToggleButton` inherits from `NSButton`, its behaviour is the same as for a regular checkbox. You can programatically set the state or its enabled states just as you would for an `NSButton` for example.
+
+The control itself does not define its size, so you can make it as big or as small as you'd like. As all the drawing is scalable, the control will look great at any size you want.
 
 ## Direct
 
@@ -25,15 +31,17 @@ to your podfile.
 
 ## Interface builder
 
-* Drop in a new custom view into your canvas and set its class to `DSFToggleButton`
+Drop in a new custom view into your canvas and set its class to `DSFToggleButton`.  
 
 # Configuration
 
 | Variable  | Type    | Description                                                                       |
 |-----------|---------|-----------------------------------------------------------------------------------|
-| `showLabel` | `Bool`    | Show labels (0 and 1) on the button to increase visual distinction between states |
 | `color`     | `NSColor` | The color of the button when the state is on, defaults to the off background color |
-
+| `showLabels` | `Bool`    | Show labels (0 and 1) on the button to increase visual distinction between states |
+| `animated` | `Bool` | Whether to animate state changes |
+| `highContrast` | `Bool` | Remove any visual flourishes on the control |
+| `stateChangeBlock` |  | A block-based callback mechanism (optional) which will trigger whenever the button state changes |
 # Screenshots
 
 ### Dark mode, green (no labels)

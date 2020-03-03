@@ -39,6 +39,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		// Insert code here to tear down your application
 	}
 
+	@IBAction func primaryPress(_ sender: DSFToggleButton) {
+		Swift.print("Primary Press! State is now \(sender.state)")
+	}
+
 	@IBAction func showLabelsToggle(_ sender: NSButton) {
 		self.bigButton.showLabels = sender.state == .on
 	}

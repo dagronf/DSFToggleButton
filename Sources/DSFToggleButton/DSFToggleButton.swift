@@ -79,7 +79,7 @@ public class DSFToggleButton: NSButton {
 
 	// Listen to frame changes
 	private var frameChangeListener: NSObjectProtocol?
-	private var previousState: NSControl.StateValue = .off
+	private var previousState: NSControl.StateValue?
 
 	private var borderLayer: CAShapeLayer?
 	private var borderShadowLayer: CAShapeLayer?
@@ -88,24 +88,48 @@ public class DSFToggleButton: NSButton {
 	private var onLayer: CAShapeLayer?
 	private var offLayer: CAShapeLayer?
 
-	// MARK: Bindings to help make the toggle more accurate
-
-	private var lastButtonState: NSControl.StateValue = .off
-	@objc private var internalButtonState: NSButton.StateValue = .off {
+	// `didSet` is called when the user programatically changes the state
+	@objc public override var state: NSControl.StateValue {
 		didSet {
-			self.lastButtonState = self.internalButtonState
-
-			// Notify the state change delegate of the change
+			self.configureForCurrentState()
 			self.stateChangeBlock?(self)
 		}
 	}
 
-	// `didSet` is called when the user programatically changes the state
-	@objc public override var state: NSControl.StateValue {
-		didSet {
-			self.internalButtonState = self.state
+	// MARK: Action Tweaking
+
+	// Make sure that the action is directed to us, so that we can update on press
+	private func twiddleAction() {
+		let actionChanged = super.action != #selector(_action(_:))
+		if actionChanged {
+			self._action = super.action
+			super.action = #selector(_action(_:))
 		}
 	}
+	@objc private var _action: Selector? = nil
+	@objc override public var action: Selector? {
+		didSet {
+			self.twiddleAction()
+		}
+	}
+
+	// MARK: Target tweaking
+
+	// Make sure that we remain our own target so we can update on press
+	private func twiddleTarget() {
+		let targetChanged = super.target !== self
+		if targetChanged {
+			self._target = super.target
+			super.target = self
+		}
+	}
+	@objc private var _target: AnyObject? = nil
+	@objc override public var target: AnyObject? {
+		didSet {
+			self.twiddleTarget()
+		}
+	}
+
 
 	// All our drawing is going to be layer based
 	public override var wantsUpdateLayer: Bool {
@@ -138,11 +162,23 @@ public class DSFToggleButton: NSButton {
 		DSFAccessibility.shared.display.unlisten(self)
 	}
 
-	// MARK: State capture/handling
-
 	@objc public func toggle() {
 		self.state = (self.state == .on) ? .off : .on
 	}
+
+	public override func viewDidMoveToWindow() {
+		super.viewDidMoveToWindow()
+
+		self.twiddleTargetAction()
+	}
+
+	// Update the action and target to ourselves, and set the user's action/target values
+	// to our private variables
+	private func twiddleTargetAction() {
+		self.twiddleTarget()
+		self.twiddleAction()
+	}
+
 }
 
 extension DSFToggleButton {
@@ -152,8 +188,7 @@ extension DSFToggleButton {
 		let cell = NSButtonCell()
 		cell.isBordered = false
 		cell.isTransparent = true
-		cell.setButtonType(.toggle) // type must be set on the button cell or else '.value' is not a valid binding
-		cell.bind(.value, to: self, withKeyPath: "internalButtonState", options: nil)
+		cell.setButtonType(.toggle)
 		self.cell = cell
 
 		self.accessibilityListener = DSFAccessibility.shared.display.listen(queue: OperationQueue.main) { [weak self] _ in
@@ -169,8 +204,16 @@ extension DSFToggleButton {
 			}
 
 			self.rebuildLayers()
-			self.configureForCurrentState()
 			self.needsDisplay = true
+		}
+	}
+
+	// Custom action to intercept changes to the button state via the UI
+	@objc private func _action(_ button: NSButton) {
+		self.configureForCurrentState()
+		self.stateChangeBlock?(self)
+		if let t = _target, let a = _action {
+			_ = t.perform(a, with: button)
 		}
 	}
 }
@@ -179,7 +222,6 @@ extension DSFToggleButton {
 
 extension DSFToggleButton {
 	public override func prepareForInterfaceBuilder() {
-		// super.prepareForInterfaceBuilder()
 		self.setup()
 	}
 
@@ -239,7 +281,15 @@ extension DSFToggleButton {
 		outer.path = CGPath(roundedRect: rect, cornerWidth: radius, cornerHeight: radius, transform: nil)
 		self.borderLayer = outer
 		outer.zPosition = 0
+
+		let shm33 = CAShapeLayer()
+		shm33.path = CGPath(roundedRect: rect, cornerWidth: radius, cornerHeight: radius, transform: nil)
+		outer.mask = shm33
+
 		self.layer?.addSublayer(outer)
+
+
+
 
 		// The inner shadow for the lowest rounded rect
 
@@ -278,6 +328,11 @@ extension DSFToggleButton {
 
 		let r: CGFloat = radius / 1.7
 
+
+		// Labels
+
+		let lineWidth: CGFloat = max(1, ((1.0 / 8.0) * radius).toNP5())
+
 		// The 1 label
 
 		let onItem = CAShapeLayer()
@@ -285,29 +340,36 @@ extension DSFToggleButton {
 		let ll = rect.width * 0.23
 		let leftpos: CGFloat = rect.minX + ll + ((radius < 30) ? 1.0 : 0.0)
 
-		let w: CGFloat = radius > 12 ? 2 : 1
+		//let w: CGFloat = radius > 12 ? 2 : 1
 		let ooo1 = NSRect(x: leftpos, y: rect.origin.y + (rect.height / 2.0) - (r / 2.0) - 0.5,
-						  width: w, height: r + 1).toNP5()
+						  width: lineWidth, height: r + 2).toNP5()
 		onItem.path = CGPath(rect: ooo1, transform: nil)
 		onItem.strokeColor = nil
 		onItem.zPosition = 30
+
+//		let www = CAShapeLayer()
+//		www.path = CGPath(roundedRect: rect, cornerWidth: radius, cornerHeight: radius, transform: nil)
+//		onItem.mask = www
+
+//		onItem.mask = outer
 		self.onLayer = onItem
-		self.layer?.addSublayer(onItem)
+		outer.addSublayer(onItem)
 
 		// The 0 label
 		let rr = rect.width * 0.69
 		let rightpos: CGFloat = rect.minX + rr
 
 		let offItem = CAShapeLayer()
-		let ooo = NSRect(x: rightpos, y: rect.origin.y + (rect.height / 2.0) - (r / 2.0), width: r, height: r).toNP5()
+		let ooo = NSRect(x: rightpos - 1, y: rect.origin.y + (rect.height / 2.0) - (r / 2.0), width: r + 1, height: r + 1).toNP5()
 		offItem.path = CGPath(ellipseIn: ooo, transform: nil)
 		offItem.fillColor = .clear
-		offItem.lineWidth = radius > 12 ? 1.5 : 0.75
+		offItem.lineWidth = lineWidth - 0.5
 		offItem.zPosition = 30
+//		offItem.mask = outer
 		self.offLayer = offItem
-		self.layer?.addSublayer(offItem)
+		outer.addSublayer(offItem)
 
-		// The toggle
+		// The toggle circle head
 
 		let toggleCircle = CAShapeLayer()
 		var circle = rect
@@ -381,13 +443,26 @@ extension DSFToggleButton {
 		self.toggleCircle?.shadowRadius = radius > 12 ? 1.5 : 1
 
 		if self.previousState != self.state {
+			self.previousState = self.state
 			if self.state == .on {
 				self.toggleCircle?.frame.origin = CGPoint(x: rect.width - rect.height, y: 0)
+				let a = CGAffineTransform.identity
+				self.onLayer?.setAffineTransform(a)
+
+				let b = CGAffineTransform(translationX: radius * 1.3, y: 0)
+				self.offLayer?.setAffineTransform(b)
+
 			} else {
 				self.toggleCircle?.frame.origin = CGPoint(x: 0, y: 0)
+
+				let a = CGAffineTransform(translationX: -radius * 1.3, y: 0)
+				self.onLayer?.setAffineTransform(a)
+
+				self.offLayer?.setAffineTransform(CGAffineTransform.identity)
 			}
 		}
-		self.previousState = self.state
+
+		CATransaction.commit()
 	}
 }
 

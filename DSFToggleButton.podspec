@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name			= "DSFToggleButton"
-  s.version			= "1.7"
-  s.summary			= "A layer based NSButton that mimics the toggle button style of iOS"
+  s.version			= "2.0"
+  s.summary			= "A layer-based NSButton that mimics the toggle button style of iOS"
   s.homepage		= "https://github.com/dagronf/DSFToggleButton"
   s.license			= { :type => "MIT", :file => "LICENSE" }
   s.author			= { "Darren Ford" => "dford_au-reg@yahoo.com" }
