@@ -150,6 +150,8 @@ extension DSFToggleButton {
 		self.wantsLayer = true
 
 		let cell = NSButtonCell()
+		cell.isBordered = false
+		cell.isTransparent = true
 		cell.setButtonType(.toggle) // type must be set on the button cell or else '.value' is not a valid binding
 		cell.bind(.value, to: self, withKeyPath: "internalButtonState", options: nil)
 		self.cell = cell

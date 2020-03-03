@@ -16,8 +16,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	@IBOutlet weak var bigButtonColorWell: NSColorWell!
 
 	var isDark: Bool {
-		return NSApp.appearance == NSAppearance(named: .darkAqua) ||
-			NSApp.appearance == NSAppearance(named: .accessibilityHighContrastDarkAqua)
+		if #available(OSX 10.14, *) {
+			return NSApp.appearance == NSAppearance(named: .darkAqua) ||
+				NSApp.appearance == NSAppearance(named: .accessibilityHighContrastDarkAqua)
+		} else {
+			return false
+		}
 	}
 
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
@@ -52,8 +56,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	}
 
 	@IBAction func toggleAppearance(_ sender: NSButton) {
-		NSApp.appearance =
-			(sender.state == .on) ? NSAppearance(named: .darkAqua) : NSAppearance(named: .aqua)
+		if #available(OSX 10.14, *) {
+			NSApp.appearance =
+				(sender.state == .on) ? NSAppearance(named: .darkAqua) : NSAppearance(named: .aqua)
+		}
 	}
 	@IBAction func toggleHighContrast(_ sender: NSButton) {
 		self.bigButton.highContrast = sender.state == .on
