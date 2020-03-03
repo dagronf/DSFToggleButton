@@ -705,6 +705,7 @@
                             <userDefinedRuntimeAttribute type="boolean" keyPath="isOn" value="YES"/>
                             <userDefinedRuntimeAttribute type="boolean" keyPath="showLabels" value="YES"/>
                         </userDefinedRuntimeAttributes>
+                        <accessibility description="Primary Enable"/>
                     </customView>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="CVt-If-6n7">
                         <rect key="frame" x="18" y="98" width="99" height="18"/>
