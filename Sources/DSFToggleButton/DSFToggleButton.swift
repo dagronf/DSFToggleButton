@@ -74,9 +74,6 @@ public class DSFToggleButton: NSButton {
 	// Default color for the control
 	private static let defaultColor: NSColor = .underPageBackgroundColor
 
-	// Listen to accessibility changes
-	private var accessibilityListener: DSFAccessibilityListener?
-
 	// Listen to frame changes
 	private var frameChangeListener: NSObjectProtocol?
 	private var previousState: NSControl.StateValue?
@@ -106,8 +103,9 @@ public class DSFToggleButton: NSButton {
 			super.action = #selector(_action(_:))
 		}
 	}
-	@objc private var _action: Selector? = nil
-	@objc override public var action: Selector? {
+
+	@objc private var _action: Selector?
+	@objc public override var action: Selector? {
 		didSet {
 			self.twiddleAction()
 		}
@@ -123,18 +121,21 @@ public class DSFToggleButton: NSButton {
 			super.target = self
 		}
 	}
-	@objc private var _target: AnyObject? = nil
-	@objc override public var target: AnyObject? {
+
+	@objc private var _target: AnyObject?
+	@objc public override var target: AnyObject? {
 		didSet {
 			self.twiddleTarget()
 		}
 	}
 
-
 	// All our drawing is going to be layer based
 	public override var wantsUpdateLayer: Bool {
 		return true
 	}
+
+	// Accessibility container
+	let accessibility = DSFAccessibility.Observer()
 
 	// MARK: Init and setup
 
@@ -156,10 +157,7 @@ public class DSFToggleButton: NSButton {
 
 	deinit {
 		self.stateChangeBlock = nil
-		self.accessibilityListener = nil
 		self.cell?.unbind(.value)
-
-		DSFAccessibility.shared.display.unlisten(self)
 	}
 
 	@objc public func toggle() {
@@ -178,7 +176,6 @@ public class DSFToggleButton: NSButton {
 		self.twiddleTarget()
 		self.twiddleAction()
 	}
-
 }
 
 extension DSFToggleButton {
@@ -191,8 +188,7 @@ extension DSFToggleButton {
 		cell.setButtonType(.toggle)
 		self.cell = cell
 
-		self.accessibilityListener = DSFAccessibility.shared.display.listen(queue: OperationQueue.main) { [weak self] _ in
-			// Notifications should come in on the main queue for UI updates
+		self.accessibility.listen { [weak self] _ in
 			self?.configureForCurrentState()
 		}
 
@@ -288,9 +284,6 @@ extension DSFToggleButton {
 
 		self.layer?.addSublayer(outer)
 
-
-
-
 		// The inner shadow for the lowest rounded rect
 
 		let pth = CGMutablePath()
@@ -328,7 +321,6 @@ extension DSFToggleButton {
 
 		let r: CGFloat = radius / 1.7
 
-
 		// Labels
 
 		let lineWidth: CGFloat = max(1, ((1.0 / 8.0) * radius).toNP5())
@@ -340,7 +332,7 @@ extension DSFToggleButton {
 		let ll = rect.width * 0.23
 		let leftpos: CGFloat = rect.minX + ll + ((radius < 30) ? 1.0 : 0.0)
 
-		//let w: CGFloat = radius > 12 ? 2 : 1
+		// let w: CGFloat = radius > 12 ? 2 : 1
 		let ooo1 = NSRect(x: leftpos, y: rect.origin.y + (rect.height / 2.0) - (r / 2.0) - 0.5,
 						  width: lineWidth, height: r + 2).toNP5()
 		onItem.path = CGPath(rect: ooo1, transform: nil)

@@ -25,25 +25,27 @@
 //  SOFTWARE.
 //
 
-import Cocoa
+import AppKit
 
-typealias DSFAccessibilityListener = NSObjectProtocol
+/// A handle for a listener object.
+public typealias DSFAccessibilityListener = NSObjectProtocol
 
+/// A class to wrap some of the ambiguities of handling accessibility within a macOS control
 @objc public class DSFAccessibility: NSObject {
-
-	/// Returns the shared DSFAccessibility instance using the default notification center
+	/// Returns a shared DSFAccessibility instance
 	@objc public static var shared = DSFAccessibility()
 
-	/// Accessibility display settings and notifications
+	/// Accessibility display settings
 	@objc public let display: Display
 
 	/// The notification center for the accessibility object.
 	///
-	/// By default, DSFAccessibility creates its own notification center in order improve performance
+	/// By default, DSFAccessibility creates its own notification center in order improve performance,
+	/// which can be important if there are lots of individual controls observing changes
 	@objc public let accessibilityNotificationCenter: NotificationCenter
 
 	/// - Parameter notificationCenter: The notification center to receive change notifications through
-	init(notificationCenter: NotificationCenter = NotificationCenter.default) {
+	init(notificationCenter: NotificationCenter = NotificationCenter()) {
 		self.accessibilityNotificationCenter = notificationCenter
 		self.display = Display(notificationCenter: notificationCenter)
 		super.init()
@@ -55,7 +57,42 @@ typealias DSFAccessibilityListener = NSObjectProtocol
 }
 
 public extension DSFAccessibility {
-	@objc class Display: NSObject {
+	// An accessibility observation object, allowing accessibility change notifications via a block
+	// Block callback is always called on the main queue.
+	//
+	//  Usage:
+	//
+	//    // Define an instance of an accessibility observer in the object you want to receive notifications
+	//    let accessibility = DSFAccessibility.Observer()
+	//    ...
+	//    // And later on (for example, in a constructor) create the listener block
+	//    self.accessibility.listen { [weak self] (display) in
+	//       self?.redrawControlToReflectNewDisplaySettings()
+	//    }
+	//
+	@objc(DSFAccessibilityObserver)
+	class Observer: NSObject {
+		private var accessibilityListener: DSFAccessibilityListener!
+		public func listen(_ block: @escaping (DSFAccessibility.Display) -> Void) {
+			self.accessibilityListener = DSFAccessibility.shared.display.listen(queue: OperationQueue.main) { _ in
+				block(DSFAccessibility.shared.display)
+			}
+		}
+
+		public func unlisten() {
+			self.accessibilityListener = nil
+		}
+
+		deinit {
+			self.unlisten()
+		}
+	}
+}
+
+public extension DSFAccessibility {
+	/// Accessibility display information.
+	@objc(DSFAccessibilityDisplay)
+	class Display: NSObject {
 		private let accessibilityNotificationCenter: NotificationCenter
 
 		/// Internal change handling
@@ -70,10 +107,12 @@ public extension DSFAccessibility {
 
 		private func setup() {
 			if #available(OSX 10.10, *) {
-			NSWorkspace.shared.notificationCenter.addObserver(
-				self, selector: #selector(accessibilityDidChange(_:)),
-				name: NSWorkspace.accessibilityDisplayOptionsDidChangeNotification, object: nil
-			)
+				NSWorkspace.shared.notificationCenter.addObserver(
+					self, selector: #selector(accessibilityDidChange(_:)),
+					name: NSWorkspace.accessibilityDisplayOptionsDidChangeNotification, object: nil
+				)
+			} else {
+				Swift.print("DSFAccesibility: Accessibility change notifications not available prior to 10.10")
 			}
 		}
 
@@ -83,7 +122,7 @@ public extension DSFAccessibility {
 	}
 }
 
-extension DSFAccessibility.Display {
+public extension DSFAccessibility.Display {
 	@objc func listen(queue: OperationQueue? = nil, using block: @escaping (Notification) -> Void) -> DSFAccessibilityListener {
 		return self.accessibilityNotificationCenter.addObserver(
 			forName: DSFAccessibility.Display.DidChange,
@@ -93,12 +132,13 @@ extension DSFAccessibility.Display {
 		)
 	}
 
-	@objc func unlisten(_ obj: Any) {
+	@objc func unlisten(_ obj: DSFAccessibilityListener) {
 		self.accessibilityNotificationCenter.removeObserver(obj)
 	}
 }
 
-extension DSFAccessibility.Display {
+/// Display accessibility settings
+public extension DSFAccessibility.Display {
 	/// Get the current accessibility display option for high-contrast UI.  If this is true, UI should be presented with high contrast such as utilizing a less subtle color palette or bolder lines.
 	///
 	/// You may listen for `DSFAccessibility.DidChange` to be notified when this changes.
