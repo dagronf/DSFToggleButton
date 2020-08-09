@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15705" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17132" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15705"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17132"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -883,6 +883,7 @@
                             <userDefinedRuntimeAttribute type="color" keyPath="color">
                                 <color key="value" red="0.25134462118148804" green="0.0" blue="0.90619540214538574" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="showLabels" value="NO"/>
                         </userDefinedRuntimeAttributes>
                     </customView>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eWj-b2-ajq" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo" customModuleProvider="target">
@@ -913,7 +914,51 @@
                     <constraint firstAttribute="width" constant="516" id="yVF-JO-kra"/>
                 </constraints>
             </view>
-            <point key="canvasLocation" x="108" y="-238.5"/>
+            <point key="canvasLocation" x="67" y="-303"/>
         </window>
     </objects>
+    <designables>
+        <designable name="4Wj-SP-cYs">
+            <size key="intrinsicContentSize" width="42" height="15"/>
+        </designable>
+        <designable name="AFQ-A4-i27">
+            <size key="intrinsicContentSize" width="42" height="15"/>
+        </designable>
+        <designable name="CyM-KA-PtJ">
+            <size key="intrinsicContentSize" width="42" height="15"/>
+        </designable>
+        <designable name="FKL-3A-Nh3">
+            <size key="intrinsicContentSize" width="42" height="15"/>
+        </designable>
+        <designable name="LWx-pc-ybq">
+            <size key="intrinsicContentSize" width="42" height="15"/>
+        </designable>
+        <designable name="Mvg-4w-Rlw">
+            <size key="intrinsicContentSize" width="42" height="15"/>
+        </designable>
+        <designable name="Yzb-h2-Tgh">
+            <size key="intrinsicContentSize" width="42" height="15"/>
+        </designable>
+        <designable name="ZOV-Wd-t4S">
+            <size key="intrinsicContentSize" width="42" height="15"/>
+        </designable>
+        <designable name="bnf-4i-Vlh">
+            <size key="intrinsicContentSize" width="42" height="15"/>
+        </designable>
+        <designable name="eWj-b2-ajq">
+            <size key="intrinsicContentSize" width="42" height="15"/>
+        </designable>
+        <designable name="jhA-AZ-XDV">
+            <size key="intrinsicContentSize" width="42" height="15"/>
+        </designable>
+        <designable name="lXk-Rw-Bxo">
+            <size key="intrinsicContentSize" width="42" height="15"/>
+        </designable>
+        <designable name="tQx-HL-AiJ">
+            <size key="intrinsicContentSize" width="42" height="15"/>
+        </designable>
+        <designable name="z2m-YF-ChI">
+            <size key="intrinsicContentSize" width="42" height="15"/>
+        </designable>
+    </designables>
 </document>

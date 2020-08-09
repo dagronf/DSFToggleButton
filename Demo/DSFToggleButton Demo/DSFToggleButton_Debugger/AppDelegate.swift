@@ -10,10 +10,11 @@ import Cocoa
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
+	@IBOutlet var window: NSWindow!
+	@IBOutlet var bigButton: DSFToggleButton!
+	@IBOutlet var bigButtonColorWell: NSColorWell!
 
-	@IBOutlet weak var window: NSWindow!
-	@IBOutlet weak var bigButton: DSFToggleButton!
-	@IBOutlet weak var bigButtonColorWell: NSColorWell!
+	@IBOutlet var toggleAppearance: NSButton!
 
 	var isDark: Bool {
 		if #available(OSX 10.14, *) {
@@ -24,18 +25,28 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		}
 	}
 
-	func applicationDidFinishLaunching(_ aNotification: Notification) {
+	func applicationDidFinishLaunching(_: Notification) {
 		// Insert code here to initialize your application
 		bigButtonColorWell.color = self.bigButton.color
 
-		self.bigButton.stateChangeBlock = { (button) in
+		if #available(OSX 10.14, *) {
+			self.toggleAppearance.isEnabled = true
+			let ap = NSApp.effectiveAppearance
+			if ap.bestMatch(from: [.darkAqua, .aqua]) == .darkAqua {
+				toggleAppearance.state = .on
+			}
+		} else {
+			self.toggleAppearance.isEnabled = false
+		}
+
+		self.bigButton.stateChangeBlock = { button in
 			Swift.print("Toggled! State is now \(button.state)")
 		}
 
 		NSColorPanel.shared.showsAlpha = true
 	}
 
-	func applicationWillTerminate(_ aNotification: Notification) {
+	func applicationWillTerminate(_: Notification) {
 		// Insert code here to tear down your application
 	}
 
@@ -65,14 +76,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 				(sender.state == .on) ? NSAppearance(named: .darkAqua) : NSAppearance(named: .aqua)
 		}
 	}
+
 	@IBAction func toggleHighContrast(_ sender: NSButton) {
 		self.bigButton.highContrast = sender.state == .on
 	}
 
-	@IBAction func toggleButton(_ sender: Any) {
+	@IBAction func toggleButton(_: Any) {
 		self.bigButton.toggle()
 	}
-
-
 }
-

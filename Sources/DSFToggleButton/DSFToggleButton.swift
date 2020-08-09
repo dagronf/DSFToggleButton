@@ -30,6 +30,11 @@ import AppKit
 public class DSFToggleButton: NSButton {
 	// MARK: Public vars
 
+	// All coordinates are designed in flipped coordinates
+	public override var isFlipped: Bool {
+		return true
+	}
+
 	/// Show labels (0 and 1) on the button to increase visual distinction between states
 	@IBInspectable dynamic var showLabels: Bool = false {
 		didSet {
@@ -186,6 +191,7 @@ extension DSFToggleButton {
 		cell.isBordered = false
 		cell.isTransparent = true
 		cell.setButtonType(.toggle)
+		cell.state = self.isOn ? .on : .off
 		self.cell = cell
 
 		self.accessibility.listen { [weak self] _ in
@@ -297,7 +303,11 @@ extension DSFToggleButton {
 
 		sh.shadowOpacity = 0.8
 		sh.shadowColor = .black
+		#if !TARGET_INTERFACE_BUILDER
 		sh.shadowOffset = CGSize(width: 1, height: 1)
+		#else
+		sh.shadowOffset = CGSize(width: 1, height: -1)
+		#endif
 		sh.shadowRadius = radius > 12 ? 1.5 : 0.5
 		sh.path = pth
 		sh.strokeColor = nil
@@ -332,18 +342,13 @@ extension DSFToggleButton {
 		let ll = rect.width * 0.23
 		let leftpos: CGFloat = rect.minX + ll + ((radius < 30) ? 1.0 : 0.0)
 
-		// let w: CGFloat = radius > 12 ? 2 : 1
 		let ooo1 = NSRect(x: leftpos, y: rect.origin.y + (rect.height / 2.0) - (r / 2.0) - 0.5,
 						  width: lineWidth, height: r + 2).toNP5()
-		onItem.path = CGPath(rect: ooo1, transform: nil)
+
+		onItem.path = CGPath(roundedRect: ooo1, cornerWidth: lineWidth / 2, cornerHeight: lineWidth / 2, transform: nil)
 		onItem.strokeColor = nil
 		onItem.zPosition = 30
 
-//		let www = CAShapeLayer()
-//		www.path = CGPath(roundedRect: rect, cornerWidth: radius, cornerHeight: radius, transform: nil)
-//		onItem.mask = www
-
-//		onItem.mask = outer
 		self.onLayer = onItem
 		outer.addSublayer(onItem)
 
@@ -357,7 +362,6 @@ extension DSFToggleButton {
 		offItem.fillColor = .clear
 		offItem.lineWidth = lineWidth - 0.5
 		offItem.zPosition = 30
-//		offItem.mask = outer
 		self.offLayer = offItem
 		outer.addSublayer(offItem)
 
@@ -374,7 +378,11 @@ extension DSFToggleButton {
 
 		toggleCircle.shadowOpacity = 0.8
 		toggleCircle.shadowColor = .black
+		#if !TARGET_INTERFACE_BUILDER
 		toggleCircle.shadowOffset = NSSize(width: 1, height: 1)
+		#else
+		toggleCircle.shadowOffset = NSSize(width: 1, height: -1)
+		#endif
 		toggleCircle.shadowRadius = radius > 12 ? 1.5 : 0.5
 
 		self.initialLoad = false

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15705" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17132" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15705"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17132"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -15,6 +15,7 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate">
             <connections>
+                <outlet property="all" destination="dDW-3a-FsE" id="iMm-HU-SpG"/>
                 <outlet property="blue" destination="SmS-H4-Hr0" id="m9w-fj-vBe"/>
                 <outlet property="green" destination="N4L-fp-LKk" id="co5-xv-P1Q"/>
                 <outlet property="red" destination="32K-RO-o1Q" id="qQW-gK-bF8"/>
@@ -687,126 +688,131 @@
         <window title="DSFToggleButton Demo Objc" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="335" y="390" width="356" height="188"/>
+            <rect key="contentRect" x="335" y="390" width="478" height="169"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="356" height="188"/>
+                <rect key="frame" x="0.0" y="0.0" width="478" height="174"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="32K-RO-o1Q" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo_Objc" customModuleProvider="target">
-                        <rect key="frame" x="20" y="104" width="100" height="64"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="64" id="Lwn-Xd-MaJ"/>
-                            <constraint firstAttribute="width" constant="100" id="caL-VQ-fAP"/>
-                        </constraints>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="color" keyPath="color">
-                                <color key="value" name="systemRedColor" catalog="System" colorSpace="catalog"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="boolean" keyPath="showLabels" value="YES"/>
-                            <userDefinedRuntimeAttribute type="boolean" keyPath="isOn" value="YES"/>
-                        </userDefinedRuntimeAttributes>
-                    </customView>
-                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="SmS-H4-Hr0" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo_Objc" customModuleProvider="target">
-                        <rect key="frame" x="236" y="104" width="100" height="64"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="100" id="DuA-9f-FFW"/>
-                            <constraint firstAttribute="height" constant="64" id="fxd-NG-kHi"/>
-                        </constraints>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="color" keyPath="color">
-                                <color key="value" name="systemBlueColor" catalog="System" colorSpace="catalog"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="boolean" keyPath="showLabels" value="YES"/>
-                            <userDefinedRuntimeAttribute type="boolean" keyPath="isOn" value="YES"/>
-                        </userDefinedRuntimeAttributes>
-                    </customView>
-                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="N4L-fp-LKk" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo_Objc" customModuleProvider="target">
-                        <rect key="frame" x="128" y="104" width="100" height="64"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="100" id="kbw-QR-M0B"/>
-                            <constraint firstAttribute="height" constant="64" id="xG6-oQ-rOQ"/>
-                        </constraints>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="color" keyPath="color">
-                                <color key="value" name="systemGreenColor" catalog="System" colorSpace="catalog"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="boolean" keyPath="showLabels" value="YES"/>
-                            <userDefinedRuntimeAttribute type="boolean" keyPath="isOn" value="YES"/>
-                        </userDefinedRuntimeAttributes>
-                    </customView>
-                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="dDW-3a-FsE" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo_Objc" customModuleProvider="target">
-                        <rect key="frame" x="128" y="20" width="100" height="64"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="100" id="ODE-Js-LP5"/>
-                            <constraint firstAttribute="height" constant="64" id="UCA-xy-al4"/>
-                        </constraints>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="color" keyPath="color">
-                                <color key="value" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="boolean" keyPath="showLabels" value="YES"/>
-                            <userDefinedRuntimeAttribute type="boolean" keyPath="isOn" value="NO"/>
-                        </userDefinedRuntimeAttributes>
-                        <connections>
-                            <action selector="clickedAll:" target="Voe-Tx-rLC" id="5bu-gX-zS4"/>
-                        </connections>
-                    </customView>
-                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="sXW-lE-AuC">
-                        <rect key="frame" x="236" y="21" width="100" height="64"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="62" id="Qck-iq-MLx"/>
-                            <constraint firstAttribute="width" constant="100" id="RcF-9f-hDb"/>
-                        </constraints>
-                        <buttonCell key="cell" type="smallSquare" title="Toggle" bezelStyle="smallSquare" image="NSAddTemplate" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="d2r-hf-rOq">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="toggle:" target="Voe-Tx-rLC" id="zZy-b4-Rxw"/>
-                        </connections>
-                    </button>
-                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="MBD-kU-wk5" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo_Objc" customModuleProvider="target">
-                        <rect key="frame" x="20" y="54" width="47" height="30"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="47" id="0Fh-hm-QKU"/>
-                            <constraint firstAttribute="height" constant="30" id="KB8-Lm-Vmx"/>
-                        </constraints>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="boolean" keyPath="showLabels" value="NO"/>
-                            <userDefinedRuntimeAttribute type="boolean" keyPath="isOn" value="YES"/>
-                        </userDefinedRuntimeAttributes>
-                    </customView>
-                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="wFv-1j-3Un" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo_Objc" customModuleProvider="target">
-                        <rect key="frame" x="20" y="20" width="47" height="30"/>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="boolean" keyPath="showLabels" value="NO"/>
-                            <userDefinedRuntimeAttribute type="boolean" keyPath="isOn" value="NO"/>
-                        </userDefinedRuntimeAttributes>
-                    </customView>
+                    <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FZG-MQ-HVZ">
+                        <rect key="frame" x="20" y="20" width="438" height="134"/>
+                        <subviews>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="32K-RO-o1Q" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo_Objc" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="70" width="100" height="64"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="64" id="Lwn-Xd-MaJ"/>
+                                    <constraint firstAttribute="width" constant="100" id="caL-VQ-fAP"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="color">
+                                        <color key="value" name="systemRedColor" catalog="System" colorSpace="catalog"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="showLabels" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isOn" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                            </customView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="SmS-H4-Hr0" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo_Objc" customModuleProvider="target">
+                                <rect key="frame" x="108" y="70" width="100" height="64"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="DuA-9f-FFW"/>
+                                    <constraint firstAttribute="height" constant="64" id="fxd-NG-kHi"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="color">
+                                        <color key="value" name="systemBlueColor" catalog="System" colorSpace="catalog"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="showLabels" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isOn" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                            </customView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="N4L-fp-LKk" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo_Objc" customModuleProvider="target">
+                                <rect key="frame" x="216" y="70" width="100" height="64"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="kbw-QR-M0B"/>
+                                    <constraint firstAttribute="height" constant="64" id="xG6-oQ-rOQ"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="color">
+                                        <color key="value" name="systemGreenColor" catalog="System" colorSpace="catalog"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="showLabels" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isOn" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                            </customView>
+                            <box horizontalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="NWs-b4-ixJ">
+                                <rect key="frame" x="322" y="38" width="5" height="96"/>
+                            </box>
+                            <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wnS-os-bKk">
+                                <rect key="frame" x="333" y="0.0" width="105" height="134"/>
+                                <subviews>
+                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="dDW-3a-FsE" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo_Objc" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="70" width="100" height="64"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="100" id="ODE-Js-LP5"/>
+                                            <constraint firstAttribute="height" constant="64" id="UCA-xy-al4"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="color">
+                                                <color key="value" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="showLabels" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isOn" value="NO"/>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="clickedAll:" target="Voe-Tx-rLC" id="5bu-gX-zS4"/>
+                                        </connections>
+                                    </customView>
+                                    <button horizontalHuggingPriority="100" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="sXW-lE-AuC">
+                                        <rect key="frame" x="0.0" y="-1" width="105" height="64"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="62" id="Qck-iq-MLx"/>
+                                        </constraints>
+                                        <buttonCell key="cell" type="smallSquare" title="Toggle" bezelStyle="smallSquare" image="NSAddTemplate" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="d2r-hf-rOq">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="toggle:" target="Voe-Tx-rLC" id="zZy-b4-Rxw"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="sXW-lE-AuC" firstAttribute="width" secondItem="dDW-3a-FsE" secondAttribute="width" multiplier="1.05" id="oGY-8c-jp0"/>
+                                </constraints>
+                                <visibilityPriorities>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                </visibilityPriorities>
+                                <customSpacing>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                </customSpacing>
+                            </stackView>
+                        </subviews>
+                        <visibilityPriorities>
+                            <integer value="1000"/>
+                            <integer value="1000"/>
+                            <integer value="1000"/>
+                            <integer value="1000"/>
+                            <integer value="1000"/>
+                        </visibilityPriorities>
+                        <customSpacing>
+                            <real value="3.4028234663852886e+38"/>
+                            <real value="3.4028234663852886e+38"/>
+                            <real value="3.4028234663852886e+38"/>
+                            <real value="3.4028234663852886e+38"/>
+                            <real value="3.4028234663852886e+38"/>
+                        </customSpacing>
+                    </stackView>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="MBD-kU-wk5" firstAttribute="top" secondItem="dDW-3a-FsE" secondAttribute="top" id="1yS-2M-Rh3"/>
-                    <constraint firstItem="wFv-1j-3Un" firstAttribute="top" secondItem="MBD-kU-wk5" secondAttribute="bottom" constant="4" id="99w-ag-E3v"/>
-                    <constraint firstAttribute="bottom" secondItem="sXW-lE-AuC" secondAttribute="bottom" constant="22" id="Drq-84-1Yo"/>
-                    <constraint firstItem="wFv-1j-3Un" firstAttribute="height" secondItem="MBD-kU-wk5" secondAttribute="height" id="LHS-bl-blZ"/>
-                    <constraint firstItem="sXW-lE-AuC" firstAttribute="top" secondItem="SmS-H4-Hr0" secondAttribute="bottom" constant="20" id="NcE-TO-MfD"/>
-                    <constraint firstItem="SmS-H4-Hr0" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="20" id="OSL-8t-ukM"/>
-                    <constraint firstItem="32K-RO-o1Q" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="V4P-y4-jaD"/>
-                    <constraint firstItem="N4L-fp-LKk" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="20" id="VNc-Eu-ho4"/>
-                    <constraint firstAttribute="trailing" secondItem="SmS-H4-Hr0" secondAttribute="trailing" constant="20" id="WR6-cx-NR7"/>
-                    <constraint firstItem="wFv-1j-3Un" firstAttribute="trailing" secondItem="MBD-kU-wk5" secondAttribute="trailing" id="bcx-Nr-16t"/>
-                    <constraint firstItem="wFv-1j-3Un" firstAttribute="leading" secondItem="MBD-kU-wk5" secondAttribute="leading" id="hPF-71-tfB"/>
-                    <constraint firstItem="MBD-kU-wk5" firstAttribute="leading" secondItem="32K-RO-o1Q" secondAttribute="leading" id="oum-ii-Xch"/>
-                    <constraint firstAttribute="trailing" secondItem="sXW-lE-AuC" secondAttribute="trailing" constant="20" id="psX-Yo-pci"/>
-                    <constraint firstItem="sXW-lE-AuC" firstAttribute="leading" secondItem="dDW-3a-FsE" secondAttribute="trailing" constant="8" id="rMV-Sr-ry8"/>
-                    <constraint firstItem="SmS-H4-Hr0" firstAttribute="leading" secondItem="N4L-fp-LKk" secondAttribute="trailing" constant="8" id="rO7-8N-WqH"/>
-                    <constraint firstItem="N4L-fp-LKk" firstAttribute="leading" secondItem="32K-RO-o1Q" secondAttribute="trailing" constant="8" id="wRx-X9-t9i"/>
-                    <constraint firstAttribute="bottom" secondItem="dDW-3a-FsE" secondAttribute="bottom" constant="20" id="wmV-7G-nGU"/>
-                    <constraint firstItem="32K-RO-o1Q" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="20" id="xTm-ef-kEk"/>
+                    <constraint firstItem="FZG-MQ-HVZ" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" symbolic="YES" id="9vn-H3-o8n"/>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="FZG-MQ-HVZ" secondAttribute="bottom" constant="20" symbolic="YES" id="EEd-Ft-8Bd"/>
+                    <constraint firstItem="FZG-MQ-HVZ" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="20" symbolic="YES" id="Y0y-0e-Hc2"/>
+                    <constraint firstAttribute="trailing" secondItem="FZG-MQ-HVZ" secondAttribute="trailing" constant="20" symbolic="YES" id="ZW8-3E-pNz"/>
                 </constraints>
             </view>
-            <point key="canvasLocation" x="466" y="-585"/>
+            <point key="canvasLocation" x="544" y="-619.5"/>
         </window>
     </objects>
     <resources>
