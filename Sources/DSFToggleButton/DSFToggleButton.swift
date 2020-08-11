@@ -370,7 +370,11 @@ extension DSFToggleButton {
 		let toggleCircle = CAShapeLayer()
 		var circle = rect
 		circle.size.width = rect.height
-		toggleCircle.path = CGPath(ellipseIn: circle.insetBy(dx: 2.5, dy: 2.5), transform: nil)
+
+		// Inset the circle to make it look a bit nicer
+		let inset = max(2.5, circle.width * 0.08)
+
+		toggleCircle.path = CGPath(ellipseIn: circle.insetBy(dx: inset, dy: inset), transform: nil)
 		toggleCircle.position.x = self.state == .on ? rect.width - rect.height : 0
 		self.toggleCircle = toggleCircle
 		toggleCircle.zPosition = 50
