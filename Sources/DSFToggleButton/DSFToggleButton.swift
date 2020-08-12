@@ -36,42 +36,42 @@ public class DSFToggleButton: NSButton {
 	}
 
 	/// Show labels (0 and 1) on the button to increase visual distinction between states
-	@IBInspectable dynamic var showLabels: Bool = false {
+	@IBInspectable dynamic public var showLabels: Bool = false {
 		didSet {
 			self.needsDisplay = true
 		}
 	}
 
 	/// The color of the button when the state is on
-	@IBInspectable dynamic var color: NSColor {
+	@IBInspectable dynamic public var color: NSColor {
 		didSet {
 			self.needsDisplay = true
 		}
 	}
 
 	/// Used in the interface builder to indicate whether the initial state of a button is on
-	@IBInspectable dynamic var isOn: Bool {
+	@IBInspectable dynamic public var isOn: Bool {
 		didSet {
 			self.state = self.isOn ? .on : .off
 		}
 	}
 
 	/// Force high-contrast drawing
-	@IBInspectable dynamic var highContrast: Bool = false {
+	@IBInspectable dynamic public var highContrast: Bool = false {
 		didSet {
 			self.needsDisplay = true
 		}
 	}
 
 	/// Remove color when the control is not attached to the key window (standard checkbox behaviour)
-	@IBInspectable dynamic var removeColorWhenContainingWindowNotFocussed: Bool = true {
+	@IBInspectable dynamic public var removeColorWhenContainingWindowNotFocussed: Bool = true {
 		didSet {
 			self.needsDisplay = true
 		}
 	}
 
 	/// Is the transition on/off animated?
-	@IBInspectable var animated: Bool = true
+	@IBInspectable public var animated: Bool = true
 
 	/// A callback block for when the button changes state
 	///
