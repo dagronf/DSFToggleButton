@@ -22,10 +22,12 @@ internal extension BinaryFloatingPoint {
 internal extension NSRect {
 	/// Return a tweaked rect where all edges sit on a multiple of 0.5
 	func toNP5() -> CGRect {
-		return CGRect(x: self.origin.x.toNP5(),
-					  y: self.origin.y.toNP5(),
-					  width: self.size.width.toNP5(),
-					  height: self.size.height.toNP5())
+		return CGRect(
+			x: self.origin.x.toNP5(),
+			y: self.origin.y.toNP5(),
+			width: self.size.width.toNP5(),
+			height: self.size.height.toNP5()
+		)
 	}
 }
 
