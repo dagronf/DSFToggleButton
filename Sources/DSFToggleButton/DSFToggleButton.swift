@@ -63,6 +63,13 @@ public class DSFToggleButton: NSButton {
 		}
 	}
 
+	/// Remove color when the control is not attached to the key window (standard checkbox behaviour)
+	@IBInspectable dynamic var removeColorWhenContainingWindowNotFocussed: Bool = true {
+		didSet {
+			self.needsDisplay = true
+		}
+	}
+
 	/// Is the transition on/off animated?
 	@IBInspectable var animated: Bool = true
 
@@ -78,6 +85,7 @@ public class DSFToggleButton: NSButton {
 
 	// Default color for the control
 	private static let defaultColor: NSColor = .underPageBackgroundColor
+	private static let defaultInactiveColor: NSColor = .gridColor // .tertiaryLabelColor // .disabledControlTextColor //.windowBackgroundColor // .keyboardFocusIndicatorColor
 
 	// Listen to frame changes
 	private var frameChangeListener: NSObjectProtocol?
@@ -303,10 +311,11 @@ extension DSFToggleButton {
 
 		sh.shadowOpacity = 0.8
 		sh.shadowColor = .black
-		#if !TARGET_INTERFACE_BUILDER
-		sh.shadowOffset = CGSize(width: 1, height: 1)
-		#else
+		#if TARGET_INTERFACE_BUILDER
+		// IBDesignable appears to draw with a non-flipped axis.
 		sh.shadowOffset = CGSize(width: 1, height: -1)
+		#else
+		sh.shadowOffset = CGSize(width: 1, height: 1)
 		#endif
 		sh.shadowRadius = radius > 12 ? 1.5 : 0.5
 		sh.path = pth
@@ -372,7 +381,7 @@ extension DSFToggleButton {
 		circle.size.width = rect.height
 
 		// Inset the circle to make it look a bit nicer
-		let inset = max(2.5, circle.width * 0.08)
+		let inset = max(2.5, circle.width * 0.09)
 
 		toggleCircle.path = CGPath(ellipseIn: circle.insetBy(dx: inset, dy: inset), transform: nil)
 		toggleCircle.position.x = self.state == .on ? rect.width - rect.height : 0
@@ -410,22 +419,46 @@ extension DSFToggleButton {
 		if accessibility.reduceMotion || self.initialLoad || !self.animated {
 			CATransaction.setDisableActions(true)
 		} else {
-			CATransaction.setAnimationDuration(0.15)
+			CATransaction.setAnimationDuration(2) //0.15)
 			CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: .easeOut))
 		}
 
 		let showLabels = (self.showLabels || accessibility.differentiateWithoutColor)
 
-		let bgcolor = (self.state == .off || accessibility.differentiateWithoutColor) ? DSFToggleButton.defaultColor : self.color
-		let fgcolor = bgcolor.contrastingTextColor()
+		let isOff = (self.state == .off || accessibility.differentiateWithoutColor)
+
+		let bgcolor: NSColor
+		#if TARGET_INTERFACE_BUILDER
+			bgcolor = (self.state == .off || accessibility.differentiateWithoutColor) ? DSFToggleButton.defaultColor : self.color
+		#else
+			if let w = self.window, w.isKeyWindow {
+				bgcolor = isOff ? DSFToggleButton.defaultColor : self.color
+			} else {
+				bgcolor = {
+					if isOff {
+						return DSFToggleButton.defaultColor
+					}
+					else if !self.removeColorWhenContainingWindowNotFocussed {
+						return self.color
+					}
+					else {
+						return DSFToggleButton.defaultInactiveColor.applyOnTopOf(NSColor.underPageBackgroundColor)
+					}
+				}()
+
+				//bgcolor = isOff ? DSFToggleButton.defaultColor : DSFToggleButton.defaultInactiveColor.applyOnTopOf(NSColor.underPageBackgroundColor)
+			}
+		#endif
+
+		let fgcolor = bgcolor.flatContrastColor()
 
 		self.borderShadowLayer?.isHidden = highContrast
 		self.borderShadowLayer?.shadowRadius = radius > 12 ? 1.5 : 1
 
 		self.onLayer?.isHidden = !showLabels
-		self.onLayer?.fillColor = self.color.contrastingTextColor().cgColor
+		self.onLayer?.fillColor = fgcolor.cgColor
 		self.offLayer?.isHidden = !showLabels
-		self.offLayer?.strokeColor = self.color.contrastingTextColor().cgColor
+		self.offLayer?.strokeColor = fgcolor.cgColor
 
 		self.onLayer?.fillColor = fgcolor.cgColor
 		self.offLayer?.strokeColor = fgcolor.cgColor
@@ -441,7 +474,7 @@ extension DSFToggleButton {
 		self.alphaValue = self.isEnabled ? 1.0 : 0.4
 
 		self.toggleCircle?.fillColor = toggleFront
-		self.toggleCircle?.strokeColor = highContrast ? .black : CGColor(gray: 0.8, alpha: 1.0)
+		self.toggleCircle?.strokeColor = highContrast ? .black : .clear
 		self.toggleCircle?.lineWidth = radius > 12 ? 1 : 0.5
 		self.toggleCircle?.shadowOpacity = highContrast ? 0.0 : 0.8
 		self.toggleCircle?.shadowRadius = radius > 12 ? 1.5 : 1
@@ -467,75 +500,5 @@ extension DSFToggleButton {
 		}
 
 		CATransaction.commit()
-	}
-}
-
-private extension BinaryFloatingPoint {
-	func toNP5() -> Self {
-		var result = self.rounded(.towardZero)
-		let diff = self - result
-		if diff > 0.5 {
-			result += self > 0 ? 0.5 : -0.5
-		}
-		return result
-	}
-}
-
-private extension NSRect {
-	/// Return a tweaked rect where all edges sit on a multiple of 0.5
-	func toNP5() -> CGRect {
-		return CGRect(x: self.origin.x.toNP5(),
-					  y: self.origin.y.toNP5(),
-					  width: self.size.width.toNP5(),
-					  height: self.size.height.toNP5())
-	}
-}
-
-// MARK: - NSColor extension
-
-private extension NSColor {
-	private struct ColorComponents {
-		var r: CGFloat = 0.0
-		var g: CGFloat = 0.0
-		var b: CGFloat = 0.0
-		var a: CGFloat = 0.0
-	}
-
-	private func components() -> ColorComponents {
-		var result = ColorComponents()
-		self.getRed(&result.r, green: &result.g, blue: &result.b, alpha: &result.a)
-		return result
-	}
-
-	func contrastingTextColor() -> NSColor {
-		if self == NSColor.clear {
-			return .black
-		}
-
-		guard let c1 = self.usingColorSpace(.deviceRGB) else {
-			return .black
-		}
-
-		let rgbColor = c1.components()
-
-		// Counting the perceptive luminance - human eye favors green color...
-		let avgGray: CGFloat = 1 - (0.299 * rgbColor.r + 0.587 * rgbColor.g + 0.114 * rgbColor.b)
-		return avgGray > 0.5 ? .white : .black
-	}
-
-	/// Returns an inverted version this color, optionally preserving the colorspace from the original color if possible
-	func inverted(preserveColorSpace: Bool = false) -> NSColor {
-		guard let c1 = self.usingColorSpace(.deviceRGB) else {
-			return self
-		}
-		let rgbColor = c1.components()
-		let inverted = NSColor(calibratedRed: 1.0 - rgbColor.r,
-							   green: 1.0 - rgbColor.g,
-							   blue: 1.0 - rgbColor.b,
-							   alpha: c1.alphaComponent)
-		if preserveColorSpace, let c2 = inverted.usingColorSpace(self.colorSpace) {
-			return c2
-		}
-		return inverted
 	}
 }

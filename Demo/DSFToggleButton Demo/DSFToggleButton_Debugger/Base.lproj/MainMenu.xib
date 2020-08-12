@@ -687,14 +687,14 @@
         <window title="DSFToggleButton_Debugger" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="335" y="390" width="311" height="266"/>
+            <rect key="contentRect" x="335" y="390" width="377" height="266"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="311" height="266"/>
-                <autoresizingMask key="autoresizingMask"/>
+                <rect key="frame" x="0.0" y="0.0" width="377" height="266"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="Mmv-eb-kyr" customClass="DSFToggleButton" customModule="DSFToggleButton_Debugger" customModuleProvider="target">
-                        <rect key="frame" x="20" y="146" width="271" height="100"/>
+                        <rect key="frame" x="20" y="175" width="337" height="71"/>
                         <constraints>
                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="10" id="4mP-SI-7y3"/>
                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="10" id="EL3-gf-HY8"/>
@@ -711,58 +711,92 @@
                             <action selector="primaryPress:" target="Voe-Tx-rLC" id="gYh-Mh-8Vk"/>
                         </connections>
                     </customView>
-                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="CVt-If-6n7">
-                        <rect key="frame" x="18" y="98" width="99" height="18"/>
-                        <buttonCell key="cell" type="check" title="Show Labels" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Szq-qj-hIY">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="showLabelsToggle:" target="Voe-Tx-rLC" id="9jh-4q-QdD"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gel-Ad-Pgw">
-                        <rect key="frame" x="18" y="78" width="75" height="18"/>
-                        <buttonCell key="cell" type="check" title="Disabled" bezelStyle="regularSquare" imagePosition="left" inset="2" id="5Vn-mS-SYE">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="enableDisable:" target="Voe-Tx-rLC" id="i2M-gQ-i4c"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qoc-Zq-RFc">
-                        <rect key="frame" x="18" y="58" width="80" height="18"/>
-                        <buttonCell key="cell" type="check" title="Animated" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Qao-7t-e4e">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="toggleAnimations:" target="Voe-Tx-rLC" id="8Rw-Wa-gyy"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="AYF-dP-2IB">
-                        <rect key="frame" x="18" y="38" width="116" height="18"/>
-                        <buttonCell key="cell" type="check" title="Use Dark Mode" bezelStyle="regularSquare" imagePosition="left" inset="2" id="xj4-kB-WTC">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="toggleAppearance:" target="Voe-Tx-rLC" id="N1a-fB-JGT"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Jsh-A8-8ZW">
-                        <rect key="frame" x="18" y="18" width="107" height="18"/>
-                        <buttonCell key="cell" type="check" title="High Contrast" bezelStyle="regularSquare" imagePosition="left" inset="2" id="7w6-Az-vsU">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="toggleHighContrast:" target="Voe-Tx-rLC" id="j0l-4k-dvn"/>
-                        </connections>
-                    </button>
+                    <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="vLz-6q-S55">
+                        <rect key="frame" x="20" y="152" width="337" height="5"/>
+                    </box>
+                    <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="6" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4R7-rh-l1T">
+                        <rect key="frame" x="20" y="20" width="245" height="114"/>
+                        <subviews>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="CVt-If-6n7">
+                                <rect key="frame" x="-2" y="98" width="99" height="18"/>
+                                <buttonCell key="cell" type="check" title="Show Labels" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Szq-qj-hIY">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="showLabelsToggle:" target="Voe-Tx-rLC" id="9jh-4q-QdD"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gel-Ad-Pgw">
+                                <rect key="frame" x="-2" y="78" width="75" height="18"/>
+                                <buttonCell key="cell" type="check" title="Disabled" bezelStyle="regularSquare" imagePosition="left" inset="2" id="5Vn-mS-SYE">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="enableDisable:" target="Voe-Tx-rLC" id="i2M-gQ-i4c"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qoc-Zq-RFc">
+                                <rect key="frame" x="-2" y="58" width="80" height="18"/>
+                                <buttonCell key="cell" type="check" title="Animated" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Qao-7t-e4e">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="toggleAnimations:" target="Voe-Tx-rLC" id="8Rw-Wa-gyy"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="AYF-dP-2IB">
+                                <rect key="frame" x="-2" y="38" width="116" height="18"/>
+                                <buttonCell key="cell" type="check" title="Use Dark Mode" bezelStyle="regularSquare" imagePosition="left" inset="2" id="xj4-kB-WTC">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="toggleAppearance:" target="Voe-Tx-rLC" id="N1a-fB-JGT"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Jsh-A8-8ZW">
+                                <rect key="frame" x="-2" y="18" width="107" height="18"/>
+                                <buttonCell key="cell" type="check" title="High Contrast" bezelStyle="regularSquare" imagePosition="left" inset="2" id="7w6-Az-vsU">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="toggleHighContrast:" target="Voe-Tx-rLC" id="j0l-4k-dvn"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tC4-5c-wfX">
+                                <rect key="frame" x="-2" y="-2" width="249" height="18"/>
+                                <buttonCell key="cell" type="check" title="Remove Color When Not Key Window" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="c2b-RC-Rjx">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="toggleHideColorWhenInactive:" target="Voe-Tx-rLC" id="Vlu-G1-9cu"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <visibilityPriorities>
+                            <integer value="1000"/>
+                            <integer value="1000"/>
+                            <integer value="1000"/>
+                            <integer value="1000"/>
+                            <integer value="1000"/>
+                            <integer value="1000"/>
+                        </visibilityPriorities>
+                        <customSpacing>
+                            <real value="3.4028234663852886e+38"/>
+                            <real value="3.4028234663852886e+38"/>
+                            <real value="3.4028234663852886e+38"/>
+                            <real value="3.4028234663852886e+38"/>
+                            <real value="3.4028234663852886e+38"/>
+                            <real value="3.4028234663852886e+38"/>
+                        </customSpacing>
+                    </stackView>
                     <colorWell translatesAutoresizingMaskIntoConstraints="NO" id="gkF-DH-JaP">
-                        <rect key="frame" x="219" y="61" width="72" height="44"/>
+                        <rect key="frame" x="285" y="61" width="72" height="44"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="72" id="hBf-jX-Kpn"/>
                             <constraint firstAttribute="height" constant="44" id="iNb-fa-JBK"/>
@@ -773,7 +807,7 @@
                         </connections>
                     </colorWell>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="s9s-CS-yCl">
-                        <rect key="frame" x="216" y="13" width="81" height="32"/>
+                        <rect key="frame" x="282" y="13" width="81" height="32"/>
                         <buttonCell key="cell" type="push" title="Toggle" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hxl-oG-JWX">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -784,27 +818,23 @@
                     </button>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="CVt-If-6n7" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="5z3-bc-awC"/>
-                    <constraint firstAttribute="bottom" secondItem="Jsh-A8-8ZW" secondAttribute="bottom" constant="20" id="HjT-eH-jsq"/>
+                    <constraint firstAttribute="trailing" secondItem="vLz-6q-S55" secondAttribute="trailing" constant="20" id="0Sf-EY-NKO"/>
+                    <constraint firstItem="vLz-6q-S55" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="2Xq-nt-2Vh"/>
+                    <constraint firstItem="4R7-rh-l1T" firstAttribute="top" secondItem="vLz-6q-S55" secondAttribute="bottom" constant="20" id="HYo-H4-gFe"/>
                     <constraint firstAttribute="trailing" secondItem="s9s-CS-yCl" secondAttribute="trailing" constant="20" id="J2f-Qh-7o2"/>
-                    <constraint firstItem="Jsh-A8-8ZW" firstAttribute="top" secondItem="AYF-dP-2IB" secondAttribute="bottom" constant="6" id="Jcy-GJ-AXE"/>
-                    <constraint firstItem="CVt-If-6n7" firstAttribute="top" secondItem="Mmv-eb-kyr" secondAttribute="bottom" constant="32" id="NMg-UZ-Z9V"/>
+                    <constraint firstItem="4R7-rh-l1T" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" symbolic="YES" id="KxP-wM-XI5"/>
                     <constraint firstAttribute="trailing" secondItem="gkF-DH-JaP" secondAttribute="trailing" constant="20" id="RXA-Sq-ilr"/>
-                    <constraint firstItem="qoc-Zq-RFc" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="SIK-fm-UGe"/>
-                    <constraint firstItem="Jsh-A8-8ZW" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="TTQ-lU-bYz"/>
+                    <constraint firstItem="gkF-DH-JaP" firstAttribute="leading" secondItem="4R7-rh-l1T" secondAttribute="trailing" constant="20" id="TgR-Ym-fxt"/>
                     <constraint firstAttribute="trailing" secondItem="Mmv-eb-kyr" secondAttribute="trailing" constant="20" id="Vd8-oU-DbE"/>
                     <constraint firstItem="s9s-CS-yCl" firstAttribute="top" secondItem="gkF-DH-JaP" secondAttribute="bottom" constant="20" id="aDJ-c9-DBh"/>
-                    <constraint firstItem="gel-Ad-Pgw" firstAttribute="top" secondItem="CVt-If-6n7" secondAttribute="bottom" constant="6" id="bwV-mp-7m7"/>
                     <constraint firstItem="Mmv-eb-kyr" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="20" id="cZy-Iz-1ki"/>
                     <constraint firstItem="Mmv-eb-kyr" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="g6Z-Wz-3pO"/>
-                    <constraint firstItem="AYF-dP-2IB" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="nmx-KX-IB1"/>
-                    <constraint firstItem="gel-Ad-Pgw" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="q1H-CC-e0R"/>
-                    <constraint firstItem="qoc-Zq-RFc" firstAttribute="top" secondItem="gel-Ad-Pgw" secondAttribute="bottom" constant="6" id="uUF-71-9c6"/>
-                    <constraint firstItem="AYF-dP-2IB" firstAttribute="top" secondItem="qoc-Zq-RFc" secondAttribute="bottom" constant="6" id="uqZ-ah-aa2"/>
+                    <constraint firstItem="vLz-6q-S55" firstAttribute="top" secondItem="Mmv-eb-kyr" secondAttribute="bottom" constant="20" id="lOi-F4-h6E"/>
+                    <constraint firstAttribute="bottom" secondItem="4R7-rh-l1T" secondAttribute="bottom" constant="20" id="tjf-bx-39G"/>
                     <constraint firstAttribute="bottom" secondItem="s9s-CS-yCl" secondAttribute="bottom" constant="20" id="xLt-pL-8X4"/>
                 </constraints>
             </view>
-            <point key="canvasLocation" x="316.5" y="257"/>
+            <point key="canvasLocation" x="349.5" y="257"/>
         </window>
     </objects>
     <designables>

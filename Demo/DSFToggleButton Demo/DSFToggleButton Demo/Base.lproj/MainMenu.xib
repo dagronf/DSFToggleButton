@@ -690,13 +690,14 @@
         <window title="DSFToggleButton Demo" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="335" y="390" width="516" height="288"/>
+            <rect key="contentRect" x="335" y="390" width="951" height="534"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
-            <view key="contentView" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="516" height="287"/>
+            <view key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="EiT-Mj-1SZ">
+                <rect key="frame" x="0.0" y="0.0" width="951" height="534"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                 <subviews>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LWx-pc-ybq" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo" customModuleProvider="target">
-                        <rect key="frame" x="399" y="207" width="83" height="54"/>
+                        <rect key="frame" x="399" y="454" width="83" height="54"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="boolean" keyPath="showLabels" value="YES"/>
@@ -706,7 +707,7 @@
                         </userDefinedRuntimeAttributes>
                     </customView>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Yzb-h2-Tgh" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo" customModuleProvider="target">
-                        <rect key="frame" x="384" y="178" width="32" height="21"/>
+                        <rect key="frame" x="384" y="425" width="32" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="boolean" keyPath="showLabels" value="YES"/>
@@ -716,7 +717,7 @@
                         </userDefinedRuntimeAttributes>
                     </customView>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CyM-KA-PtJ" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo" customModuleProvider="target">
-                        <rect key="frame" x="424" y="178" width="32" height="21"/>
+                        <rect key="frame" x="424" y="425" width="32" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="boolean" keyPath="showLabels" value="YES"/>
@@ -727,7 +728,7 @@
                         </userDefinedRuntimeAttributes>
                     </customView>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZOV-Wd-t4S" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo" customModuleProvider="target">
-                        <rect key="frame" x="464" y="178" width="32" height="21"/>
+                        <rect key="frame" x="464" y="425" width="32" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="boolean" keyPath="showLabels" value="YES"/>
@@ -737,7 +738,7 @@
                         </userDefinedRuntimeAttributes>
                     </customView>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FKL-3A-Nh3" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo" customModuleProvider="target">
-                        <rect key="frame" x="20" y="237" width="50" height="30"/>
+                        <rect key="frame" x="20" y="484" width="50" height="30"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="color">
@@ -746,7 +747,7 @@
                         </userDefinedRuntimeAttributes>
                     </customView>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jhA-AZ-XDV" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo" customModuleProvider="target">
-                        <rect key="frame" x="20" y="205" width="50" height="30"/>
+                        <rect key="frame" x="20" y="452" width="50" height="30"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="color">
@@ -756,7 +757,7 @@
                         </userDefinedRuntimeAttributes>
                     </customView>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AFQ-A4-i27" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo" customModuleProvider="target">
-                        <rect key="frame" x="20" y="173" width="50" height="30"/>
+                        <rect key="frame" x="20" y="420" width="50" height="30"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="color">
@@ -765,7 +766,7 @@
                         </userDefinedRuntimeAttributes>
                     </customView>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z2m-YF-ChI" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo" customModuleProvider="target">
-                        <rect key="frame" x="20" y="140" width="50" height="30"/>
+                        <rect key="frame" x="20" y="387" width="50" height="30"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="color">
@@ -774,7 +775,7 @@
                         </userDefinedRuntimeAttributes>
                     </customView>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bnf-4i-Vlh" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo" customModuleProvider="target">
-                        <rect key="frame" x="20" y="99" width="50" height="30"/>
+                        <rect key="frame" x="20" y="346" width="50" height="30"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="color">
@@ -787,7 +788,7 @@
                         </connections>
                     </customView>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZEq-qY-6rU">
-                        <rect key="frame" x="30" y="58" width="81" height="32"/>
+                        <rect key="frame" x="27" y="305" width="81" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Toggle" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="XyX-0I-lqa">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -798,7 +799,7 @@
                         </connections>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tqB-NC-Rrx">
-                        <rect key="frame" x="76" y="245" width="28" height="16"/>
+                        <rect key="frame" x="76" y="482" width="28" height="16"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" title="Red" id="GWh-xV-rYx">
                             <font key="font" usesAppearanceFont="YES"/>
@@ -807,7 +808,7 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ccZ-nd-M72">
-                        <rect key="frame" x="76" y="213" width="41" height="16"/>
+                        <rect key="frame" x="76" y="450" width="41" height="16"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" title="Green" id="5Fm-iX-r81">
                             <font key="font" usesAppearanceFont="YES"/>
@@ -816,7 +817,7 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lFu-mO-mjM">
-                        <rect key="frame" x="76" y="181" width="31" height="16"/>
+                        <rect key="frame" x="76" y="418" width="31" height="16"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" title="Blue" id="4gy-5U-tm7">
                             <font key="font" usesAppearanceFont="YES"/>
@@ -825,7 +826,7 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3h0-6f-7x9">
-                        <rect key="frame" x="76" y="148" width="43" height="16"/>
+                        <rect key="frame" x="76" y="385" width="43" height="16"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" title="Yellow" id="MjX-Aj-iAp">
                             <font key="font" usesAppearanceFont="YES"/>
@@ -834,7 +835,7 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SLH-Yb-zts">
-                        <rect key="frame" x="76" y="107" width="43" height="16"/>
+                        <rect key="frame" x="76" y="344" width="43" height="16"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" title="Set All" id="mew-hj-BbY">
                             <font key="font" metaFont="system"/>
@@ -843,7 +844,7 @@
                         </textFieldCell>
                     </textField>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Wj-SP-cYs" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo" customModuleProvider="target">
-                        <rect key="frame" x="443" y="115" width="53" height="37"/>
+                        <rect key="frame" x="443" y="362" width="53" height="37"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="color">
@@ -854,7 +855,7 @@
                         </userDefinedRuntimeAttributes>
                     </customView>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1dd-Zn-mAk">
-                        <rect key="frame" x="400" y="67" width="81" height="32"/>
+                        <rect key="frame" x="400" y="314" width="81" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Button" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="JF7-oW-mBr">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -865,7 +866,7 @@
                         </connections>
                     </button>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mvg-4w-Rlw" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo" customModuleProvider="target">
-                        <rect key="frame" x="382" y="115" width="53" height="37"/>
+                        <rect key="frame" x="382" y="362" width="53" height="37"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="color">
@@ -876,7 +877,7 @@
                         </userDefinedRuntimeAttributes>
                     </customView>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tQx-HL-AiJ" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo" customModuleProvider="target">
-                        <rect key="frame" x="194" y="167" width="160" height="100"/>
+                        <rect key="frame" x="194" y="414" width="160" height="100"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="boolean" keyPath="isOn" value="YES"/>
@@ -887,7 +888,7 @@
                         </userDefinedRuntimeAttributes>
                     </customView>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eWj-b2-ajq" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo" customModuleProvider="target">
-                        <rect key="frame" x="278" y="93" width="73" height="44"/>
+                        <rect key="frame" x="278" y="340" width="73" height="44"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="boolean" keyPath="showLabels" value="YES"/>
@@ -899,7 +900,7 @@
                         </userDefinedRuntimeAttributes>
                     </customView>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lXk-Rw-Bxo" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo" customModuleProvider="target">
-                        <rect key="frame" x="197" y="93" width="73" height="44"/>
+                        <rect key="frame" x="197" y="340" width="73" height="44"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="color">
@@ -908,17 +909,182 @@
                             <userDefinedRuntimeAttribute type="boolean" keyPath="animated" value="NO"/>
                         </userDefinedRuntimeAttributes>
                     </customView>
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SWW-oc-ck5" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo" customModuleProvider="target">
+                        <rect key="frame" x="568" y="286" width="160" height="100"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isOn" value="YES"/>
+                            <userDefinedRuntimeAttribute type="color" keyPath="color">
+                                <color key="value" name="systemGreenColor" catalog="System" colorSpace="catalog"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="showLabels" value="NO"/>
+                        </userDefinedRuntimeAttributes>
+                    </customView>
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Bs-bX-ntS" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo" customModuleProvider="target">
+                        <rect key="frame" x="536" y="394" width="192" height="120"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isOn" value="YES"/>
+                            <userDefinedRuntimeAttribute type="color" keyPath="color">
+                                <color key="value" name="systemGreenColor" catalog="System" colorSpace="catalog"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="showLabels" value="NO"/>
+                        </userDefinedRuntimeAttributes>
+                    </customView>
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wFz-P1-7kr" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo" customModuleProvider="target">
+                        <rect key="frame" x="600" y="198" width="128" height="80"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isOn" value="YES"/>
+                            <userDefinedRuntimeAttribute type="color" keyPath="color">
+                                <color key="value" name="systemGreenColor" catalog="System" colorSpace="catalog"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="showLabels" value="NO"/>
+                        </userDefinedRuntimeAttributes>
+                    </customView>
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5c9-gL-kaH" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo" customModuleProvider="target">
+                        <rect key="frame" x="632" y="130" width="96" height="60"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isOn" value="YES"/>
+                            <userDefinedRuntimeAttribute type="color" keyPath="color">
+                                <color key="value" name="systemGreenColor" catalog="System" colorSpace="catalog"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="showLabels" value="NO"/>
+                        </userDefinedRuntimeAttributes>
+                    </customView>
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6uJ-Cg-pjl" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo" customModuleProvider="target">
+                        <rect key="frame" x="664" y="82" width="64" height="40"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isOn" value="YES"/>
+                            <userDefinedRuntimeAttribute type="color" keyPath="color">
+                                <color key="value" name="systemGreenColor" catalog="System" colorSpace="catalog"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="showLabels" value="NO"/>
+                        </userDefinedRuntimeAttributes>
+                    </customView>
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vJM-5f-xNf" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo" customModuleProvider="target">
+                        <rect key="frame" x="680" y="44" width="48" height="30"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isOn" value="YES"/>
+                            <userDefinedRuntimeAttribute type="color" keyPath="color">
+                                <color key="value" name="systemGreenColor" catalog="System" colorSpace="catalog"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="showLabels" value="NO"/>
+                        </userDefinedRuntimeAttributes>
+                    </customView>
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4n1-2x-MrG" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo" customModuleProvider="target">
+                        <rect key="frame" x="703" y="20" width="25" height="16"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isOn" value="YES"/>
+                            <userDefinedRuntimeAttribute type="color" keyPath="color">
+                                <color key="value" name="systemGreenColor" catalog="System" colorSpace="catalog"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="showLabels" value="NO"/>
+                        </userDefinedRuntimeAttributes>
+                    </customView>
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kAV-JJ-s4i" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo" customModuleProvider="target">
+                        <rect key="frame" x="739" y="286" width="160" height="100"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isOn" value="NO"/>
+                            <userDefinedRuntimeAttribute type="color" keyPath="color">
+                                <color key="value" name="systemPinkColor" catalog="System" colorSpace="catalog"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="showLabels" value="YES"/>
+                        </userDefinedRuntimeAttributes>
+                    </customView>
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="og7-aR-wxF" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo" customModuleProvider="target">
+                        <rect key="frame" x="739" y="394" width="192" height="120"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isOn" value="NO"/>
+                            <userDefinedRuntimeAttribute type="color" keyPath="color">
+                                <color key="value" name="systemPinkColor" catalog="System" colorSpace="catalog"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="showLabels" value="YES"/>
+                        </userDefinedRuntimeAttributes>
+                    </customView>
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vnC-UE-zpK" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo" customModuleProvider="target">
+                        <rect key="frame" x="739" y="198" width="128" height="80"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isOn" value="NO"/>
+                            <userDefinedRuntimeAttribute type="color" keyPath="color">
+                                <color key="value" name="systemPinkColor" catalog="System" colorSpace="catalog"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="showLabels" value="YES"/>
+                        </userDefinedRuntimeAttributes>
+                    </customView>
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vPW-GQ-D5d" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo" customModuleProvider="target">
+                        <rect key="frame" x="739" y="130" width="96" height="60"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isOn" value="NO"/>
+                            <userDefinedRuntimeAttribute type="color" keyPath="color">
+                                <color key="value" name="systemPinkColor" catalog="System" colorSpace="catalog"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="showLabels" value="YES"/>
+                        </userDefinedRuntimeAttributes>
+                    </customView>
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MV0-eL-YrO" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo" customModuleProvider="target">
+                        <rect key="frame" x="739" y="82" width="64" height="40"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isOn" value="NO"/>
+                            <userDefinedRuntimeAttribute type="color" keyPath="color">
+                                <color key="value" name="systemPinkColor" catalog="System" colorSpace="catalog"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="showLabels" value="YES"/>
+                        </userDefinedRuntimeAttributes>
+                    </customView>
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QdB-3J-n2s" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo" customModuleProvider="target">
+                        <rect key="frame" x="739" y="44" width="48" height="30"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isOn" value="NO"/>
+                            <userDefinedRuntimeAttribute type="color" keyPath="color">
+                                <color key="value" name="systemPinkColor" catalog="System" colorSpace="catalog"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="showLabels" value="YES"/>
+                        </userDefinedRuntimeAttributes>
+                    </customView>
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1B4-OB-URo" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo" customModuleProvider="target">
+                        <rect key="frame" x="739" y="20" width="25" height="16"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isOn" value="NO"/>
+                            <userDefinedRuntimeAttribute type="color" keyPath="color">
+                                <color key="value" name="systemPinkColor" catalog="System" colorSpace="catalog"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="showLabels" value="YES"/>
+                        </userDefinedRuntimeAttributes>
+                    </customView>
                 </subviews>
-                <constraints>
-                    <constraint firstAttribute="height" constant="287" id="aEb-kO-vyo"/>
-                    <constraint firstAttribute="width" constant="516" id="yVF-JO-kra"/>
-                </constraints>
             </view>
-            <point key="canvasLocation" x="67" y="-303"/>
+            <point key="canvasLocation" x="116.5" y="-201"/>
         </window>
     </objects>
     <designables>
+        <designable name="1B4-OB-URo">
+            <size key="intrinsicContentSize" width="42" height="15"/>
+        </designable>
         <designable name="4Wj-SP-cYs">
+            <size key="intrinsicContentSize" width="42" height="15"/>
+        </designable>
+        <designable name="4n1-2x-MrG">
+            <size key="intrinsicContentSize" width="42" height="15"/>
+        </designable>
+        <designable name="5c9-gL-kaH">
+            <size key="intrinsicContentSize" width="42" height="15"/>
+        </designable>
+        <designable name="6uJ-Cg-pjl">
+            <size key="intrinsicContentSize" width="42" height="15"/>
+        </designable>
+        <designable name="9Bs-bX-ntS">
             <size key="intrinsicContentSize" width="42" height="15"/>
         </designable>
         <designable name="AFQ-A4-i27">
@@ -933,7 +1099,16 @@
         <designable name="LWx-pc-ybq">
             <size key="intrinsicContentSize" width="42" height="15"/>
         </designable>
+        <designable name="MV0-eL-YrO">
+            <size key="intrinsicContentSize" width="42" height="15"/>
+        </designable>
         <designable name="Mvg-4w-Rlw">
+            <size key="intrinsicContentSize" width="42" height="15"/>
+        </designable>
+        <designable name="QdB-3J-n2s">
+            <size key="intrinsicContentSize" width="42" height="15"/>
+        </designable>
+        <designable name="SWW-oc-ck5">
             <size key="intrinsicContentSize" width="42" height="15"/>
         </designable>
         <designable name="Yzb-h2-Tgh">
@@ -951,10 +1126,28 @@
         <designable name="jhA-AZ-XDV">
             <size key="intrinsicContentSize" width="42" height="15"/>
         </designable>
+        <designable name="kAV-JJ-s4i">
+            <size key="intrinsicContentSize" width="42" height="15"/>
+        </designable>
         <designable name="lXk-Rw-Bxo">
             <size key="intrinsicContentSize" width="42" height="15"/>
         </designable>
+        <designable name="og7-aR-wxF">
+            <size key="intrinsicContentSize" width="42" height="15"/>
+        </designable>
         <designable name="tQx-HL-AiJ">
+            <size key="intrinsicContentSize" width="42" height="15"/>
+        </designable>
+        <designable name="vJM-5f-xNf">
+            <size key="intrinsicContentSize" width="42" height="15"/>
+        </designable>
+        <designable name="vPW-GQ-D5d">
+            <size key="intrinsicContentSize" width="42" height="15"/>
+        </designable>
+        <designable name="vnC-UE-zpK">
+            <size key="intrinsicContentSize" width="42" height="15"/>
+        </designable>
+        <designable name="wFz-P1-7kr">
             <size key="intrinsicContentSize" width="42" height="15"/>
         </designable>
         <designable name="z2m-YF-ChI">

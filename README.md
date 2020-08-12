@@ -2,26 +2,22 @@
 
 ![](https://github.com/dagronf/dagronf.github.io/raw/master/art/projects/DSFToggleButton/primary.png)
 
-A macOS toggle button for Swift and Objective-C that mimics the toggle button of iOS. Inherits from `NSButton`. Configurable via code and Interface Builder.
+A scalable macOS toggle button for Swift and Objective-C that mimics the toggle button of iOS. Inherits from `NSButton`. Configurable via code and Interface Builder.
 
-![](https://img.shields.io/github/v/tag/dagronf/DSFToggleButton) ![](https://img.shields.io/badge/macOS-10.9+-red) ![](https://img.shields.io/badge/Swift-5.0-orange.svg)
+![](https://img.shields.io/github/v/tag/dagronf/DSFToggleButton) ![](https://img.shields.io/badge/macOS-10.9+-red) ![](https://img.shields.io/badge/Swift-5.0+-orange.svg)
 ![](https://img.shields.io/badge/License-MIT-lightgrey) [![](https://img.shields.io/badge/pod-compatible-informational)](https://cocoapods.org) [![](https://img.shields.io/badge/spm-compatible-brightgreen.svg?style=flat)](https://swift.org/package-manager)
 
 # Why
 
 Because sometimes all you want is a nice, big, very visible checkbox.
 
-# Usage
+## Adding to your project
 
-Since `DSFToggleButton` inherits from `NSButton`, its behaviour is the same as for a regular checkbox. You can programatically set the state or its enabled states just as you would for an `NSButton` for example.
+### Swift Package Manager
 
-The control itself does not define its size, so you can make it as big or as small as you'd like. As all the drawing is scalable, the control will look great at any size you want.
+Add `https://github.com/dagronf/DSFToggleButton` to your project.
 
-## Direct
-
-Copy `DSFToggleButton.swift` and `DSFAccessibility.swift` into your project.
-
-## Cocoapods
+### Cocoapods
 
 Add 
 
@@ -29,11 +25,21 @@ Add
 
 to your podfile.
 
-## Interface builder
+### Direct
+
+Copy the source files in `Sources/DSFToggleButton` into your project.
+
+## Usage
+
+Since `DSFToggleButton` inherits from `NSButton`, its behaviour is the same as for a regular checkbox. You can programatically set the state or its enabled states just as you would for an `NSButton` for example, including manual bindings.
+
+The control itself does not define its size, so you can make it as big or as small as you'd like. As all the drawing is scalable, the control will look great at any size you want.
+
+### Interface builder
 
 Drop in a new custom view into your canvas and set its class to `DSFToggleButton`.  
 
-# Configuration
+## Configuration
 
 | Variable  | Type    | Description                                                                       |
 |-----------|---------|-----------------------------------------------------------------------------------|
@@ -41,7 +47,11 @@ Drop in a new custom view into your canvas and set its class to `DSFToggleButton
 | `showLabels` | `Bool`    | Show labels (0 and 1) on the button to increase visual distinction between states |
 | `animated` | `Bool` | Whether to animate state changes |
 | `highContrast` | `Bool` | Remove any visual flourishes on the control |
-| `stateChangeBlock` |  | A block-based callback mechanism (optional) which will trigger whenever the button state changes |
+|`removeColorWhenContainingWindowNotFocussed` | `Bool` | Remove the color when the control is not attached to the key window (standard checkbox behaviour) |
+
+| Callback  | Description                                                                       |
+|-----------|-----------------------------------------------------------------------------------|
+| `stateChangeBlock` | A block-based callback mechanism (optional) which will be called whenever the button state changes |
 # Screenshots
 
 ### Dark mode, green (no labels)

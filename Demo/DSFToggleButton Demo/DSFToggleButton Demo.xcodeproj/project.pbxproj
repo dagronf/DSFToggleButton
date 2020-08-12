@@ -16,6 +16,9 @@
 		236DF7F6240DB7C60091E6B1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236DF7F5240DB7C60091E6B1 /* AppDelegate.swift */; };
 		236DF7F8240DB7C70091E6B1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 236DF7F7240DB7C70091E6B1 /* Assets.xcassets */; };
 		236DF7FB240DB7C70091E6B1 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 236DF7F9240DB7C70091E6B1 /* MainMenu.xib */; };
+		23761E7C24E36733006CE7C7 /* DSFToggleButton+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23761E7B24E36733006CE7C7 /* DSFToggleButton+extensions.swift */; };
+		23761E7D24E36733006CE7C7 /* DSFToggleButton+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23761E7B24E36733006CE7C7 /* DSFToggleButton+extensions.swift */; };
+		23761E7E24E36733006CE7C7 /* DSFToggleButton+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23761E7B24E36733006CE7C7 /* DSFToggleButton+extensions.swift */; };
 		23B9930E23FA6CB30075DBD7 /* DSFAccessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B9930D23FA6CB30075DBD7 /* DSFAccessibility.swift */; };
 		23BC8FC623F9EE6C00885D3B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23BC8FC523F9EE6C00885D3B /* AppDelegate.swift */; };
 		23BC8FC823F9EE6D00885D3B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 23BC8FC723F9EE6D00885D3B /* Assets.xcassets */; };
@@ -40,6 +43,7 @@
 		236DF7FA240DB7C70091E6B1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		236DF7FC240DB7C70091E6B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		236DF7FD240DB7C70091E6B1 /* DSFToggleButton_Debugger.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DSFToggleButton_Debugger.entitlements; sourceTree = "<group>"; };
+		23761E7B24E36733006CE7C7 /* DSFToggleButton+extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "DSFToggleButton+extensions.swift"; path = "../../../Sources/DSFToggleButton/DSFToggleButton+extensions.swift"; sourceTree = "<group>"; };
 		23B9930D23FA6CB30075DBD7 /* DSFAccessibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DSFAccessibility.swift; path = ../../../Sources/DSFToggleButton/DSFAccessibility.swift; sourceTree = "<group>"; };
 		23BC8FC223F9EE6C00885D3B /* DSFToggleButton Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DSFToggleButton Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		23BC8FC523F9EE6C00885D3B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -124,6 +128,7 @@
 		23BC8FC423F9EE6C00885D3B /* DSFToggleButton Demo */ = {
 			isa = PBXGroup;
 			children = (
+				23761E7B24E36733006CE7C7 /* DSFToggleButton+extensions.swift */,
 				23BC8FD323F9EECA00885D3B /* DSFToggleButton.swift */,
 				23B9930D23FA6CB30075DBD7 /* DSFAccessibility.swift */,
 				23BC8FC523F9EE6C00885D3B /* AppDelegate.swift */,
@@ -267,6 +272,7 @@
 			files = (
 				231475AA23FB3E840083CC8E /* DSFToggleButton.swift in Sources */,
 				231475A523FB3E7C0083CC8E /* main.m in Sources */,
+				23761E7D24E36733006CE7C7 /* DSFToggleButton+extensions.swift in Sources */,
 				231475AD23FB3F060083CC8E /* DSFAccessibility.swift in Sources */,
 				2314759D23FB3E7C0083CC8E /* AppDelegate.m in Sources */,
 			);
@@ -278,6 +284,7 @@
 			files = (
 				236DF7F6240DB7C60091E6B1 /* AppDelegate.swift in Sources */,
 				23C915C6240DB89D006C00F7 /* DSFAccessibility.swift in Sources */,
+				23761E7E24E36733006CE7C7 /* DSFToggleButton+extensions.swift in Sources */,
 				23C915C5240DB88F006C00F7 /* DSFToggleButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -288,6 +295,7 @@
 			files = (
 				23BC8FC623F9EE6C00885D3B /* AppDelegate.swift in Sources */,
 				23B9930E23FA6CB30075DBD7 /* DSFAccessibility.swift in Sources */,
+				23761E7C24E36733006CE7C7 /* DSFToggleButton+extensions.swift in Sources */,
 				23BC8FD423F9EECA00885D3B /* DSFToggleButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -336,7 +344,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.darrenford.DSFToggleButton-Demo-Objc";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -357,7 +365,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.darrenford.DSFToggleButton-Demo-Objc";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -378,7 +386,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.darrenford.DSFToggleButton-Debugger";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -399,7 +407,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.darrenford.DSFToggleButton-Debugger";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -456,7 +464,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -510,7 +518,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -534,7 +542,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.darrenford.DSFToggleButton-Demo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -556,7 +564,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.darrenford.DSFToggleButton-Demo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
