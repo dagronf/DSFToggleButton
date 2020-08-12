@@ -91,12 +91,14 @@ public class DSFToggleButton: NSButton {
 	private var frameChangeListener: NSObjectProtocol?
 	private var previousState: NSControl.StateValue?
 
-	private var borderLayer: CAShapeLayer?
-	private var borderShadowLayer: CAShapeLayer?
-	private var borderBorderLayer: CAShapeLayer?
-	private var toggleCircle: CAShapeLayer?
-	private var onLayer: CAShapeLayer?
-	private var offLayer: CAShapeLayer?
+	private let borderLayer = CAShapeLayer()
+	private let borderMaskLayer = CAShapeLayer()
+	private let borderShadowLayer = CAShapeLayer()
+	private let borderShadowMaskLayer = CAShapeLayer()
+	private let borderBorderLayer = CAShapeLayer()
+	private let toggleCircle = CAShapeLayer()
+	private let onLayer = CAShapeLayer()
+	private let offLayer = CAShapeLayer()
 
 	// `didSet` is called when the user programatically changes the state
 	@objc public override var state: NSControl.StateValue {
@@ -195,6 +197,21 @@ extension DSFToggleButton {
 	private func setup() {
 		self.wantsLayer = true
 
+		guard let layer = self.layer else { fatalError("Unable to create layer?") }
+
+		layer.addSublayer(borderLayer)
+		borderLayer.mask = borderMaskLayer
+
+		layer.addSublayer(borderShadowLayer)
+		borderShadowLayer.mask = borderShadowMaskLayer
+
+		layer.addSublayer(borderBorderLayer)
+		layer.addSublayer(toggleCircle)
+
+		// The on and off layers are children of the border layer
+		borderLayer.addSublayer(onLayer)
+		borderLayer.addSublayer(offLayer)
+
 		let cell = NSButtonCell()
 		cell.isBordered = false
 		cell.isTransparent = true
@@ -275,68 +292,54 @@ extension DSFToggleButton {
 		//    Toggle button
 		//  Highest
 
-		self.borderLayer?.removeFromSuperlayer()
-		self.borderBorderLayer?.removeFromSuperlayer()
-		self.borderShadowLayer?.removeFromSuperlayer()
-		self.toggleCircle?.removeFromSuperlayer()
-		self.onLayer?.removeFromSuperlayer()
-		self.offLayer?.removeFromSuperlayer()
-
 		let rect = self.buttonOuterFrame(for: self.frame)
 		let radius = rect.height / 2.0
 
 		// Lowest color rounded rect
 
-		let outer = CAShapeLayer()
-		outer.path = CGPath(roundedRect: rect, cornerWidth: radius, cornerHeight: radius, transform: nil)
-		self.borderLayer = outer
-		outer.zPosition = 0
+		with(self.borderLayer) { outer in
+			outer.zPosition = 0
+			outer.path = CGPath(roundedRect: rect, cornerWidth: radius, cornerHeight: radius, transform: nil)
 
-		let shm33 = CAShapeLayer()
-		shm33.path = CGPath(roundedRect: rect, cornerWidth: radius, cornerHeight: radius, transform: nil)
-		outer.mask = shm33
+			// Update the mask
+			self.borderMaskLayer.path = CGPath(roundedRect: rect, cornerWidth: radius, cornerHeight: radius, transform: nil)
+		}
 
-		self.layer?.addSublayer(outer)
+		with(self.borderShadowLayer) { sh in
+			// The inner shadow for the lowest rounded rect
 
-		// The inner shadow for the lowest rounded rect
+			let pth = CGMutablePath()
+			pth.addRect(rect.insetBy(dx: -10, dy: -10))
+			pth.addRoundedRect(in: rect, cornerWidth: radius, cornerHeight: radius)
+			pth.closeSubpath()
 
-		let pth = CGMutablePath()
-		pth.addRect(rect.insetBy(dx: -10, dy: -10))
-		pth.addRoundedRect(in: rect, cornerWidth: radius, cornerHeight: radius)
-		pth.closeSubpath()
+			sh.fillRule = .evenOdd
+			sh.fillColor = .black
 
-		let sh = CAShapeLayer()
-		sh.fillRule = .evenOdd
-		sh.fillColor = .black
+			sh.shadowOpacity = 0.8
+			sh.shadowColor = .black
+			#if TARGET_INTERFACE_BUILDER
+			// IBDesignable appears to draw with a non-flipped axis.
+			sh.shadowOffset = CGSize(width: 1, height: -1)
+			#else
+			sh.shadowOffset = CGSize(width: 1, height: 1)
+			#endif
+			sh.shadowRadius = radius > 12 ? 1.5 : 0.5
+			sh.path = pth
+			sh.strokeColor = nil
+			sh.zPosition = 10
 
-		sh.shadowOpacity = 0.8
-		sh.shadowColor = .black
-		#if TARGET_INTERFACE_BUILDER
-		// IBDesignable appears to draw with a non-flipped axis.
-		sh.shadowOffset = CGSize(width: 1, height: -1)
-		#else
-		sh.shadowOffset = CGSize(width: 1, height: 1)
-		#endif
-		sh.shadowRadius = radius > 12 ? 1.5 : 0.5
-		sh.path = pth
-		sh.strokeColor = nil
-		sh.zPosition = 10
+			if let shm = sh.mask as? CAShapeLayer {
+				shm.path = CGPath(roundedRect: rect, cornerWidth: radius, cornerHeight: radius, transform: nil)
+			}
+		}
 
-		let shm = CAShapeLayer()
-		shm.path = CGPath(roundedRect: rect, cornerWidth: radius, cornerHeight: radius, transform: nil)
-		sh.mask = shm
-
-		self.borderShadowLayer = sh
-		self.layer?.addSublayer(sh)
-
-		// Top level border for the rounded rect
-
-		let border = CAShapeLayer()
-		border.path = CGPath(roundedRect: rect, cornerWidth: radius, cornerHeight: radius, transform: nil)
-		border.zPosition = 20
-		border.fillColor = nil
-		self.borderBorderLayer = border
-		self.layer?.addSublayer(border)
+		with(self.borderBorderLayer) { border in
+			// Top level border for the rounded rect
+			border.path = CGPath(roundedRect: rect, cornerWidth: radius, cornerHeight: radius, transform: nil)
+			border.zPosition = 20
+			border.fillColor = nil
+		}
 
 		let r: CGFloat = radius / 1.7
 
@@ -344,59 +347,58 @@ extension DSFToggleButton {
 
 		let lineWidth: CGFloat = max(1, ((1.0 / 8.0) * radius).toNP5())
 
-		// The 1 label
 
-		let onItem = CAShapeLayer()
 
-		let ll = rect.width * 0.23
-		let leftpos: CGFloat = rect.minX + ll + ((radius < 30) ? 1.0 : 0.0)
+		with(self.onLayer) { onItem in
 
-		let ooo1 = NSRect(x: leftpos, y: rect.origin.y + (rect.height / 2.0) - (r / 2.0) - 0.5,
-						  width: lineWidth, height: r + 2).toNP5()
+			// The 1 label
 
-		onItem.path = CGPath(roundedRect: ooo1, cornerWidth: lineWidth / 2, cornerHeight: lineWidth / 2, transform: nil)
-		onItem.strokeColor = nil
-		onItem.zPosition = 30
+			let ll = rect.width * 0.23
+			let leftpos: CGFloat = rect.minX + ll + ((radius < 30) ? 1.0 : 0.0)
 
-		self.onLayer = onItem
-		outer.addSublayer(onItem)
+			let ooo1 = NSRect(x: leftpos, y: rect.origin.y + (rect.height / 2.0) - (r / 2.0) - 0.5,
+							  width: lineWidth, height: r + 2).toNP5()
 
-		// The 0 label
-		let rr = rect.width * 0.69
-		let rightpos: CGFloat = rect.minX + rr
+			onItem.path = CGPath(roundedRect: ooo1, cornerWidth: lineWidth / 2, cornerHeight: lineWidth / 2, transform: nil)
+			onItem.strokeColor = nil
+			onItem.zPosition = 30
+		}
 
-		let offItem = CAShapeLayer()
-		let ooo = NSRect(x: rightpos - 1, y: rect.origin.y + (rect.height / 2.0) - (r / 2.0), width: r + 1, height: r + 1).toNP5()
-		offItem.path = CGPath(ellipseIn: ooo, transform: nil)
-		offItem.fillColor = .clear
-		offItem.lineWidth = lineWidth - 0.5
-		offItem.zPosition = 30
-		self.offLayer = offItem
-		outer.addSublayer(offItem)
+		with(self.offLayer) { offItem in
+			// The 0 label
+			let rr = rect.width * 0.69
+			let rightpos: CGFloat = rect.minX + rr
 
-		// The toggle circle head
+			let ooo = NSRect(x: rightpos - 1, y: rect.origin.y + (rect.height / 2.0) - (r / 2.0), width: r + 1, height: r + 1).toNP5()
+			offItem.path = CGPath(ellipseIn: ooo, transform: nil)
+			offItem.fillColor = .clear
+			offItem.lineWidth = lineWidth - 0.5
+			offItem.zPosition = 30
+		}
 
-		let toggleCircle = CAShapeLayer()
-		var circle = rect
-		circle.size.width = rect.height
+		with(self.toggleCircle) { toggleCircle in
 
-		// Inset the circle to make it look a bit nicer
-		let inset = max(2.5, circle.width * 0.09)
+			// The toggle circle head
 
-		toggleCircle.path = CGPath(ellipseIn: circle.insetBy(dx: inset, dy: inset), transform: nil)
-		toggleCircle.position.x = self.state == .on ? rect.width - rect.height : 0
-		self.toggleCircle = toggleCircle
-		toggleCircle.zPosition = 50
-		self.layer?.addSublayer(toggleCircle)
+			var circle = rect
+			circle.size.width = rect.height
 
-		toggleCircle.shadowOpacity = 0.8
-		toggleCircle.shadowColor = .black
-		#if !TARGET_INTERFACE_BUILDER
-		toggleCircle.shadowOffset = NSSize(width: 1, height: 1)
-		#else
-		toggleCircle.shadowOffset = NSSize(width: 1, height: -1)
-		#endif
-		toggleCircle.shadowRadius = radius > 12 ? 1.5 : 0.5
+			// Inset the circle to make it look a bit nicer
+			let inset = max(2.5, circle.width * 0.09)
+
+			toggleCircle.path = CGPath(ellipseIn: circle.insetBy(dx: inset, dy: inset), transform: nil)
+			toggleCircle.position.x = self.state == .on ? rect.width - rect.height : 0
+			toggleCircle.zPosition = 50
+
+			toggleCircle.shadowOpacity = 0.8
+			toggleCircle.shadowColor = .black
+			#if !TARGET_INTERFACE_BUILDER
+			toggleCircle.shadowOffset = NSSize(width: 1, height: 1)
+			#else
+			toggleCircle.shadowOffset = NSSize(width: 1, height: -1)
+			#endif
+			toggleCircle.shadowRadius = radius > 12 ? 1.5 : 0.5
+		}
 
 		self.initialLoad = false
 	}
@@ -452,50 +454,50 @@ extension DSFToggleButton {
 
 		let fgcolor = bgcolor.flatContrastColor()
 
-		self.borderShadowLayer?.isHidden = highContrast
-		self.borderShadowLayer?.shadowRadius = radius > 12 ? 1.5 : 1
+		self.borderShadowLayer.isHidden = highContrast
+		self.borderShadowLayer.shadowRadius = radius > 12 ? 1.5 : 1
 
-		self.onLayer?.isHidden = !showLabels
-		self.onLayer?.fillColor = fgcolor.cgColor
-		self.offLayer?.isHidden = !showLabels
-		self.offLayer?.strokeColor = fgcolor.cgColor
+		self.onLayer.isHidden = !showLabels
+		self.onLayer.fillColor = fgcolor.cgColor
+		self.offLayer.isHidden = !showLabels
+		self.offLayer.strokeColor = fgcolor.cgColor
 
-		self.onLayer?.fillColor = fgcolor.cgColor
-		self.offLayer?.strokeColor = fgcolor.cgColor
+		self.onLayer.fillColor = fgcolor.cgColor
+		self.offLayer.strokeColor = fgcolor.cgColor
 
-		self.borderLayer?.fillColor = bgcolor.cgColor
+		self.borderLayer.fillColor = bgcolor.cgColor
 		let borderColor = highContrast ? NSColor.textColor : NSColor.controlColor
-		self.borderBorderLayer?.strokeColor = borderColor.cgColor
-		self.borderBorderLayer?.lineWidth = 1.0
-		self.borderBorderLayer?.opacity = 1.0
+		self.borderBorderLayer.strokeColor = borderColor.cgColor
+		self.borderBorderLayer.lineWidth = 1.0
+		self.borderBorderLayer.opacity = 1.0
 
 		// Toggle color
 		let toggleFront: CGColor = .white
 		self.alphaValue = self.isEnabled ? 1.0 : 0.4
 
-		self.toggleCircle?.fillColor = toggleFront
-		self.toggleCircle?.strokeColor = highContrast ? .black : .clear
-		self.toggleCircle?.lineWidth = radius > 12 ? 1 : 0.5
-		self.toggleCircle?.shadowOpacity = highContrast ? 0.0 : 0.8
-		self.toggleCircle?.shadowRadius = radius > 12 ? 1.5 : 1
+		self.toggleCircle.fillColor = toggleFront
+		self.toggleCircle.strokeColor = highContrast ? .black : .clear
+		self.toggleCircle.lineWidth = radius > 12 ? 1 : 0.5
+		self.toggleCircle.shadowOpacity = highContrast ? 0.0 : 0.8
+		self.toggleCircle.shadowRadius = radius > 12 ? 1.5 : 1
 
 		if self.previousState != self.state {
 			self.previousState = self.state
 			if self.state == .on {
-				self.toggleCircle?.frame.origin = CGPoint(x: rect.width - rect.height, y: 0)
+				self.toggleCircle.frame.origin = CGPoint(x: rect.width - rect.height, y: 0)
 				let a = CGAffineTransform.identity
-				self.onLayer?.setAffineTransform(a)
+				self.onLayer.setAffineTransform(a)
 
 				let b = CGAffineTransform(translationX: radius * 1.3, y: 0)
-				self.offLayer?.setAffineTransform(b)
+				self.offLayer.setAffineTransform(b)
 
 			} else {
-				self.toggleCircle?.frame.origin = CGPoint(x: 0, y: 0)
+				self.toggleCircle.frame.origin = CGPoint(x: 0, y: 0)
 
 				let a = CGAffineTransform(translationX: -radius * 1.3, y: 0)
-				self.onLayer?.setAffineTransform(a)
+				self.onLayer.setAffineTransform(a)
 
-				self.offLayer?.setAffineTransform(CGAffineTransform.identity)
+				self.offLayer.setAffineTransform(CGAffineTransform.identity)
 			}
 		}
 
