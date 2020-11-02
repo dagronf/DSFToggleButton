@@ -8,6 +8,8 @@
 
 import Cocoa
 
+import DSFToggleButton
+
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 	@IBOutlet var window: NSWindow!

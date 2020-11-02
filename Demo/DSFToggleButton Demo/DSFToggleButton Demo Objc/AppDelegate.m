@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 
-#import "DSFToggleButton_Demo_Objc-Swift.h"
+@import DSFToggleButton;
 
 @interface AppDelegate ()
 

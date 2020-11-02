@@ -24,6 +24,8 @@
 //	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //	SOFTWARE.
 
+#if os(macOS)
+
 import AppKit
 
 @IBDesignable
@@ -36,35 +38,35 @@ public class DSFToggleButton: NSButton {
 	}
 
 	/// Show labels (0 and 1) on the button to increase visual distinction between states
-	@IBInspectable dynamic public var showLabels: Bool = false {
+	@IBInspectable public dynamic var showLabels: Bool = false {
 		didSet {
 			self.needsDisplay = true
 		}
 	}
 
 	/// The color of the button when the state is on
-	@IBInspectable dynamic public var color: NSColor {
+	@IBInspectable public dynamic var color: NSColor {
 		didSet {
 			self.needsDisplay = true
 		}
 	}
 
 	/// Used in the interface builder to indicate whether the initial state of a button is on
-	@IBInspectable dynamic public var isOn: Bool {
+	@IBInspectable public dynamic var isOn: Bool {
 		didSet {
 			self.state = self.isOn ? .on : .off
 		}
 	}
 
 	/// Force high-contrast drawing
-	@IBInspectable dynamic public var highContrast: Bool = false {
+	@IBInspectable public dynamic var highContrast: Bool = false {
 		didSet {
 			self.needsDisplay = true
 		}
 	}
 
 	/// Remove color when the control is not attached to the key window (standard checkbox behaviour)
-	@IBInspectable dynamic public var removeColorWhenContainingWindowNotFocussed: Bool = true {
+	@IBInspectable public dynamic var removeColorWhenContainingWindowNotFocussed: Bool = true {
 		didSet {
 			self.needsDisplay = true
 		}
@@ -85,7 +87,7 @@ public class DSFToggleButton: NSButton {
 
 	// Default color for the control
 	private static let defaultColor: NSColor = .underPageBackgroundColor
-	private static let defaultInactiveColor: NSColor = .gridColor // .tertiaryLabelColor // .disabledControlTextColor //.windowBackgroundColor // .keyboardFocusIndicatorColor
+	private static let defaultInactiveColor: NSColor = .gridColor
 
 	// Listen to frame changes
 	private var frameChangeListener: NSObjectProtocol?
@@ -112,10 +114,10 @@ public class DSFToggleButton: NSButton {
 
 	// Make sure that the action is directed to us, so that we can update on press
 	private func twiddleAction() {
-		let actionChanged = super.action != #selector(_action(_:))
+		let actionChanged = super.action != #selector(self._action(_:))
 		if actionChanged {
 			self._action = super.action
-			super.action = #selector(_action(_:))
+			super.action = #selector(self._action(_:))
 		}
 	}
 
@@ -199,18 +201,18 @@ extension DSFToggleButton {
 
 		guard let layer = self.layer else { fatalError("Unable to create layer?") }
 
-		layer.addSublayer(borderLayer)
-		borderLayer.mask = borderMaskLayer
+		layer.addSublayer(self.borderLayer)
+		self.borderLayer.mask = self.borderMaskLayer
 
-		layer.addSublayer(borderShadowLayer)
-		borderShadowLayer.mask = borderShadowMaskLayer
+		layer.addSublayer(self.borderShadowLayer)
+		self.borderShadowLayer.mask = self.borderShadowMaskLayer
 
-		layer.addSublayer(borderBorderLayer)
-		layer.addSublayer(toggleCircle)
+		layer.addSublayer(self.borderBorderLayer)
+		layer.addSublayer(self.toggleCircle)
 
 		// The on and off layers are children of the border layer
-		borderLayer.addSublayer(onLayer)
-		borderLayer.addSublayer(offLayer)
+		self.borderLayer.addSublayer(self.onLayer)
+		self.borderLayer.addSublayer(self.offLayer)
 
 		let cell = NSButtonCell()
 		cell.isBordered = false
@@ -247,12 +249,12 @@ extension DSFToggleButton {
 
 // MARK: -  Interface builder and draw
 
-extension DSFToggleButton {
-	override public func prepareForInterfaceBuilder() {
+public extension DSFToggleButton {
+	override func prepareForInterfaceBuilder() {
 		self.setup()
 	}
 
-	override public func updateLayer() {
+	override func updateLayer() {
 		super.updateLayer()
 		self.rebuildLayers()
 		self.configureForCurrentState(animated: false)
@@ -262,7 +264,7 @@ extension DSFToggleButton {
 extension DSFToggleButton {
 	private func buttonOuterFrame(for cellFrame: NSRect) -> NSRect {
 		let newFrame: NSRect!
-		let tHeight = cellFrame.width * (10.0 / 16.0)
+		let tHeight = cellFrame.width * (26.0 / 42.0)
 		if tHeight > cellFrame.height {
 			let ratioSmaller = cellFrame.height / tHeight
 			let newWidth = cellFrame.width * ratioSmaller
@@ -275,12 +277,12 @@ extension DSFToggleButton {
 	}
 
 	#if TARGET_INTERFACE_BUILDER
-		// Hack to show the layout within IB
-		override public func layout() {
-			super.layout()
-			self.rebuildLayers()
-			self.updateLayer()
-		}
+	// Hack to show the layout within IB
+	override public func layout() {
+		super.layout()
+		self.rebuildLayers()
+		self.updateLayer()
+	}
 	#endif
 
 	private func rebuildLayers() {
@@ -380,7 +382,7 @@ extension DSFToggleButton {
 			circle.size.width = rect.height
 
 			// Inset the circle to make it look a bit nicer
-			let inset = max(2.5, circle.width * 0.09)
+			let inset = max(2.5, circle.width * 0.06)
 
 			toggleCircle.path = CGPath(ellipseIn: circle.insetBy(dx: inset, dy: inset), transform: nil)
 			toggleCircle.position.x = self.state == .on ? rect.width - rect.height : 0
@@ -426,24 +428,24 @@ extension DSFToggleButton {
 		let bgcolor: NSColor
 
 		#if TARGET_INTERFACE_BUILDER
-			bgcolor = (self.state == .off || accessibility.differentiateWithoutColor) ? DSFToggleButton.defaultColor : self.color
+		bgcolor = (self.state == .off || accessibility.differentiateWithoutColor) ? DSFToggleButton.defaultColor : self.color
 		#else
-			if let w = self.window, w.isKeyWindow {
-				bgcolor = isOff ? DSFToggleButton.defaultColor : self.color
-			}
-			else {
-				bgcolor = {
-					if isOff {
-						return DSFToggleButton.defaultColor
-					}
-					else if !self.removeColorWhenContainingWindowNotFocussed {
-						return self.color
-					}
-					else {
-						return DSFToggleButton.defaultInactiveColor.applyOnTopOf(NSColor.underPageBackgroundColor)
-					}
-				}()
-			}
+		if let w = self.window, w.isKeyWindow {
+			bgcolor = isOff ? DSFToggleButton.defaultColor : self.color
+		}
+		else {
+			bgcolor = {
+				if isOff {
+					return DSFToggleButton.defaultColor
+				}
+				else if !self.removeColorWhenContainingWindowNotFocussed {
+					return self.color
+				}
+				else {
+					return DSFToggleButton.defaultInactiveColor.applyOnTopOf(NSColor.underPageBackgroundColor)
+				}
+			}()
+		}
 		#endif
 
 		let fgcolor = bgcolor.flatContrastColor()
@@ -495,3 +497,5 @@ extension DSFToggleButton {
 		CATransaction.commit()
 	}
 }
+
+#endif

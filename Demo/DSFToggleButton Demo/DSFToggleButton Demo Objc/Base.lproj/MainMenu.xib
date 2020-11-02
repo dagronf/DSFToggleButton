@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17132" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17156" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17132"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17156"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -692,12 +692,12 @@
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="478" height="174"/>
-                <autoresizingMask key="autoresizingMask"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FZG-MQ-HVZ">
                         <rect key="frame" x="20" y="20" width="438" height="134"/>
                         <subviews>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="32K-RO-o1Q" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo_Objc" customModuleProvider="target">
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="32K-RO-o1Q" customClass="DSFToggleButton" customModule="DSFToggleButton">
                                 <rect key="frame" x="0.0" y="70" width="100" height="64"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="64" id="Lwn-Xd-MaJ"/>
@@ -711,7 +711,7 @@
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="isOn" value="YES"/>
                                 </userDefinedRuntimeAttributes>
                             </customView>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="SmS-H4-Hr0" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo_Objc" customModuleProvider="target">
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="SmS-H4-Hr0" customClass="DSFToggleButton" customModule="DSFToggleButton">
                                 <rect key="frame" x="108" y="70" width="100" height="64"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="DuA-9f-FFW"/>
@@ -725,7 +725,7 @@
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="isOn" value="YES"/>
                                 </userDefinedRuntimeAttributes>
                             </customView>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="N4L-fp-LKk" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo_Objc" customModuleProvider="target">
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="N4L-fp-LKk" customClass="DSFToggleButton" customModule="DSFToggleButton">
                                 <rect key="frame" x="216" y="70" width="100" height="64"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="kbw-QR-M0B"/>
@@ -745,7 +745,7 @@
                             <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wnS-os-bKk">
                                 <rect key="frame" x="333" y="0.0" width="105" height="134"/>
                                 <subviews>
-                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="dDW-3a-FsE" customClass="DSFToggleButton" customModule="DSFToggleButton_Demo_Objc" customModuleProvider="target">
+                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="dDW-3a-FsE" customClass="DSFToggleButton" customModule="DSFToggleButton">
                                         <rect key="frame" x="0.0" y="70" width="100" height="64"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="100" id="ODE-Js-LP5"/>

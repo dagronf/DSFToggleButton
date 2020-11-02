@@ -25,6 +25,8 @@
 //  SOFTWARE.
 //
 
+#if os(macOS)
+
 import AppKit
 
 /// A handle for a listener object.
@@ -112,7 +114,7 @@ public extension DSFAccessibility {
 					name: NSWorkspace.accessibilityDisplayOptionsDidChangeNotification, object: nil
 				)
 			} else {
-				Swift.print("DSFAccesibility: Accessibility change notifications not available prior to 10.10")
+				Swift.print("DSFAccessibility: Accessibility change notifications not available prior to 10.10")
 			}
 		}
 
@@ -138,7 +140,7 @@ public extension DSFAccessibility.Display {
 }
 
 /// Display accessibility settings
-public extension DSFAccessibility.Display {
+@objc public extension DSFAccessibility.Display {
 	/// Get the current accessibility display option for high-contrast UI.  If this is true, UI should be presented with high contrast such as utilizing a less subtle color palette or bolder lines.
 	///
 	/// You may listen for `DSFAccessibility.DidChange` to be notified when this changes.
@@ -205,3 +207,5 @@ public extension DSFAccessibility.Display {
 		}
 	}
 }
+
+#endif
