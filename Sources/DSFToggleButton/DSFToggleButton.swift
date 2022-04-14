@@ -153,7 +153,7 @@ public class DSFToggleButton: NSButton {
 	}
 
 	// Accessibility container
-	let accessibility = DSFAppearanceManager.ChangeDetector()
+	let appearanceDetector = DSFAppearanceManager.ChangeDetector()
 
 	// MARK: Init and setup
 
@@ -222,7 +222,7 @@ extension DSFToggleButton {
 		cell.state = self.isOn ? .on : .off
 		self.cell = cell
 
-		self.accessibility.appearanceChangeCallback = { [weak self] _, _ in
+		self.appearanceDetector.appearanceChangeCallback = { [weak self] _, _ in
 			self?.configureForCurrentState(animated: false)
 		}
 
@@ -428,7 +428,7 @@ extension DSFToggleButton {
 		let bgcolor: NSColor
 
 		#if TARGET_INTERFACE_BUILDER
-		bgcolor = (self.state == .off || accessibility.differentiateWithoutColor) ? DSFToggleButton.defaultColor : self.color
+		bgcolor = (self.state == .off || appearanceDetector.differentiateWithoutColor) ? DSFToggleButton.defaultColor : self.color
 		#else
 		if let w = self.window, w.isKeyWindow {
 			bgcolor = isOff ? DSFToggleButton.defaultColor : self.color
