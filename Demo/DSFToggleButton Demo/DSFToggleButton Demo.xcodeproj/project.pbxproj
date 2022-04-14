@@ -38,6 +38,11 @@
 		23BC8FC623F9EE6C00885D3B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23BC8FC523F9EE6C00885D3B /* AppDelegate.swift */; };
 		23BC8FC823F9EE6D00885D3B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 23BC8FC723F9EE6D00885D3B /* Assets.xcassets */; };
 		23BC8FCB23F9EE6D00885D3B /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23BC8FC923F9EE6D00885D3B /* MainMenu.xib */; };
+		23E932B425ABA99B0054A8E5 /* DSFToggleButton_SwiftUI_DemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E932B325ABA99B0054A8E5 /* DSFToggleButton_SwiftUI_DemoApp.swift */; };
+		23E932B625ABA99B0054A8E5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E932B525ABA99B0054A8E5 /* ContentView.swift */; };
+		23E932B825ABA99C0054A8E5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 23E932B725ABA99C0054A8E5 /* Assets.xcassets */; };
+		23E932BB25ABA99C0054A8E5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 23E932BA25ABA99C0054A8E5 /* Preview Assets.xcassets */; };
+		23E932C425ABAA270054A8E5 /* DSFToggleButton in Frameworks */ = {isa = PBXBuildFile; productRef = 23E932C325ABAA270054A8E5 /* DSFToggleButton */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -121,6 +126,13 @@
 		23BC8FCA23F9EE6D00885D3B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		23BC8FCC23F9EE6D00885D3B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		23BC8FCD23F9EE6D00885D3B /* DSFToggleButton_Demo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DSFToggleButton_Demo.entitlements; sourceTree = "<group>"; };
+		23E932B125ABA99B0054A8E5 /* DSFToggleButton SwiftUI Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DSFToggleButton SwiftUI Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		23E932B325ABA99B0054A8E5 /* DSFToggleButton_SwiftUI_DemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSFToggleButton_SwiftUI_DemoApp.swift; sourceTree = "<group>"; };
+		23E932B525ABA99B0054A8E5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		23E932B725ABA99C0054A8E5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		23E932BA25ABA99C0054A8E5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		23E932BC25ABA99C0054A8E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		23E932BD25ABA99C0054A8E5 /* DSFToggleButton_SwiftUI_Demo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DSFToggleButton_SwiftUI_Demo.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +157,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				2355F0F5254F918A001A05E4 /* DSFToggleButton in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		23E932AE25ABA99B0054A8E5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				23E932C425ABAA270054A8E5 /* DSFToggleButton in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -191,6 +211,7 @@
 				23BC8FC423F9EE6C00885D3B /* DSFToggleButton Demo */,
 				2314759A23FB3E7C0083CC8E /* DSFToggleButton Demo Objc */,
 				236DF7F4240DB7C60091E6B1 /* DSFToggleButton_Debugger */,
+				23E932B225ABA99B0054A8E5 /* DSFToggleButton SwiftUI Demo */,
 				23BC8FC323F9EE6C00885D3B /* Products */,
 				2355F0B3254F7DCC001A05E4 /* Frameworks */,
 			);
@@ -202,6 +223,7 @@
 				23BC8FC223F9EE6C00885D3B /* DSFToggleButton Demo.app */,
 				2314759923FB3E7C0083CC8E /* DSFToggleButton Demo Objc.app */,
 				236DF7F3240DB7C60091E6B1 /* DSFToggleButton_Debugger.app */,
+				23E932B125ABA99B0054A8E5 /* DSFToggleButton SwiftUI Demo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -216,6 +238,27 @@
 				23BC8FCD23F9EE6D00885D3B /* DSFToggleButton_Demo.entitlements */,
 			);
 			path = "DSFToggleButton Demo";
+			sourceTree = "<group>";
+		};
+		23E932B225ABA99B0054A8E5 /* DSFToggleButton SwiftUI Demo */ = {
+			isa = PBXGroup;
+			children = (
+				23E932B325ABA99B0054A8E5 /* DSFToggleButton_SwiftUI_DemoApp.swift */,
+				23E932B525ABA99B0054A8E5 /* ContentView.swift */,
+				23E932B725ABA99C0054A8E5 /* Assets.xcassets */,
+				23E932BC25ABA99C0054A8E5 /* Info.plist */,
+				23E932BD25ABA99C0054A8E5 /* DSFToggleButton_SwiftUI_Demo.entitlements */,
+				23E932B925ABA99C0054A8E5 /* Preview Content */,
+			);
+			path = "DSFToggleButton SwiftUI Demo";
+			sourceTree = "<group>";
+		};
+		23E932B925ABA99C0054A8E5 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				23E932BA25ABA99C0054A8E5 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -287,13 +330,33 @@
 			productReference = 23BC8FC223F9EE6C00885D3B /* DSFToggleButton Demo.app */;
 			productType = "com.apple.product-type.application";
 		};
+		23E932B025ABA99B0054A8E5 /* DSFToggleButton SwiftUI Demo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 23E932C025ABA99C0054A8E5 /* Build configuration list for PBXNativeTarget "DSFToggleButton SwiftUI Demo" */;
+			buildPhases = (
+				23E932AD25ABA99B0054A8E5 /* Sources */,
+				23E932AE25ABA99B0054A8E5 /* Frameworks */,
+				23E932AF25ABA99B0054A8E5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "DSFToggleButton SwiftUI Demo";
+			packageProductDependencies = (
+				23E932C325ABAA270054A8E5 /* DSFToggleButton */,
+			);
+			productName = "DSFToggleButton SwiftUI Demo";
+			productReference = 23E932B125ABA99B0054A8E5 /* DSFToggleButton SwiftUI Demo.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		23BC8FBA23F9EE6C00885D3B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1130;
+				LastSwiftUpdateCheck = 1230;
 				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = "Darren Ford";
 				TargetAttributes = {
@@ -308,6 +371,9 @@
 					};
 					23BC8FC123F9EE6C00885D3B = {
 						CreatedOnToolsVersion = 11.3.1;
+					};
+					23E932B025ABA99B0054A8E5 = {
+						CreatedOnToolsVersion = 12.3;
 					};
 				};
 			};
@@ -328,6 +394,7 @@
 				2314759823FB3E7C0083CC8E /* DSFToggleButton Demo Objc */,
 				236DF7F2240DB7C60091E6B1 /* DSFToggleButton_Debugger */,
 				2355F0F8254F91B7001A05E4 /* All */,
+				23E932B025ABA99B0054A8E5 /* DSFToggleButton SwiftUI Demo */,
 			);
 		};
 /* End PBXProject section */
@@ -360,6 +427,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		23E932AF25ABA99B0054A8E5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				23E932BB25ABA99C0054A8E5 /* Preview Assets.xcassets in Resources */,
+				23E932B825ABA99C0054A8E5 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -385,6 +461,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				23BC8FC623F9EE6C00885D3B /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		23E932AD25ABA99B0054A8E5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				23E932B625ABA99B0054A8E5 /* ContentView.swift in Sources */,
+				23E932B425ABA99B0054A8E5 /* DSFToggleButton_SwiftUI_DemoApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -711,6 +796,56 @@
 			};
 			name = Release;
 		};
+		23E932BE25ABA99C0054A8E5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_ENTITLEMENTS = "DSFToggleButton SwiftUI Demo/DSFToggleButton_SwiftUI_Demo.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"DSFToggleButton SwiftUI Demo/Preview Content\"";
+				DEVELOPMENT_TEAM = 3L6RK3LGGW;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = "DSFToggleButton SwiftUI Demo/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.1;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.darrenford.DSFToggleButton-SwiftUI-Demo";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		23E932BF25ABA99C0054A8E5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_ENTITLEMENTS = "DSFToggleButton SwiftUI Demo/DSFToggleButton_SwiftUI_Demo.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"DSFToggleButton SwiftUI Demo/Preview Content\"";
+				DEVELOPMENT_TEAM = 3L6RK3LGGW;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = "DSFToggleButton SwiftUI Demo/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.1;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.darrenford.DSFToggleButton-SwiftUI-Demo";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -759,6 +894,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		23E932C025ABA99C0054A8E5 /* Build configuration list for PBXNativeTarget "DSFToggleButton SwiftUI Demo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				23E932BE25ABA99C0054A8E5 /* Debug */,
+				23E932BF25ABA99C0054A8E5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -783,6 +927,10 @@
 			productName = DSFToggleButton;
 		};
 		2355F0F6254F9193001A05E4 /* DSFToggleButton */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DSFToggleButton;
+		};
+		23E932C325ABAA270054A8E5 /* DSFToggleButton */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = DSFToggleButton;
 		};

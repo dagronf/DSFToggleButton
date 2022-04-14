@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17156" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="19150" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17156"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19150"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -691,7 +691,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="335" y="390" width="728" height="534"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1415"/>
             <view key="contentView" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="728" height="534"/>
                 <subviews>
@@ -1071,90 +1071,4 @@
             <point key="canvasLocation" x="42" y="-220"/>
         </window>
     </objects>
-    <designables>
-        <designable name="1B4-OB-URo">
-            <size key="intrinsicContentSize" width="42" height="15"/>
-        </designable>
-        <designable name="4Wj-SP-cYs">
-            <size key="intrinsicContentSize" width="42" height="15"/>
-        </designable>
-        <designable name="4n1-2x-MrG">
-            <size key="intrinsicContentSize" width="42" height="15"/>
-        </designable>
-        <designable name="5c9-gL-kaH">
-            <size key="intrinsicContentSize" width="42" height="15"/>
-        </designable>
-        <designable name="6uJ-Cg-pjl">
-            <size key="intrinsicContentSize" width="42" height="15"/>
-        </designable>
-        <designable name="9Bs-bX-ntS">
-            <size key="intrinsicContentSize" width="42" height="15"/>
-        </designable>
-        <designable name="AFQ-A4-i27">
-            <size key="intrinsicContentSize" width="42" height="15"/>
-        </designable>
-        <designable name="CyM-KA-PtJ">
-            <size key="intrinsicContentSize" width="42" height="15"/>
-        </designable>
-        <designable name="FKL-3A-Nh3">
-            <size key="intrinsicContentSize" width="42" height="15"/>
-        </designable>
-        <designable name="LWx-pc-ybq">
-            <size key="intrinsicContentSize" width="42" height="15"/>
-        </designable>
-        <designable name="MV0-eL-YrO">
-            <size key="intrinsicContentSize" width="42" height="15"/>
-        </designable>
-        <designable name="Mvg-4w-Rlw">
-            <size key="intrinsicContentSize" width="42" height="15"/>
-        </designable>
-        <designable name="QdB-3J-n2s">
-            <size key="intrinsicContentSize" width="42" height="15"/>
-        </designable>
-        <designable name="SWW-oc-ck5">
-            <size key="intrinsicContentSize" width="42" height="15"/>
-        </designable>
-        <designable name="Yzb-h2-Tgh">
-            <size key="intrinsicContentSize" width="42" height="15"/>
-        </designable>
-        <designable name="ZOV-Wd-t4S">
-            <size key="intrinsicContentSize" width="42" height="15"/>
-        </designable>
-        <designable name="bnf-4i-Vlh">
-            <size key="intrinsicContentSize" width="42" height="15"/>
-        </designable>
-        <designable name="eWj-b2-ajq">
-            <size key="intrinsicContentSize" width="42" height="15"/>
-        </designable>
-        <designable name="jhA-AZ-XDV">
-            <size key="intrinsicContentSize" width="42" height="15"/>
-        </designable>
-        <designable name="kAV-JJ-s4i">
-            <size key="intrinsicContentSize" width="42" height="15"/>
-        </designable>
-        <designable name="lXk-Rw-Bxo">
-            <size key="intrinsicContentSize" width="42" height="15"/>
-        </designable>
-        <designable name="og7-aR-wxF">
-            <size key="intrinsicContentSize" width="42" height="15"/>
-        </designable>
-        <designable name="tQx-HL-AiJ">
-            <size key="intrinsicContentSize" width="42" height="15"/>
-        </designable>
-        <designable name="vJM-5f-xNf">
-            <size key="intrinsicContentSize" width="42" height="15"/>
-        </designable>
-        <designable name="vPW-GQ-D5d">
-            <size key="intrinsicContentSize" width="42" height="15"/>
-        </designable>
-        <designable name="vnC-UE-zpK">
-            <size key="intrinsicContentSize" width="42" height="15"/>
-        </designable>
-        <designable name="wFz-P1-7kr">
-            <size key="intrinsicContentSize" width="42" height="15"/>
-        </designable>
-        <designable name="z2m-YF-ChI">
-            <size key="intrinsicContentSize" width="42" height="15"/>
-        </designable>
-    </designables>
 </document>

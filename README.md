@@ -17,18 +17,6 @@ Because sometimes all you want is a nice, big, very visible checkbox.
 
 Add `https://github.com/dagronf/DSFToggleButton` to your project.
 
-### Cocoapods
-
-Add 
-
-`pod 'DSFToggleButton', :git => 'https://github.com/dagronf/DSFToggleButton'`
-
-to your podfile.
-
-### Direct
-
-Copy the source files in `Sources/DSFToggleButton` into your project.
-
 ## Usage
 
 Since `DSFToggleButton` inherits from `NSButton`, its behaviour is the same as for a regular checkbox. You can programatically set the state or its enabled states just as you would for an `NSButton` for example, including manual bindings.
@@ -47,7 +35,7 @@ Drop in a new custom view into your canvas and set its class to `DSFToggleButton
 | `showLabels` | `Bool`    | Show labels (0 and 1) on the button to increase visual distinction between states |
 | `animated` | `Bool` | Whether to animate state changes |
 | `highContrast` | `Bool` | Remove any visual flourishes on the control |
-|`removeColorWhenContainingWindowNotFocussed` | `Bool` | Remove the color when the control is not attached to the key window (standard checkbox behaviour) |
+| `removeColorWhenContainingWindowNotFocussed` | `Bool` | Remove the color when the control is not attached to the key window (standard checkbox behaviour) |
 
 | Callback  | Description                                                                       |
 |-----------|-----------------------------------------------------------------------------------|

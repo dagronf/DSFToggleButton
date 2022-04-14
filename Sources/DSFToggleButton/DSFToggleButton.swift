@@ -27,6 +27,7 @@
 #if os(macOS)
 
 import AppKit
+import DSFAppearanceManager
 
 @IBDesignable
 public class DSFToggleButton: NSButton {
@@ -152,7 +153,7 @@ public class DSFToggleButton: NSButton {
 	}
 
 	// Accessibility container
-	let accessibility = DSFAccessibility.Observer()
+	let accessibility = DSFAppearanceManager.ChangeDetector()
 
 	// MARK: Init and setup
 
@@ -221,7 +222,7 @@ extension DSFToggleButton {
 		cell.state = self.isOn ? .on : .off
 		self.cell = cell
 
-		self.accessibility.listen { [weak self] _ in
+		self.accessibility.appearanceChangeCallback = { [weak self] _, _ in
 			self?.configureForCurrentState(animated: false)
 		}
 
@@ -409,10 +410,9 @@ extension DSFToggleButton {
 		let rect = self.buttonOuterFrame(for: self.frame)
 		let radius = rect.height / 2.0
 
-		let accessibility = DSFAccessibility.shared.display
-		let highContrast = accessibility.shouldIncreaseContrast || self.highContrast
+		let highContrast = DSFAppearanceManager.IncreaseContrast || self.highContrast
 
-		if !animated || accessibility.reduceMotion || self.initialLoad || !self.animated {
+		if !animated || DSFAppearanceManager.ReduceMotion || self.initialLoad || !self.animated {
 			CATransaction.setDisableActions(true)
 		}
 		else {
@@ -421,9 +421,9 @@ extension DSFToggleButton {
 		}
 
 		// 'Differentiate without color' always shows the labels
-		let showLabels = (self.showLabels || accessibility.differentiateWithoutColor)
+		let showLabels = (self.showLabels || DSFAppearanceManager.DifferentiateWithoutColor)
 
-		let isOff = (self.state == .off || accessibility.differentiateWithoutColor)
+		let isOff = (self.state == .off || DSFAppearanceManager.DifferentiateWithoutColor)
 
 		let bgcolor: NSColor
 
