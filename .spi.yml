@@ -1,0 +1,7 @@
+version: 1
+builder:
+  configs:
+  - platform: macos-xcodebuild
+    scheme: DSFToggleButton
+  - platform: macos-xcodebuild-arm
+    scheme: DSFToggleButton
