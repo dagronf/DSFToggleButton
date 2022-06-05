@@ -35,7 +35,6 @@ Drop in a new custom view into your canvas and set its class to `DSFToggleButton
 | `showLabels` | `Bool`    | Show labels (0 and 1) on the button to increase visual distinction between states |
 | `animated` | `Bool` | Whether to animate state changes |
 | `highContrast` | `Bool` | Remove any visual flourishes on the control |
-| `removeColorWhenContainingWindowNotFocussed` | `Bool` | Remove the color when the control is not attached to the key window (standard checkbox behaviour) |
 
 | Callback  | Description                                                                       |
 |-----------|-----------------------------------------------------------------------------------|

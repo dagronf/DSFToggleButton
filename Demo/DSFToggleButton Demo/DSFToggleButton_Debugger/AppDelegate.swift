@@ -79,10 +79,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		}
 	}
 
-	@IBAction func toggleHideColorWhenInactive(_ sender: NSButton) {
-		self.bigButton.removeColorWhenContainingWindowNotFocussed = (sender.state == .on)
-	}
-
 	@IBAction func toggleHighContrast(_ sender: NSButton) {
 		self.bigButton.highContrast = sender.state == .on
 	}

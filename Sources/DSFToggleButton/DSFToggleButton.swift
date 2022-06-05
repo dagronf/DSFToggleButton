@@ -24,6 +24,10 @@
 //	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //	SOFTWARE.
 
+#if !os(macOS)
+#error("DSFToggleButton only supported on macOS")
+#endif
+
 #if os(macOS)
 
 import AppKit
@@ -61,13 +65,6 @@ public class DSFToggleButton: NSButton {
 
 	/// Force high-contrast drawing
 	@IBInspectable public dynamic var highContrast: Bool = false {
-		didSet {
-			self.needsDisplay = true
-		}
-	}
-
-	/// Remove color when the control is not attached to the key window (standard checkbox behaviour)
-	@IBInspectable public dynamic var removeColorWhenContainingWindowNotFocussed: Bool = true {
 		didSet {
 			self.needsDisplay = true
 		}
@@ -152,9 +149,6 @@ public class DSFToggleButton: NSButton {
 		return true
 	}
 
-	// Accessibility container
-	let appearanceDetector = DSFAppearanceManager.ChangeDetector()
-
 	// MARK: Init and setup
 
 	override init(frame frameRect: NSRect) {
@@ -174,6 +168,7 @@ public class DSFToggleButton: NSButton {
 	}
 
 	deinit {
+		DSFAppearanceCache.shared.deregister(self)
 		self.stateChangeBlock = nil
 		self.cell?.unbind(.value)
 	}
@@ -196,7 +191,7 @@ public class DSFToggleButton: NSButton {
 	}
 }
 
-extension DSFToggleButton {
+extension DSFToggleButton: DSFAppearanceCacheNotifiable {
 	private func setup() {
 		self.wantsLayer = true
 
@@ -222,9 +217,8 @@ extension DSFToggleButton {
 		cell.state = self.isOn ? .on : .off
 		self.cell = cell
 
-		self.appearanceDetector.appearanceChangeCallback = { [weak self] _, _ in
-			self?.configureForCurrentState(animated: false)
-		}
+		// Register for appearance change updates
+		DSFAppearanceCache.shared.register(self)
 
 		// Listen for frame changes so we can reconfigure ourselves
 		self.postsFrameChangedNotifications = true
@@ -236,6 +230,10 @@ extension DSFToggleButton {
 			self.rebuildLayers()
 			self.needsDisplay = true
 		}
+	}
+
+	public func appearanceDidChange() {
+		self.configureForCurrentState(animated: false)
 	}
 
 	// Custom action to intercept changes to the button state via the UI
@@ -410,9 +408,9 @@ extension DSFToggleButton {
 		let rect = self.buttonOuterFrame(for: self.frame)
 		let radius = rect.height / 2.0
 
-		let highContrast = DSFAppearanceManager.IncreaseContrast || self.highContrast
+		let highContrast = DSFAppearanceCache.shared.increaseContrast || self.highContrast
 
-		if !animated || DSFAppearanceManager.ReduceMotion || self.initialLoad || !self.animated {
+		if !animated || DSFAppearanceCache.shared.reduceMotion || self.initialLoad || !self.animated {
 			CATransaction.setDisableActions(true)
 		}
 		else {
@@ -421,30 +419,30 @@ extension DSFToggleButton {
 		}
 
 		// 'Differentiate without color' always shows the labels
-		let showLabels = (self.showLabels || DSFAppearanceManager.DifferentiateWithoutColor)
+		let showLabels = (self.showLabels || DSFAppearanceCache.shared.differentiateWithoutColor)
 
-		let isOff = (self.state == .off || DSFAppearanceManager.DifferentiateWithoutColor)
+		let isOff = (self.state == .off) // || DSFAppearanceCache.shared.differentiateWithoutColor)
 
 		let bgcolor: NSColor
 
 		#if TARGET_INTERFACE_BUILDER
-		bgcolor = (self.state == .off || appearanceDetector.differentiateWithoutColor) ? DSFToggleButton.defaultColor : self.color
+		bgcolor = (self.state == .off || DSFAppearanceCache.shared.differentiateWithoutColor) ? DSFToggleButton.defaultColor : self.color
 		#else
-		if let w = self.window, w.isKeyWindow {
-			bgcolor = isOff ? DSFToggleButton.defaultColor : self.color
+
+		if isOff {
+			// We're off
+			bgcolor = DSFToggleButton.defaultColor
 		}
 		else {
-			bgcolor = {
-				if isOff {
-					return DSFToggleButton.defaultColor
-				}
-				else if !self.removeColorWhenContainingWindowNotFocussed {
-					return self.color
-				}
-				else {
-					return DSFToggleButton.defaultInactiveColor.applyOnTopOf(NSColor.underPageBackgroundColor)
-				}
-			}()
+			let isKeyWindow = self.window?.isKeyWindow ?? false
+			if isKeyWindow {
+				// Key window AND we're on!
+				bgcolor = self.color
+			}
+			else {
+				// We're not the focussed window - return the disabled control text style
+				bgcolor = NSColor.disabledControlTextColor
+			}
 		}
 		#endif
 
