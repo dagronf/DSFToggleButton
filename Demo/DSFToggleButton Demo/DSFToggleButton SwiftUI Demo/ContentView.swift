@@ -40,6 +40,13 @@ struct ContentView: View {
 			.frame(height: 80, alignment: .center)
 			.padding()
 
+			DSFToggleButton.SwiftUI(
+				state: $isEnabled,
+				controlColor: NSColor.systemYellow.cgColor,
+				showLabels: false
+			)
+			.frame(height: 80, alignment: .center)
+			.padding()
 
 			Text("Hello, world!")
 				.padding()

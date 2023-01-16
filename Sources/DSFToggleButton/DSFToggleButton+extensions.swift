@@ -1,8 +1,7 @@
 //
-//  DSFToggleButton+extensions.swift
+// DSFToggleButton+extensions.swift
 //
-//  Internal class extensions needed for DSFToggleButton
-//  Created by Darren Ford on 11/8/20.
+// Copyright © 2023 Darren Ford. All rights reserved.
 //
 //	MIT License
 //
