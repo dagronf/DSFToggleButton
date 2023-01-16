@@ -2,14 +2,14 @@
 
 ![](https://github.com/dagronf/dagronf.github.io/raw/master/art/projects/DSFToggleButton/primary.png)
 
-A scalable macOS toggle button for Swift and Objective-C that mimics the toggle button of iOS. Inherits from `NSButton`. Configurable via code and Interface Builder.
+A macOS NSSwitch-style toggle button scalable to any size. Supports Swift, SwiftUI and Objective-C.
 
-![](https://img.shields.io/github/v/tag/dagronf/DSFToggleButton) ![](https://img.shields.io/badge/macOS-10.9+-red) ![](https://img.shields.io/badge/Swift-5.0+-orange.svg)
-![](https://img.shields.io/badge/License-MIT-lightgrey) [![](https://img.shields.io/badge/pod-compatible-informational)](https://cocoapods.org) [![](https://img.shields.io/badge/spm-compatible-brightgreen.svg?style=flat)](https://swift.org/package-manager)
+![](https://img.shields.io/github/v/tag/dagronf/DSFToggleButton) ![](https://img.shields.io/badge/macOS-10.13+-red) ![](https://img.shields.io/badge/Swift-5.0+-orange.svg)
+![](https://img.shields.io/badge/License-MIT-lightgrey) [![](https://img.shields.io/badge/spm-compatible-brightgreen.svg?style=flat)](https://swift.org/package-manager)
 
 # Why
 
-Because sometimes all you want is a nice, big, very visible checkbox.
+Because sometimes all you want is a nice, big, very visible toggle button/checkbox.
 
 ## Adding to your project
 
@@ -29,16 +29,17 @@ Drop in a new custom view into your canvas and set its class to `DSFToggleButton
 
 ## Configuration
 
-| Variable  | Type    | Description                                                                       |
-|-----------|---------|-----------------------------------------------------------------------------------|
-| `color`     | `NSColor` | The color of the button when the state is on, defaults to the off background color |
-| `showLabels` | `Bool`    | Show labels (0 and 1) on the button to increase visual distinction between states |
-| `animated` | `Bool` | Whether to animate state changes |
-| `highContrast` | `Bool` | Remove any visual flourishes on the control |
+| Variable       | Type      | Description                                                                        |
+|----------------|-----------|------------------------------------------------------------------------------------|
+| `color`        | `NSColor` | The color of the button when the state is on, defaults to the off background color |
+| `showLabels`   | `Bool`    | Show labels (0 and 1) on the button to increase visual distinction between states  |
+| `animated`     | `Bool`    | Whether to animate state changes |
+| `highContrast` | `Bool`    | Remove any visual flourishes on the control |
 
 | Callback  | Description                                                                       |
 |-----------|-----------------------------------------------------------------------------------|
 | `stateChangeBlock` | A block-based callback mechanism (optional) which will be called whenever the button state changes |
+
 # Screenshots
 
 ### Dark mode, green (no labels)
@@ -62,7 +63,7 @@ Drop in a new custom view into your canvas and set its class to `DSFToggleButton
 ```
 MIT License
 
-Copyright (c) 2020 Darren Ford
+Copyright (c) 2023 Darren Ford
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

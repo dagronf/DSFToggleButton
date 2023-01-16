@@ -48,6 +48,9 @@ public extension DSFToggleButton {
 		/// Show the labels on the button
 		let showLabels: Bool
 
+		/// Force high-contrast color scheme
+		let forceHighContrast: Bool
+
 		public static let DefaultColor: CGColor = NSColor.controlAccentColor.cgColor
 
 		public func makeCoordinator() -> Coordinator {
@@ -59,6 +62,7 @@ public extension DSFToggleButton {
 			isEnabled: Bool = true,
 			controlColor: CGColor = Self.DefaultColor,
 			showLabels: Bool = false,
+			forceHighContrast: Bool = false,
 			action: ((NSControl.StateValue) -> Void)? = nil,
 			stateChanged: ((NSControl.StateValue) -> Void)? = nil
 		) {
@@ -66,6 +70,7 @@ public extension DSFToggleButton {
 			self.isEnabled = isEnabled
 			self.controlColor = controlColor
 			self.showLabels = showLabels
+			self.forceHighContrast = forceHighContrast
 			self.action = action
 			self.stateChanged = stateChanged
 		}
@@ -119,6 +124,7 @@ extension DSFToggleButton.SwiftUI: NSViewRepresentable {
 		button.action = #selector(Coordinator.buttonPressed(_:))
 
 		button.showLabels = self.showLabels
+		button.highContrast = self.forceHighContrast
 
 		context.coordinator.button = button
 
@@ -140,10 +146,69 @@ extension DSFToggleButton.SwiftUI: NSViewRepresentable {
 		if nsView.showLabels != self.showLabels {
 			nsView.showLabels = self.showLabels
 		}
+
+		if nsView.highContrast != self.forceHighContrast {
+			nsView.highContrast = self.forceHighContrast
+		}
 	}
 }
 
 #if DEBUG
+
+@available(macOS 11, *)
+struct ToggleButtonDocoPreviews: PreviewProvider {
+	static var previews: some View {
+		VStack {
+			HStack {
+				DSFToggleButton.SwiftUI(
+					state: .constant(.off),
+					controlColor: NSColor.systemGreen.cgColor
+				)
+				.frame(width: 150)
+				DSFToggleButton.SwiftUI(
+					state: .constant(.on),
+					controlColor: NSColor.systemGreen.cgColor
+				)
+				.frame(width: 150)
+			}
+
+			HStack {
+				DSFToggleButton.SwiftUI(
+					state: .constant(.off),
+					controlColor: NSColor.systemGreen.cgColor,
+					showLabels: true
+				)
+				.frame(width: 150)
+				DSFToggleButton.SwiftUI(
+					state: .constant(.on),
+					controlColor: NSColor.red.cgColor,
+					showLabels: true
+				)
+				.frame(width: 150)
+			}
+
+			HStack {
+				DSFToggleButton.SwiftUI(
+					state: .constant(.off),
+					controlColor: NSColor.systemGreen.cgColor,
+					showLabels: true,
+					forceHighContrast: true
+				)
+				.frame(width: 150)
+				DSFToggleButton.SwiftUI(
+					state: .constant(.on),
+					controlColor: NSColor.systemPurple.cgColor,
+					showLabels: true,
+					forceHighContrast: true
+				)
+				.frame(width: 150)
+			}
+		}
+		.padding(20)
+		.frame(width: 400, height: 300)
+	}
+}
+
 
 @available(macOS 11, *)
 struct ToggleButtonPreviews: PreviewProvider {
