@@ -13,6 +13,7 @@
 			buildPhases = (
 			);
 			dependencies = (
+				23A8FA032975EEB4007BA329 /* PBXTargetDependency */,
 				2355F0FE254F91BD001A05E4 /* PBXTargetDependency */,
 				2355F100254F91BD001A05E4 /* PBXTargetDependency */,
 				2355F102254F91BD001A05E4 /* PBXTargetDependency */,
@@ -27,14 +28,14 @@
 		2314759F23FB3E7C0083CC8E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2314759E23FB3E7C0083CC8E /* Assets.xcassets */; };
 		231475A223FB3E7C0083CC8E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 231475A023FB3E7C0083CC8E /* MainMenu.xib */; };
 		231475A523FB3E7C0083CC8E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 231475A423FB3E7C0083CC8E /* main.m */; };
-		2355F0EB254F9150001A05E4 /* DSFToggleButton-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 2355F0EA254F9150001A05E4 /* DSFToggleButton-Dynamic */; };
-		2355F0EC254F9150001A05E4 /* DSFToggleButton-Dynamic in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 2355F0EA254F9150001A05E4 /* DSFToggleButton-Dynamic */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		2355F0F0254F916B001A05E4 /* DSFToggleButton-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 2355F0EF254F916B001A05E4 /* DSFToggleButton-Dynamic */; };
-		2355F0F1254F916B001A05E4 /* DSFToggleButton-Dynamic in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 2355F0EF254F916B001A05E4 /* DSFToggleButton-Dynamic */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		2355F0F5254F918A001A05E4 /* DSFToggleButton in Frameworks */ = {isa = PBXBuildFile; productRef = 2355F0F4254F918A001A05E4 /* DSFToggleButton */; };
 		236DF7F6240DB7C60091E6B1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236DF7F5240DB7C60091E6B1 /* AppDelegate.swift */; };
 		236DF7F8240DB7C70091E6B1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 236DF7F7240DB7C70091E6B1 /* Assets.xcassets */; };
 		236DF7FB240DB7C70091E6B1 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 236DF7F9240DB7C70091E6B1 /* MainMenu.xib */; };
+		23A8F9FB2975EDDA007BA329 /* DSFToggleButton-shared in Frameworks */ = {isa = PBXBuildFile; productRef = 23A8F9FA2975EDDA007BA329 /* DSFToggleButton-shared */; };
+		23A8F9FC2975EDDA007BA329 /* DSFToggleButton-shared in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 23A8F9FA2975EDDA007BA329 /* DSFToggleButton-shared */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		23A8FA002975EE1E007BA329 /* DSFToggleButton-shared in Frameworks */ = {isa = PBXBuildFile; productRef = 23A8F9FF2975EE1E007BA329 /* DSFToggleButton-shared */; };
+		23A8FA012975EE1E007BA329 /* DSFToggleButton-shared in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 23A8F9FF2975EE1E007BA329 /* DSFToggleButton-shared */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		23BC8FC623F9EE6C00885D3B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23BC8FC523F9EE6C00885D3B /* AppDelegate.swift */; };
 		23BC8FC823F9EE6D00885D3B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 23BC8FC723F9EE6D00885D3B /* Assets.xcassets */; };
 		23BC8FCB23F9EE6D00885D3B /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23BC8FC923F9EE6D00885D3B /* MainMenu.xib */; };
@@ -67,6 +68,13 @@
 			remoteGlobalIDString = 236DF7F2240DB7C60091E6B1;
 			remoteInfo = DSFToggleButton_Debugger;
 		};
+		23A8FA022975EEB4007BA329 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 23BC8FBA23F9EE6C00885D3B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 23E932B025ABA99B0054A8E5;
+			remoteInfo = "DSFToggleButton SwiftUI Demo";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -86,7 +94,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				2355F0EC254F9150001A05E4 /* DSFToggleButton-Dynamic in Embed Frameworks */,
+				23A8F9FC2975EDDA007BA329 /* DSFToggleButton-shared in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -97,7 +105,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				2355F0F1254F916B001A05E4 /* DSFToggleButton-Dynamic in Embed Frameworks */,
+				23A8FA012975EE1E007BA329 /* DSFToggleButton-shared in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -140,7 +148,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2355F0F0254F916B001A05E4 /* DSFToggleButton-Dynamic in Frameworks */,
+				23A8FA002975EE1E007BA329 /* DSFToggleButton-shared in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -148,7 +156,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2355F0EB254F9150001A05E4 /* DSFToggleButton-Dynamic in Frameworks */,
+				23A8F9FB2975EDDA007BA329 /* DSFToggleButton-shared in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,7 +288,7 @@
 			);
 			name = "DSFToggleButton Demo Objc";
 			packageProductDependencies = (
-				2355F0EF254F916B001A05E4 /* DSFToggleButton-Dynamic */,
+				23A8F9FF2975EE1E007BA329 /* DSFToggleButton-shared */,
 			);
 			productName = "DSFToggleButton Demo Objc";
 			productReference = 2314759923FB3E7C0083CC8E /* DSFToggleButton Demo Objc.app */;
@@ -302,7 +310,7 @@
 			);
 			name = DSFToggleButton_Debugger;
 			packageProductDependencies = (
-				2355F0EA254F9150001A05E4 /* DSFToggleButton-Dynamic */,
+				23A8F9FA2975EDDA007BA329 /* DSFToggleButton-shared */,
 			);
 			productName = DSFToggleButton_Debugger;
 			productReference = 236DF7F3240DB7C60091E6B1 /* DSFToggleButton_Debugger.app */;
@@ -503,6 +511,11 @@
 			target = 236DF7F2240DB7C60091E6B1 /* DSFToggleButton_Debugger */;
 			targetProxy = 2355F101254F91BD001A05E4 /* PBXContainerItemProxy */;
 		};
+		23A8FA032975EEB4007BA329 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 23E932B025ABA99B0054A8E5 /* DSFToggleButton SwiftUI Demo */;
+			targetProxy = 23A8FA022975EEB4007BA329 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -536,6 +549,7 @@
 		231475A723FB3E7C0083CC8E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "DSFToggleButton Demo Objc/DSFToggleButton_Demo_Objc.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
@@ -548,7 +562,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.darrenford.DSFToggleButton-Demo-Objc";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -558,6 +572,7 @@
 		231475A823FB3E7C0083CC8E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "DSFToggleButton Demo Objc/DSFToggleButton_Demo_Objc.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
@@ -570,7 +585,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.darrenford.DSFToggleButton-Demo-Objc";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -610,7 +625,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.darrenford.DSFToggleButton-Debugger";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -632,7 +647,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.darrenford.DSFToggleButton-Debugger";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -767,7 +782,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.darrenford.DSFToggleButton-Demo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -789,7 +804,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.darrenford.DSFToggleButton-Demo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -814,7 +829,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.1;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.darrenford.DSFToggleButton-SwiftUI-Demo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -839,7 +854,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.1;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.darrenford.DSFToggleButton-SwiftUI-Demo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -906,15 +921,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		2355F0EA254F9150001A05E4 /* DSFToggleButton-Dynamic */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = "DSFToggleButton-Dynamic";
-		};
 		2355F0ED254F915B001A05E4 /* DSFToggleButton-Dynamic */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = "DSFToggleButton-Dynamic";
-		};
-		2355F0EF254F916B001A05E4 /* DSFToggleButton-Dynamic */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = "DSFToggleButton-Dynamic";
 		};
@@ -929,6 +936,14 @@
 		2355F0F6254F9193001A05E4 /* DSFToggleButton */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = DSFToggleButton;
+		};
+		23A8F9FA2975EDDA007BA329 /* DSFToggleButton-shared */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = "DSFToggleButton-shared";
+		};
+		23A8F9FF2975EE1E007BA329 /* DSFToggleButton-shared */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = "DSFToggleButton-shared";
 		};
 		23E932C325ABAA270054A8E5 /* DSFToggleButton */ = {
 			isa = XCSwiftPackageProductDependency;

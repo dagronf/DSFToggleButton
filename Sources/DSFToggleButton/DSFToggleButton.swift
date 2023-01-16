@@ -197,6 +197,9 @@ extension DSFToggleButton: DSFAppearanceCacheNotifiable {
 
 		guard let layer = self.layer else { fatalError("Unable to create layer?") }
 
+		self.stringValue = ""
+		self.imagePosition = .imageOnly
+
 		layer.addSublayer(self.borderLayer)
 		self.borderLayer.mask = self.borderMaskLayer
 
@@ -215,6 +218,8 @@ extension DSFToggleButton: DSFAppearanceCacheNotifiable {
 		cell.isTransparent = true
 		cell.setButtonType(.toggle)
 		cell.state = self.isOn ? .on : .off
+		cell.imagePosition = .imageOnly
+		cell.title = ""
 		self.cell = cell
 
 		// Register for appearance change updates
@@ -230,6 +235,8 @@ extension DSFToggleButton: DSFAppearanceCacheNotifiable {
 			self.rebuildLayers()
 			self.needsDisplay = true
 		}
+
+		self.needsDisplay = true
 	}
 
 	public func appearanceDidChange() {
@@ -258,6 +265,16 @@ public extension DSFToggleButton {
 		self.rebuildLayers()
 		self.configureForCurrentState(animated: false)
 	}
+}
+
+// A wrapper around CGPath(roundedRect:...) to avoid crashes in 10.13 where the cornerWidth/cornerHeight
+// is greater than the rounded corner maximum values.  It appears that on later OS versions it clamps the maximum
+// corner values to avoid this.
+private func CGSafeRoundedRect(roundedRect: CGRect, cornerWidth: CGFloat, cornerHeight: CGFloat) -> CGPath {
+	CGPath(roundedRect: roundedRect,
+			 cornerWidth: min(roundedRect.width / 2, cornerWidth),
+			 cornerHeight: min(roundedRect.height / 2, cornerHeight),
+			 transform: nil)
 }
 
 extension DSFToggleButton {
@@ -302,10 +319,10 @@ extension DSFToggleButton {
 
 		with(self.borderLayer) { outer in
 			outer.zPosition = 0
-			outer.path = CGPath(roundedRect: rect, cornerWidth: radius, cornerHeight: radius, transform: nil)
+			outer.path = CGSafeRoundedRect(roundedRect: rect, cornerWidth: radius, cornerHeight: radius)
 
 			// Update the mask
-			self.borderMaskLayer.path = CGPath(roundedRect: rect, cornerWidth: radius, cornerHeight: radius, transform: nil)
+			self.borderMaskLayer.path = CGSafeRoundedRect(roundedRect: rect, cornerWidth: radius, cornerHeight: radius)
 		}
 
 		with(self.borderShadowLayer) { sh in
@@ -329,13 +346,13 @@ extension DSFToggleButton {
 			sh.zPosition = 10
 
 			if let shm = sh.mask as? CAShapeLayer {
-				shm.path = CGPath(roundedRect: rect, cornerWidth: radius, cornerHeight: radius, transform: nil)
+				shm.path = CGSafeRoundedRect(roundedRect: rect, cornerWidth: radius, cornerHeight: radius)
 			}
 		}
 
 		with(self.borderBorderLayer) { border in
 			// Top level border for the rounded rect
-			border.path = CGPath(roundedRect: rect, cornerWidth: radius, cornerHeight: radius, transform: nil)
+			border.path = CGSafeRoundedRect(roundedRect: rect, cornerWidth: radius, cornerHeight: radius)
 			border.zPosition = 20
 			border.fillColor = nil
 		}
@@ -356,7 +373,7 @@ extension DSFToggleButton {
 			let ooo1 = NSRect(x: leftpos, y: rect.origin.y + (rect.height / 2.0) - (r / 2.0) - 0.5,
 			                  width: lineWidth, height: r + 2).toNP5()
 
-			onItem.path = CGPath(roundedRect: ooo1, cornerWidth: lineWidth / 2, cornerHeight: lineWidth / 2, transform: nil)
+			onItem.path = CGSafeRoundedRect(roundedRect: ooo1, cornerWidth: lineWidth / 2, cornerHeight: lineWidth / 2)
 			onItem.strokeColor = nil
 			onItem.zPosition = 30
 		}
