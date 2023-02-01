@@ -268,12 +268,17 @@ public extension DSFToggleButton {
 
 // A wrapper around CGPath(roundedRect:...) to avoid crashes in 10.13 where the cornerWidth/cornerHeight
 // is greater than the rounded corner maximum values.  It appears that on later OS versions it clamps the maximum
-// corner values to avoid this.
+// corner values to avoid this. Likewise if the rect is empty (zero width or zero height).
 private func CGSafeRoundedRect(roundedRect: CGRect, cornerWidth: CGFloat, cornerHeight: CGFloat) -> CGPath {
-	CGPath(roundedRect: roundedRect,
-			 cornerWidth: min(roundedRect.width / 2, cornerWidth),
-			 cornerHeight: min(roundedRect.height / 2, cornerHeight),
-			 transform: nil)
+	if roundedRect.isEmpty {
+		return CGMutablePath()
+	}
+	return CGPath(
+		roundedRect: roundedRect,
+		cornerWidth: min(roundedRect.width / 2, cornerWidth),
+		cornerHeight: min(roundedRect.height / 2, cornerHeight),
+		transform: nil
+	)
 }
 
 extension DSFToggleButton {
