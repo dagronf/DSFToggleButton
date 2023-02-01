@@ -492,6 +492,9 @@ extension DSFToggleButton {
 		self.toggleCircle.shadowRadius = radius > 12 ? 1.5 : 1
 
 		if self.state == .on {
+			self.onLayer.opacity = 1
+			self.offLayer.opacity = 0
+
 			self.toggleCircle.frame.origin = CGPoint(x: rect.width - rect.height, y: 0)
 			let a = CGAffineTransform.identity
 			self.onLayer.setAffineTransform(a)
@@ -500,6 +503,9 @@ extension DSFToggleButton {
 			self.offLayer.setAffineTransform(b)
 		}
 		else {
+			self.onLayer.opacity = 0
+			self.offLayer.opacity = 1
+
 			self.toggleCircle.frame.origin = CGPoint(x: 0, y: 0)
 
 			let a = CGAffineTransform(translationX: -radius * 1.3, y: 0)
