@@ -136,7 +136,7 @@ public class DSFToggleButton: NSButton {
 		}
 	}
 
-	@objc private var _target: AnyObject?
+	private weak var _target: AnyObject?
 	@objc override public var target: AnyObject? {
 		didSet {
 			self.twiddleTarget()
