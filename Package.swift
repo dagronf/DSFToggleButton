@@ -13,7 +13,7 @@ let package = Package(
 		.library(name: "DSFToggleButton-shared", type: .dynamic, targets: ["DSFToggleButton"]),
 	],
 	dependencies: [
-		.package(url: "https://github.com/dagronf/DSFAppearanceManager", from: "3.3.0")
+		.package(url: "https://github.com/dagronf/DSFAppearanceManager", .upToNextMinor(from: "3.5.0"))
 	],
 	targets: [
 		.target(
